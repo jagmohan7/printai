@@ -1,70 +1,147 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail } from "lucide-react";
+
+const socials = [
+  {
+    label: "LinkedIn",
+    href: "#",
+    svg: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+        <circle cx="4" cy="4" r="2" />
+      </svg>
+    ),
+  },
+  {
+    label: "Twitter",
+    href: "#",
+    svg: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href: "#",
+    svg: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    href: "#",
+    svg: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+];
+
+const quickLinks = [
+  { label: "Home",        href: "/#home" },
+  { label: "About Us",    href: "/#about" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Resources",   href: "/resources" },
+  { label: "Contact",     href: "/#contact" },
+];
+
+const serviceLinks = [
+  { label: "Custom Chatbots",    href: "/services/chatbots" },
+  { label: "Process Automation", href: "/services/automation" },
+  { label: "ERPNext Integration", href: "/services/erpnext" },
+  { label: "Web-to-Print",       href: "/#services" },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0d2137] text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-4">
-              <Image src="/logo.png" alt="PrintAI" width={44} height={44} className="rounded-lg" />
-              <span className="text-white font-bold text-xl">PrintAI</span>
+    <footer className="bg-[#0a0b14] border-t border-white/[0.05]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+          {/* Brand column */}
+          <div className="md:col-span-5">
+            <Link href="/" className="flex items-center gap-2.5 mb-5">
+              <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="PrintAI Logo"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="font-bold text-[20px] text-white tracking-tight">
+                Print
+                <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
+                  AI
+                </span>
+              </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Leading AI Automation Solutions for the Printing Industry.
+
+            <p className="text-gray-400 text-[14px] leading-[1.75] max-w-md mb-6">
+              Leading AI Automation Solutions for the Printing Industry. Transform
+              your operations with intelligent chatbots, ERPNext integration, and
+              cutting-edge automation.
             </p>
-            <div className="mt-5 flex items-center gap-2 text-sm text-gray-400">
-              <Mail className="w-4 h-4 text-blue-400" />
-              <a href="mailto:sales@printai.cloud" className="hover:text-white transition-colors">
-                sales@printai.cloud
-              </a>
+
+            <div className="flex items-center gap-3">
+              {socials.map(({ label, href, svg }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-10 h-10 rounded-lg bg-[#12131f] border border-white/[0.08] flex items-center justify-center text-gray-400 hover:text-white hover:border-violet-500/40 hover:bg-[#1a1b2e] transition-all duration-200"
+                >
+                  {svg}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/#about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/case-studies" className="hover:text-white transition-colors">Case Studies</Link></li>
-              <li><Link href="/resources" className="hover:text-white transition-colors">Resources</Link></li>
-              <li><Link href="/#contact" className="hover:text-white transition-colors">Contact</Link></li>
+          {/* Quick Links column */}
+          <div className="md:col-span-3 md:pl-4">
+            <h3 className="text-white font-bold text-[15px] mb-5">Quick Links</h3>
+            <ul className="space-y-3">
+              {quickLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="text-gray-400 text-[14px] hover:text-violet-300 transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Services</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/services/chatbots" className="hover:text-white transition-colors">Custom Chatbots</Link></li>
-              <li><Link href="/services/automation" className="hover:text-white transition-colors">Process Automation</Link></li>
-              <li><Link href="/services/erpnext" className="hover:text-white transition-colors">ERPNext Integration</Link></li>
-              <li><Link href="/#services" className="hover:text-white transition-colors">Web-to-Print</Link></li>
+          {/* Services column */}
+          <div className="md:col-span-4">
+            <h3 className="text-white font-bold text-[15px] mb-5">Services</h3>
+            <ul className="space-y-3">
+              {serviceLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="text-gray-400 text-[14px] hover:text-violet-300 transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Get In Touch</h3>
-            <p className="text-sm text-gray-400 mb-4">
-              Ready to transform your printing business with AI?
-            </p>
-            <Link
-              href="/#contact"
-              className="inline-block px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors"
-            >
-              Contact Us
-            </Link>
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} PrintAI. All rights reserved.</p>
-          <p className="text-sm text-gray-500">AI-Powered Solutions for Printing Businesses</p>
+        <div className="mt-14 pt-7 border-t border-white/[0.06] text-center">
+          <p className="text-[13.5px] text-gray-500">
+            © {new Date().getFullYear()} PrintAI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

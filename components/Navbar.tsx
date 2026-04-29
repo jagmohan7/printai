@@ -24,6 +24,7 @@ export default function Navbar() {
   const [mobileOpen,   setMobileOpen]   = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
+  const [activeHash,   setActiveHash]   = useState<string>("");
   const dropdownRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
 
@@ -43,14 +44,33 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // Track active hash section while on home
+  useEffect(() => {
+    if (pathname !== "/") return;
+    const ids = ["home", "about", "services", "contact"];
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let current = "home";
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= y) current = id;
+      }
+      setActiveHash("#" + current);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
+
   const isActive = (href: string) => {
-    const path = href.split("#")[0] || "/";
-    return path === "/" ? pathname === "/" : pathname.startsWith(path);
+    const [path, hash] = href.split("#");
+    if (path && path !== "/") return pathname.startsWith(path);
+    if (pathname !== "/") return false;
+    return hash ? activeHash === "#" + hash : false;
   };
 
   return (
     <>
-      {/* ── Header ── */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -60,7 +80,6 @@ export default function Navbar() {
       >
         <div className="max-w-[1200px] mx-auto px-6 h-[70px] flex items-center justify-between">
 
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5" data-turbo="false">
             <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
               <Image
@@ -80,8 +99,8 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <ul className="hidden md:flex items-center gap-1 list-none m-0 p-0">
+          {/* Desktop Nav — underline only, no background pill */}
+          <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
             {navLinks.map(({ label, href, dropdown }) =>
               dropdown ? (
                 <li
@@ -94,10 +113,8 @@ export default function Navbar() {
                   <button
                     onClick={() => setDropdownOpen((p) => !p)}
                     aria-expanded={dropdownOpen}
-                    className={`flex items-center gap-1 px-[14px] py-2 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer border-0 bg-transparent ${
-                      pathname.startsWith("/services")
-                        ? "text-indigo-400 bg-white/[0.06]"
-                        : "text-white/60 hover:text-white hover:bg-white/[0.06]"
+                    className={`nav-underline flex items-center gap-1 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer border-0 bg-transparent ${
+                      pathname.startsWith("/services") ? "is-active text-white" : "text-white/70 hover:text-white"
                     }`}
                   >
                     {label}
@@ -111,7 +128,6 @@ export default function Navbar() {
                     </svg>
                   </button>
 
-                  {/* Dropdown panel */}
                   {dropdownOpen && (
                     <div className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 w-52 bg-[#12131f] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.5)]">
                       {serviceLinks.map((s) => (
@@ -131,10 +147,8 @@ export default function Navbar() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className={`block px-[14px] py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                      isActive(href)
-                        ? "text-indigo-400 bg-white/[0.06]"
-                        : "text-white/60 hover:text-white hover:bg-white/[0.06]"
+                    className={`nav-underline block py-2 text-sm font-medium transition-colors duration-200 ${
+                      isActive(href) ? "is-active text-white" : "text-white/70 hover:text-white"
                     }`}
                   >
                     {label}
@@ -144,17 +158,15 @@ export default function Navbar() {
             )}
           </ul>
 
-          {/* CTA Button */}
           <Link
             href="/#contact"
-            className="hidden md:inline-flex items-center px-5 py-[9px] text-[13.5px] font-semibold text-white rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:opacity-90 hover:-translate-y-px active:translate-y-0 transition-all duration-200"
+            className="hidden md:inline-flex items-center px-5 py-[9px] text-[13.5px] font-semibold text-white rounded-lg bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 hover:-translate-y-px active:translate-y-0 transition-all duration-200 shadow-[0_0_18px_rgba(124,58,237,0.35)]"
           >
             Get Started
           </Link>
 
-          {/* Hamburger */}
           <button
-            className="md:hidden text-white/60 hover:text-white transition-colors p-1.5 rounded-md"
+            className="md:hidden text-white/70 hover:text-white transition-colors p-1.5 rounded-md"
             onClick={() => setMobileOpen((p) => !p)}
             aria-label="Toggle menu"
           >
@@ -175,7 +187,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ── Mobile Menu ── */}
       {mobileOpen && (
         <div className="md:hidden fixed top-[70px] left-0 right-0 z-40 bg-[#0a0b14] border-t border-white/[0.06] px-4 pt-3 pb-5 shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
           {navLinks.map(({ label, href, dropdown }) =>
@@ -189,7 +200,7 @@ export default function Navbar() {
                     key={s.href}
                     href={s.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block pl-6 pr-3.5 py-2.5 text-[13.5px] text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-colors duration-200"
+                    className="block pl-6 pr-3.5 py-2.5 text-[13.5px] text-white/60 hover:text-white transition-colors duration-200"
                   >
                     {s.label}
                   </Link>
@@ -200,10 +211,8 @@ export default function Navbar() {
                 key={label}
                 href={href}
                 onClick={() => setMobileOpen(false)}
-                className={`block px-3.5 py-2.5 text-sm rounded-lg transition-colors duration-200 ${
-                  isActive(href)
-                    ? "text-indigo-400 bg-white/[0.06]"
-                    : "text-white/65 hover:text-white hover:bg-white/5"
+                className={`block px-3.5 py-2.5 text-sm transition-colors duration-200 ${
+                  isActive(href) ? "text-white" : "text-white/65 hover:text-white"
                 }`}
               >
                 {label}
@@ -213,7 +222,7 @@ export default function Navbar() {
           <Link
             href="/#contact"
             onClick={() => setMobileOpen(false)}
-            className="block mt-3 text-center px-5 py-3 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:opacity-90 transition-opacity duration-200"
+            className="block mt-3 text-center px-5 py-3 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 transition-opacity duration-200"
           >
             Get Started
           </Link>

@@ -42,25 +42,13 @@ body {
 
 /* ─── Cards ─────────────────────────────────────────── */
 .card-dark {
+  position: relative;
   background: #12131f;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
-.card-dark:hover {
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.1);
-}
-
-/* ─── Gradient border on featured card ─────────────── */
-.card-featured {
-  background: #12131f;
-  border-radius: 1rem;
-  position: relative;
-  border: 1px solid rgba(124, 58, 237, 0.4);
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
-}
-.card-featured::before {
+.card-dark::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -71,6 +59,16 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.card-dark:hover {
+  border-color: transparent;
+  box-shadow: 0 0 35px rgba(124, 58, 237, 0.18);
+  transform: translateY(-2px);
+}
+.card-dark:hover::before {
+  opacity: 1;
 }
 
 /* ─── Buttons ───────────────────────────────────────── */
@@ -211,19 +209,25 @@ body {
   justify-content: center;
 }
 
-/* ─── Nav link active underline ─────────────────────── */
-.nav-link-active {
+/* ─── Nav link underline (hover + active) ───────────── */
+.nav-underline {
   position: relative;
 }
-.nav-link-active::after {
+.nav-underline::after {
   content: '';
   position: absolute;
+  left: 50%;
   bottom: -4px;
-  left: 0;
-  right: 0;
+  transform: translateX(-50%);
+  width: 0;
   height: 2px;
   background: linear-gradient(90deg, #7c3aed, #06b6d4);
   border-radius: 9999px;
+  transition: width 0.25s ease;
+}
+.nav-underline:hover::after,
+.nav-underline.is-active::after {
+  width: 100%;
 }
 
 /* ─── Scrollbar ─────────────────────────────────────── */

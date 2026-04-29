@@ -5,82 +5,85 @@ import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 const initialState: ContactFormState = { success: false, message: "" };
 
+type FieldProps = {
+  name: string;
+  label: string;
+  type?: string;
+  required?: boolean;
+  textarea?: boolean;
+};
+
+function FloatingField({ name, label, type = "text", required, textarea }: FieldProps) {
+  const baseClass =
+    "peer w-full px-4 pt-5 pb-2 bg-transparent border border-white/[0.1] rounded-xl text-white text-[14.5px] outline-none transition-colors placeholder-transparent focus:border-violet-500/60";
+
+  return (
+    <div className="relative">
+      {textarea ? (
+        <textarea
+          id={name}
+          name={name}
+          rows={4}
+          required={required}
+          placeholder={label}
+          className={`${baseClass} resize-none`}
+        />
+      ) : (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          required={required}
+          placeholder={label}
+          className={baseClass}
+        />
+      )}
+      <label
+        htmlFor={name}
+        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[14px] transition-all duration-200
+          peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-[11.5px] peer-focus:text-violet-300 peer-focus:font-medium
+          peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-[11.5px] peer-[:not(:placeholder-shown)]:text-violet-300"
+      >
+        {label}
+      </label>
+    </div>
+  );
+}
+
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(submitContact, initialState);
 
   return (
-    <form action={formAction} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Your Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            name="name"
-            type="text"
-            required
-            placeholder="John Smith"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Email Address <span className="text-red-500">*</span>
-          </label>
-          <input
-            name="email"
-            type="email"
-            required
-            placeholder="john@yourcompany.com"
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Company Name</label>
-        <input
-          name="company"
-          type="text"
-          placeholder="Acme Printing Co."
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Service Interest</label>
-        <select
-          name="service"
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-        >
-          <option value="">Select a service...</option>
-          <option>Custom Chatbot</option>
-          <option>Process Automation</option>
-          <option>ERPNext Integration</option>
-          <option>Web-to-Print Solution</option>
-          <option>Other Service Interest</option>
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Your Message <span className="text-red-500">*</span>
-        </label>
+    <form action={formAction} className="space-y-4">
+      <FloatingField name="name" label="Your Name" required />
+      <FloatingField name="email" label="Email Address" type="email" required />
+      <FloatingField name="company" label="Company Name" />
+      <FloatingField name="service" label="Service Interest" />
+      <div className="relative">
         <textarea
+          id="message"
           name="message"
+          rows={4}
           required
-          rows={5}
-          placeholder="Tell us about your printing business and what you're looking to automate..."
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+          placeholder="Your Message"
+          className="peer w-full px-4 pt-5 pb-2 bg-transparent border border-white/[0.1] rounded-xl text-white text-[14.5px] outline-none transition-colors placeholder-transparent focus:border-violet-500/60 resize-none"
         />
+        <label
+          htmlFor="message"
+          className="pointer-events-none absolute left-4 top-5 text-gray-400 text-[14px] transition-all duration-200
+            peer-focus:top-2 peer-focus:text-[11.5px] peer-focus:text-violet-300 peer-focus:font-medium
+            peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-[11.5px] peer-[:not(:placeholder-shown)]:text-violet-300"
+        >
+          Your Message
+        </label>
       </div>
 
       {state.message && (
         <div
-          className={`flex items-start gap-3 p-4 rounded-lg text-sm ${
+          className={`flex items-start gap-3 p-4 rounded-xl text-sm ${
             state.success
-              ? "bg-green-50 text-green-800 border border-green-200"
-              : "bg-red-50 text-red-800 border border-red-200"
+              ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+              : "bg-red-500/10 text-red-300 border border-red-500/30"
           }`}
         >
           {state.success ? (
@@ -95,7 +98,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-colors"
+        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-white font-semibold text-[15px] bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-60 disabled:translate-y-0 transition-all duration-200 shadow-[0_0_28px_rgba(124,58,237,0.4)]"
       >
         {isPending ? (
           <>
