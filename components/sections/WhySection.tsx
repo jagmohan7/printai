@@ -1,5 +1,6 @@
 "use client";
 import { Server, Printer, Users, PieChart, Bot, Boxes, FileText, Gauge, Lightbulb, Layers, Headphones } from "lucide-react";
+import MotionInView from "@/components/MotionInView";
 
 const features = [
   {
@@ -42,25 +43,23 @@ export default function WhySection() {
       <div className="pointer-events-none absolute left-1/2 -top-24 -translate-x-1/2 w-[800px] h-[400px] section-glow" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="badge anim-fade-up">Why PrintAI</span>
-          <h2 className="mt-5 text-[2.1rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15] anim-fade-up delay-100">
+        <MotionInView className="text-center mb-16">
+          <span className="badge">Why PrintAI</span>
+          <h2 className="mt-5 text-[2.1rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
             Single Source of <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Truth</span>
           </h2>
-          <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto anim-fade-up delay-200">
+          <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto">
             Unify your printing operations with our integrated AI platform
           </p>
-        </div>
+        </MotionInView>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Orbit diagram */}
-          <div className="anim-fade-up delay-300 flex items-center justify-center">
+          <MotionInView delay={0.15} className="flex items-center justify-center">
             <div className="relative w-[440px] h-[440px] max-w-full">
-              {/* Concentric guide rings */}
               <div className="absolute inset-0 rounded-full border border-dashed border-white/[0.05]" />
               <div className="absolute inset-[14%] rounded-full border border-dashed border-white/[0.07]" />
 
-              {/* Center platform */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                 <div className="relative w-[120px] h-[120px] rounded-full bg-gradient-to-br from-violet-600 to-cyan-500 flex items-center justify-center anim-pulse-glow">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-600 to-cyan-500 blur-xl opacity-50" />
@@ -69,29 +68,28 @@ export default function WhySection() {
                 <span className="mt-2 text-[12.5px] font-semibold text-white">PrintAI Platform</span>
               </div>
 
-              {/* Orbit nodes */}
               {orbitNodes.map(({ icon: Icon, label, pos }, i) => (
-                <div
+                <MotionInView
                   key={label}
-                  className={`absolute ${pos} flex flex-col items-center anim-fade-up`}
-                  style={{ animationDelay: `${0.4 + i * 0.08}s` }}
+                  delay={0.3 + i * 0.1}
+                  className={`absolute ${pos} flex flex-col items-center`}
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#12131f] border border-violet-500/25 flex items-center justify-center hover:border-violet-400/60 hover:scale-110 transition-all duration-300">
                     <Icon className="w-5 h-5 text-violet-300" />
                   </div>
                   <span className="mt-1.5 text-[11.5px] font-medium text-gray-400 whitespace-nowrap">{label}</span>
-                </div>
+                </MotionInView>
               ))}
             </div>
-          </div>
+          </MotionInView>
 
           {/* Feature cards */}
           <div className="flex flex-col gap-4">
             {features.map(({ icon: Icon, title, desc }, i) => (
-              <div
+              <MotionInView
                 key={title}
-                className="card-dark p-5 sm:p-6 flex items-start gap-4 anim-fade-up"
-                style={{ animationDelay: `${0.2 + i * 0.1}s` }}
+                delay={i * 0.15}
+                className="card-dark p-5 sm:p-6 flex items-start gap-4"
               >
                 <div className="w-11 h-11 shrink-0 rounded-lg flex items-center justify-center bg-violet-600/15 border border-violet-500/25">
                   <Icon className="w-5 h-5 text-violet-300" />
@@ -100,7 +98,7 @@ export default function WhySection() {
                   <h3 className="text-white font-bold text-[15.5px] mb-1.5">{title}</h3>
                   <p className="text-gray-400 text-[13.5px] leading-[1.65]">{desc}</p>
                 </div>
-              </div>
+              </MotionInView>
             ))}
           </div>
         </div>

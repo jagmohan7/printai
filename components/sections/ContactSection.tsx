@@ -1,6 +1,7 @@
 "use client";
 import { MapPin, Phone, Mail } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
+import MotionInView from "@/components/MotionInView";
 
 const socials = [
   {
@@ -44,6 +45,38 @@ const socials = [
   },
 ];
 
+const contactItems = [
+  {
+    icon: MapPin,
+    label: "Address",
+    body: (
+      <>
+        23600 Mercantile Rd Suite C-100,
+        <br />
+        Beachwood, OH 44122, United States
+      </>
+    ),
+  },
+  {
+    icon: Phone,
+    label: "Phone",
+    body: (
+      <a href="tel:+13128343526" className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors">
+        312-834-3526
+      </a>
+    ),
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    body: (
+      <a href="mailto:sales@printai.com" className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors">
+        sales@printai.com
+      </a>
+    ),
+  },
+];
+
 export default function ContactSection() {
   return (
     <section
@@ -54,8 +87,7 @@ export default function ContactSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
-          {/* Left column */}
-          <div className="anim-slide-left">
+          <MotionInView>
             <span className="badge">Get In Touch</span>
             <h2 className="mt-5 text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-extrabold tracking-tight text-white leading-[1.15]">
               Ready to{" "}
@@ -70,52 +102,20 @@ export default function ContactSection() {
             </p>
 
             <div className="mt-10 space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-violet-600/15 border border-violet-500/25 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-violet-300" />
-                </div>
-                <div>
-                  <p className="text-white font-semibold text-[14.5px] mb-0.5">Address</p>
-                  <p className="text-gray-400 text-[13.5px] leading-[1.6]">
-                    23600 Mercantile Rd Suite C-100,
-                    <br />
-                    Beachwood, OH 44122, United States
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-violet-600/15 border border-violet-500/25 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-violet-300" />
-                </div>
-                <div>
-                  <p className="text-white font-semibold text-[14.5px] mb-0.5">Phone</p>
-                  <a
-                    href="tel:+13128343526"
-                    className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors"
-                  >
-                    312-834-3526
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-violet-600/15 border border-violet-500/25 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-violet-300" />
-                </div>
-                <div>
-                  <p className="text-white font-semibold text-[14.5px] mb-0.5">Email</p>
-                  <a
-                    href="mailto:sales@printai.com"
-                    className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors"
-                  >
-                    sales@printai.com
-                  </a>
-                </div>
-              </div>
+              {contactItems.map(({ icon: Icon, label, body }, i) => (
+                <MotionInView key={label} delay={i * 0.15} className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-violet-600/15 border border-violet-500/25 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-violet-300" />
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-[14.5px] mb-0.5">{label}</p>
+                    <p className="text-gray-400 text-[13.5px] leading-[1.6]">{body}</p>
+                  </div>
+                </MotionInView>
+              ))}
             </div>
 
-            <div className="mt-10 flex items-center gap-3">
+            <MotionInView delay={0.45} className="mt-10 flex items-center gap-3">
               {socials.map(({ label, href, svg }) => (
                 <a
                   key={label}
@@ -126,15 +126,14 @@ export default function ContactSection() {
                   {svg}
                 </a>
               ))}
-            </div>
-          </div>
+            </MotionInView>
+          </MotionInView>
 
-          {/* Right column - form card */}
-          <div className="anim-fade-up delay-200">
+          <MotionInView delay={0.15}>
             <div className="card-dark p-7 sm:p-8">
               <ContactForm />
             </div>
-          </div>
+          </MotionInView>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { MessagesSquare, Settings, Database, Clock, Brain, Globe, Check, ArrowRight } from "lucide-react";
+import MotionInView from "@/components/MotionInView";
 
 const services = [
   {
@@ -63,50 +64,50 @@ export default function ServicesSection() {
       <div className="pointer-events-none absolute left-1/2 -top-24 -translate-x-1/2 w-[800px] h-[400px] section-glow" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="badge anim-fade-up">Our Services</span>
-          <h2 className="mt-5 text-[2.1rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15] anim-fade-up delay-100">
+        <MotionInView className="text-center mb-16">
+          <span className="badge">Our Services</span>
+          <h2 className="mt-5 text-[2.1rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
             AI-Powered <span className="gradient-text">Solutions</span>
           </h2>
-          <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px] leading-[1.7] max-w-2xl mx-auto anim-fade-up delay-200">
+          <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px] leading-[1.7] max-w-2xl mx-auto">
             Comprehensive automation solutions tailored for the printing industry
           </p>
-        </div>
+        </MotionInView>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map(({ icon: Icon, title, href, description, features, badge }, i) => (
-            <Link
-              key={title}
-              href={href}
-              className="group relative card-dark p-7 flex flex-col anim-fade-up"
-              style={{ animationDelay: `${0.05 + i * 0.08}s` }}
-            >
-              {badge && (
-                <span className="absolute top-5 right-5 px-3 py-1 rounded-full text-[11px] font-semibold text-white bg-gradient-to-r from-violet-600 to-cyan-500 shadow-[0_0_18px_rgba(124,58,237,0.4)]">
-                  {badge}
+            <MotionInView key={title} delay={i * 0.15}>
+              <Link
+                href={href}
+                className="group relative card-dark p-7 flex flex-col h-full"
+              >
+                {badge && (
+                  <span className="absolute top-5 right-5 px-3 py-1 rounded-full text-[11px] font-semibold text-white bg-gradient-to-r from-violet-600 to-cyan-500 shadow-[0_0_18px_rgba(124,58,237,0.4)]">
+                    {badge}
+                  </span>
+                )}
+
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 bg-violet-600/15 border border-violet-500/25">
+                  <Icon className="w-6 h-6 text-violet-300" />
+                </div>
+
+                <h3 className="text-[1.15rem] font-bold text-white mb-3">{title}</h3>
+                <p className="text-gray-400 text-[14px] leading-[1.7] mb-6">{description}</p>
+
+                <ul className="space-y-2.5 mb-6">
+                  {features.map((f) => (
+                    <li key={f} className="flex items-center gap-2.5 text-[13.5px] text-gray-300">
+                      <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                <span className="mt-auto inline-flex items-center gap-1.5 gradient-link text-[14px] group-hover:gap-2.5 transition-all duration-300">
+                  Learn More <ArrowRight className="w-4 h-4 text-cyan-400" />
                 </span>
-              )}
-
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 bg-violet-600/15 border border-violet-500/25">
-                <Icon className="w-6 h-6 text-violet-300" />
-              </div>
-
-              <h3 className="text-[1.15rem] font-bold text-white mb-3">{title}</h3>
-              <p className="text-gray-400 text-[14px] leading-[1.7] mb-6">{description}</p>
-
-              <ul className="space-y-2.5 mb-6">
-                {features.map((f) => (
-                  <li key={f} className="flex items-center gap-2.5 text-[13.5px] text-gray-300">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-
-              <span className="mt-auto inline-flex items-center gap-1.5 gradient-link text-[14px] group-hover:gap-2.5 transition-all duration-300">
-                Learn More <ArrowRight className="w-4 h-4 text-cyan-400" />
-              </span>
-            </Link>
+              </Link>
+            </MotionInView>
           ))}
         </div>
       </div>
