@@ -126,14 +126,15 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
             <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
-              <Image
-                src="/logo.PNG"
-                alt="PrintAI Logo"
-                width={36}
-                height={36}
-                className="w-full h-full object-cover"
-                priority
-              />
+             <Image
+  src="/logo.png"
+  alt="PrintAI Logo"
+  width={36}
+  height={36}
+  className="object-contain"
+  priority
+  unoptimized
+/>
             </div>
             <span className="font-bold text-[20px] text-white tracking-tight">
               Print
