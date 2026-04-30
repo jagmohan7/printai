@@ -3,9 +3,22 @@ import Link from "next/link";
 import { ArrowRight, TrendingUp, Clock, DollarSign } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Case Studies – PrintAI",
+  title: "Case Studies",
   description:
-    "Real results from real printing businesses. See how our AI solutions drive measurable impact across the printing industry.",
+    "Real results from real printing businesses. See how PrintAI drives measurable impact — faster quoting, fewer reprints, and on-time delivery.",
+  alternates: { canonical: "/case-studies" },
+  openGraph: {
+    type: "website",
+    url: "/case-studies",
+    title: "Case Studies | PrintAI",
+    description:
+      "Real results from real printing businesses using PrintAI to capture more leads and ship faster.",
+  },
+  twitter: {
+    title: "Case Studies | PrintAI",
+    description:
+      "Real results from real printing businesses using PrintAI to capture more leads and ship faster.",
+  },
 };
 
 const caseStudies = [

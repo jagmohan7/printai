@@ -7,7 +7,7 @@ const services = [
   {
     icon: MessagesSquare,
     title: "Custom Chatbots",
-    href: "/services/chatbots",
+    href: "/products/chatbots",
     description:
       "Intelligent AI chatbots that handle customer inquiries, process orders, and provide 24/7 support for your printing business.",
     features: ["Natural Language Processing", "Multi-channel Integration", "Order Management"],
@@ -15,7 +15,7 @@ const services = [
   {
     icon: Settings,
     title: "Process Automation",
-    href: "/services/automation",
+    href: "/products/automation",
     badge: "Most Popular",
     description:
       "Streamline your printing operations with intelligent automation that reduces manual tasks and eliminates errors.",
@@ -24,7 +24,7 @@ const services = [
   {
     icon: Database,
     title: "ERPNext Integration",
-    href: "/services/erpnext",
+    href: "/#contact",
     description:
       "Create a single source of truth with Frappe/ERPNext/CRM integration for complete business visibility.",
     features: ["Frappe Framework", "CRM Integration", "Real-time Analytics"],

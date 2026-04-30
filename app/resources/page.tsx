@@ -3,9 +3,22 @@ import Link from "next/link";
 import { BookOpen, ArrowRight, FileText, Lightbulb, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Resources – PrintAI",
+  title: "Resources",
   description:
-    "Guides, insights, and documentation to help you navigate AI automation for your printing business.",
+    "Guides, insights, and documentation for AI automation in your printing business — best practices, ROI calculators, and implementation playbooks.",
+  alternates: { canonical: "/resources" },
+  openGraph: {
+    type: "website",
+    url: "/resources",
+    title: "Resources | PrintAI",
+    description:
+      "Guides, insights, and documentation for AI automation in your printing business.",
+  },
+  twitter: {
+    title: "Resources | PrintAI",
+    description:
+      "Guides, insights, and documentation for AI automation in your printing business.",
+  },
 };
 
 const guides = [

@@ -14,9 +14,9 @@ const navLinks = [
 ];
 
 const serviceLinks = [
-  { label: "Custom AI Chatbots",  href: "/services/chatbots" },
-  { label: "Process Automation",  href: "/services/automation" },
-  { label: "ERPNext Integration", href: "/services/erpnext" },
+  { label: "Custom AI Chatbots",  href: "/products/chatbots" },
+  { label: "Process Automation",  href: "/products/automation" },
+  { label: "ERPNext Integration", href: "/#services" },
   { label: "Web-to-Print",        href: "/#services" },
 ];
 
@@ -159,7 +159,7 @@ export default function Navbar() {
                     onClick={() => setDropdownOpen((p) => !p)}
                     aria-expanded={dropdownOpen}
                     className={`nav-btn-item flex items-center gap-1 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer border-0 bg-transparent ${
-                      pathname.startsWith("/services")
+                      isActive(href)
                         ? "active text-white"
                         : "text-white/70 hover:text-white"
                     }`}
@@ -175,19 +175,21 @@ export default function Navbar() {
                     </svg>
                   </button>
 
-                  {/* Dropdown */}
+                  {/* Dropdown — outer wrapper has no gap (kills hover dead-zone); inner pt-2.5 preserves the visual offset */}
                   {dropdownOpen && (
-                    <div className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-52 bg-[#12131f] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
-                      {serviceLinks.map((s) => (
-                        <Link
-                          key={s.href}
-                          href={s.href}
-                          onClick={() => setDropdownOpen(false)}
-                          className="block px-4 py-[11px] text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.06] border-b border-white/5 last:border-0 transition-colors duration-150"
-                        >
-                          {s.label}
-                        </Link>
-                      ))}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
+                      <div className="w-52 bg-[#12131f] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
+                        {serviceLinks.map((s, i) => (
+                          <Link
+                            key={`${s.label}-${i}`}
+                            href={s.href}
+                            onClick={() => setDropdownOpen(false)}
+                            className="block px-4 py-[11px] text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.06] border-b border-white/5 last:border-0 transition-colors duration-150"
+                          >
+                            {s.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </li>
@@ -237,9 +239,9 @@ export default function Navbar() {
                 <p className="px-3.5 pt-4 pb-1 text-[11px] uppercase tracking-widest font-semibold text-white/30">
                   Services
                 </p>
-                {serviceLinks.map((s) => (
+                {serviceLinks.map((s, i) => (
                   <Link
-                    key={s.href}
+                    key={`${s.label}-${i}`}
                     href={s.href}
                     onClick={() => setMobileOpen(false)}
                     className="block pl-6 pr-3.5 py-2.5 text-[13.5px] text-white/60 hover:text-white transition-colors duration-200"

@@ -2,7 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/admin/", "/studio/"],
+      },
+    ],
     sitemap: "https://printai.cloud/sitemap.xml",
+    host: "https://printai.cloud",
   };
 }

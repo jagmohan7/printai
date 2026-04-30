@@ -52,10 +52,10 @@ const quickLinks = [
 ];
 
 const serviceLinks = [
-  { label: "Custom Chatbots",    href: "/services/chatbots" },
-  { label: "Process Automation", href: "/services/automation" },
-  { label: "ERPNext Integration", href: "/services/erpnext" },
-  { label: "Web-to-Print",       href: "/#services" },
+  { label: "Custom Chatbots",     href: "/products/chatbots" },
+  { label: "Process Automation",  href: "/products/automation" },
+  { label: "ERPNext Integration", href: "/#services" },
+  { label: "Web-to-Print",        href: "/#services" },
 ];
 
 export default function Footer() {

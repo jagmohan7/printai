@@ -1,5 +1,5 @@
 "use client";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import MotionInView from "@/components/MotionInView";
 
@@ -47,31 +47,11 @@ const socials = [
 
 const contactItems = [
   {
-    icon: MapPin,
-    label: "Address",
-    body: (
-      <>
-        23600 Mercantile Rd Suite C-100,
-        <br />
-        Beachwood, OH 44122, United States
-      </>
-    ),
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    body: (
-      <a href="tel:+13128343526" className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors">
-        312-834-3526
-      </a>
-    ),
-  },
-  {
     icon: Mail,
     label: "Email",
     body: (
-      <a href="mailto:sales@printai.com" className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors">
-        sales@printai.com
+      <a href="mailto:hello@printai.cloud" className="text-gray-400 text-[13.5px] hover:text-violet-300 transition-colors">
+        hello@printai.cloud
       </a>
     ),
   },
