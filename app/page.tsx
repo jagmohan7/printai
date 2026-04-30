@@ -9,8 +9,8 @@ export default function HomePage() {
     <>
       <HeroSection />
       <AboutSection />
-      <WhySection />
       <ServicesSection />
+      <WhySection />
       <ContactSection />
     </>
   );
