@@ -1,9 +1,13 @@
 "use client";
-import { useActionState } from "react";
-import { submitContact, ContactFormState } from "@/lib/actions";
+import { useState } from "react";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
-const initialState: ContactFormState = { success: false, message: "" };
+type FormState = {
+  success: boolean;
+  message: string;
+};
+
+const initialState: FormState = { success: false, message: "" };
 
 type FieldProps = {
   name: string;
@@ -51,10 +55,48 @@ function FloatingField({ name, label, type = "text", required, textarea }: Field
 }
 
 export default function ContactForm() {
-  const [state, formAction, isPending] = useActionState(submitContact, initialState);
+  const [state, setState] = useState<FormState>(initialState);
+  const [isPending, setIsPending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    setState({ success: false, message: "" });
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const company = formData.get("company") as string;
+    const service = formData.get("service") as string;
+    const message = formData.get("message") as string;
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, company, service, message }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setState({ success: true, message: "Message sent successfully! We'll get back to you soon." });
+        if (e.currentTarget) {
+          e.currentTarget.reset();
+        }
+      } else {
+        setState({ success: false, message: data.message || "Error sending message. Please try again." });
+      }
+    } catch (error) {
+      console.error(error);
+      setState({ success: false, message: "Error sending message. Please try again." });
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <FloatingField name="name" label="Your Name" required />
       <FloatingField name="email" label="Email Address" type="email" required />
       <FloatingField name="company" label="Company Name" />
