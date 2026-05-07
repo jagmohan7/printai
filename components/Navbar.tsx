@@ -21,6 +21,7 @@ const serviceLinks = [
 ];
 
 export default function Navbar() {
+  const [mounted,      setMounted]      = useState(false);
   const [mobileOpen,   setMobileOpen]   = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
@@ -28,24 +29,31 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
 
+  // Only mount-specific state and effects after client hydration
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node))
         setDropdownOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, []);
+  }, [mounted]);
 
   // Scroll spy — tracks which section is in view
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (!mounted || pathname !== "/") return;
     const ids = ["home", "about", "services", "contact"];
     const onScroll = () => {
       const y = window.scrollY + 120;
@@ -59,7 +67,7 @@ export default function Navbar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [pathname]);
+  }, [mounted, pathname]);
 
   const isActive = (href: string) => {
     const [path, hash] = href.split("#");
@@ -126,15 +134,14 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
             <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
-             <Image
-  src="/logo.png"
-  alt="PrintAI Logo"
-  width={36}
-  height={36}
-  className="object-contain"
-  priority
-  unoptimized
-/>
+              <Image
+                src="/logo.png"
+                alt="PrintAI Logo"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain"
+                priority
+              />
             </div>
             <span className="font-bold text-[20px] text-white tracking-tight">
               Print

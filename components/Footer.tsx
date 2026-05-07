@@ -72,7 +72,7 @@ export default function Footer() {
                   alt="PrintAI Logo"
                   width={36}
                   height={36}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <span className="font-bold text-[20px] text-white tracking-tight">

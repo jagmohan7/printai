@@ -116,9 +116,9 @@ export default function HeroSection() {
         {/* Buttons — className extracted to const */}
         <div className="fu-4 flex items-center gap-4 mb-12 flex-wrap justify-center">
           <Link href="/#contact" className={primaryBtnCls}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            {/* <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.001 1.992c-5.524 0-8.914 3.457-10.001 6l3 1 1 3 6-4 6 4 1-3 3-1c-1.087-2.543-4.477-6-10-6zm0 4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM4.5 18l1.5-1.5-1.5-.75-.75 1.5.75.75zm15 0-.75-.75-1.5.75 1.5 1.5.75-.75z" />
-            </svg>
+            </svg> */}
             Get Started
           </Link>
 

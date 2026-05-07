@@ -36,6 +36,11 @@ export const metadata: Metadata = {
     "prepress automation",
     "web-to-print",
   ],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/logo.png",
+    shortcut: "/favicon.png",
+  },
   alternates: {
     canonical: "/",
   },
@@ -66,11 +71,6 @@ export const metadata: Metadata = {
     images: [OG_IMAGE],
     site: "@printai",
     creator: "@printai",
-  },
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-    shortcut: "/logo.png",
   },
   category: "technology",
   formatDetection: {

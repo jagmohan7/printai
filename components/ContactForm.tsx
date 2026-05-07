@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 type FormState = {
@@ -31,6 +31,7 @@ function FloatingField({ name, label, type = "text", required, textarea }: Field
           required={required}
           placeholder={label}
           className={`${baseClass} resize-none`}
+          suppressHydrationWarning
         />
       ) : (
         <input
@@ -40,6 +41,7 @@ function FloatingField({ name, label, type = "text", required, textarea }: Field
           required={required}
           placeholder={label}
           className={baseClass}
+          suppressHydrationWarning
         />
       )}
       <label
@@ -55,8 +57,13 @@ function FloatingField({ name, label, type = "text", required, textarea }: Field
 }
 
 export default function ContactForm() {
+  const [mounted, setMounted] = useState(false);
   const [state, setState] = useState<FormState>(initialState);
   const [isPending, setIsPending] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -95,8 +102,13 @@ export default function ContactForm() {
     }
   };
 
+  // Don't render form fields until client is mounted (prevents hydration mismatch from browser extensions)
+  if (!mounted) {
+    return <div className="space-y-4" />;
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
       <FloatingField name="name" label="Your Name" required />
       <FloatingField name="email" label="Email Address" type="email" required />
       <FloatingField name="company" label="Company Name" />
@@ -109,6 +121,7 @@ export default function ContactForm() {
           required
           placeholder="Your Message"
           className="peer w-full px-4 pt-5 pb-2 bg-transparent border border-white/[0.1] rounded-xl text-white text-[14.5px] outline-none transition-colors placeholder-transparent focus:border-violet-500/60 resize-none"
+          suppressHydrationWarning
         />
         <label
           htmlFor="message"
@@ -141,6 +154,7 @@ export default function ContactForm() {
         type="submit"
         disabled={isPending}
         className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-white font-semibold text-[15px] bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-60 disabled:translate-y-0 transition-all duration-200 shadow-[0_0_28px_rgba(124,58,237,0.4)]"
+        suppressHydrationWarning
       >
         {isPending ? (
           <>

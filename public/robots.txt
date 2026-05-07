@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /studio/
+
+Sitemap: https://printai.cloud/sitemap.xml
+Host: https://printai.cloud
