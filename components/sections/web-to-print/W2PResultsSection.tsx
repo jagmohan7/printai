@@ -1,0 +1,86 @@
+"use client";
+import MotionInView from "@/components/MotionInView";
+import { getIcon } from "@/lib/lucide-icon";
+import { pickArray } from "@/lib/section-utils";
+
+export interface W2PResultsData {
+  sectionTag?: string;
+  heading?: string;
+  subheading?: string;
+  stats?: Array<{ value?: string; label?: string }>;
+  footerText?: string;
+}
+
+interface Props { data?: W2PResultsData | null }
+
+const FALLBACK = {
+  sectionTag: "Impact",
+  heading:    "Results After Rebuild",
+  subheading: "Real impact on your bottom line",
+  stats: [
+    { value: "35–80%", label: "Increase in conversion rates" },
+    { value: "20–30%", label: "Reduction in cart abandonment" },
+    { value: "25%+",   label: "Increase in repeat revenue" },
+    { value: "50%",    label: "Fewer manual corrections" },
+  ],
+  footerText: "These metrics are based on real rebuilds for print businesses ranging from small specialty printers to high-volume commercial operations",
+};
+
+// Stat color rotation — last stat gets violet, others cyan
+function statColor(i: number, total: number) {
+  return i === total - 1 ? { color: "#a78bfa", glow: "rgba(139,92,246,0.2)" } : { color: "#06b6d4", glow: "rgba(6,182,212,0.2)" };
+}
+
+export default function W2PResultsSection({ data }: Props) {
+  const sectionTag = data?.sectionTag ?? FALLBACK.sectionTag;
+  const heading    = data?.heading    ?? FALLBACK.heading;
+  const subheading = data?.subheading ?? FALLBACK.subheading;
+  const stats      = pickArray(data?.stats, FALLBACK.stats);
+  const footerText = data?.footerText ?? FALLBACK.footerText;
+
+  // Grid scales with count: 2-3 → 2-3 cols, 4+ → 4 cols
+  const colsClass = stats.length <= 2 ? "lg:grid-cols-2" : stats.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4";
+
+  return (
+    <section className="relative overflow-hidden bg-[#0B1220] section-pad px-4 border-t border-[#1E293B]/50">
+      <style>{`
+        .stat-card { transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-icon-wrap { transition: background 0.3s, box-shadow 0.3s; }
+        .stat-card:hover .stat-icon-wrap { box-shadow: 0 0 20px var(--glow); }
+      `}</style>
+
+      <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[#06b6d4]/6 blur-[130px]" />
+
+      <div className="relative z-10 max-w-[1100px] mx-auto">
+        <MotionInView className="text-center mb-14">
+          <p className="text-[#a78bfa] text-[13px] font-semibold uppercase tracking-widest mb-3">{sectionTag}</p>
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">{heading}</h2>
+          <p className="mt-4 text-[#94A3B8] text-[16px]">{subheading}</p>
+        </MotionInView>
+
+        <div className={`grid grid-cols-2 ${colsClass} gap-5 mb-10`}>
+          {stats.map((s, i) => {
+            const { color, glow } = statColor(i, stats.length);
+            const Icon = getIcon("TrendingUp"); // generic upward arrow for stats — kept consistent
+            return (
+              <MotionInView key={i} delay={i * 0.1}>
+                <div className="stat-card h-full rounded-2xl border border-[#1E293B] bg-[#0F172A] p-6 text-center" style={{ "--glow": glow } as React.CSSProperties}>
+                  <div className="stat-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-5" style={{ background: `${color}18`, border: `1px solid ${color}30` }}>
+                    <Icon className="w-5 h-5" style={{ color }} />
+                  </div>
+                  <p className="font-extrabold text-[2rem] sm:text-[2.2rem] leading-none mb-2" style={{ color }}>{s.value}</p>
+                  <p className="text-[#94A3B8] text-[13px] leading-[1.5]">{s.label}</p>
+                </div>
+              </MotionInView>
+            );
+          })}
+        </div>
+
+        <MotionInView delay={0.5}>
+          <p className="text-center text-[#94A3B8] text-[14px] leading-[1.8] max-w-2xl mx-auto whitespace-pre-line">{footerText}</p>
+        </MotionInView>
+      </div>
+    </section>
+  );
+}

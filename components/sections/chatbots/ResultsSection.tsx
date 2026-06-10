@@ -1,87 +1,74 @@
 "use client";
-import { Clock, TrendingUp, MessageSquare, Target } from "lucide-react";
+
 import MotionInView from "@/components/MotionInView";
 
-const stats = [
-  {
-    icon: Clock,
-    value: "8-14",
-    suffix: "hours/week",
-    label: "Saved per CSR",
-    gradient: "from-blue-400 to-cyan-400",
-    iconBg: "from-blue-500/20 to-cyan-500/10",
-    iconBorder: "border-blue-400/30",
-    iconColor: "text-blue-300",
-  },
-  {
-    icon: TrendingUp,
-    value: "38%",
-    label: "Increase in after-hours leads",
-    gradient: "from-teal-400 to-cyan-400",
-    iconBg: "from-teal-500/20 to-cyan-500/10",
-    iconBorder: "border-teal-400/30",
-    iconColor: "text-teal-300",
-  },
-  {
-    icon: MessageSquare,
-    value: "Minutes",
-    label: "Quote response time",
-    gradient: "from-violet-400 to-purple-400",
-    iconBg: "from-violet-500/20 to-purple-500/10",
-    iconBorder: "border-violet-400/30",
-    iconColor: "text-violet-300",
-  },
-  {
-    icon: Target,
-    value: "20%+",
-    label: "Self-service rate",
-    gradient: "from-fuchsia-400 to-violet-400",
-    iconBg: "from-fuchsia-500/20 to-violet-500/10",
-    iconBorder: "border-fuchsia-400/30",
-    iconColor: "text-fuchsia-300",
-  },
-];
+export interface ResultsSectionData {
+  heading?: string;
+  highlightWord?: string;
+  subheading?: string;
+  stats?: Array<{ value?: string; label?: string }>;
+}
 
-export default function ResultsSection() {
+interface Props { data?: ResultsSectionData | null }
+
+const FALLBACK = {
+  heading:       "What Print Shops See in 30–60 Days",
+  highlightWord: "30–60 Days",
+  subheading:    "Real numbers from real print operations.",
+  stats: [
+    { value: "8–14 hrs", label: "Saved per CSR weekly" },
+    { value: "38%",      label: "More after-hours leads" },
+    { value: "<3 min",   label: "Average quote response" },
+    { value: "20%+",     label: "Customer self-service rate" },
+  ],
+};
+
+function splitHeading(heading: string, highlight?: string): [string, string, string] {
+  if (!highlight) return [heading, "", ""];
+  const idx = heading.indexOf(highlight);
+  if (idx === -1) return [heading, "", ""];
+  return [heading.slice(0, idx), highlight, heading.slice(idx + highlight.length)];
+}
+
+export default function ResultsSection({ data }: Props) {
+  const heading       = data?.heading       ?? FALLBACK.heading;
+  const highlightWord = data?.highlightWord ?? FALLBACK.highlightWord;
+  const subheading    = data?.subheading    ?? FALLBACK.subheading;
+  const stats         = (data?.stats && data.stats.length > 0) ? data.stats : FALLBACK.stats;
+
+  const [headBefore, headHighlight, headAfter] = splitHeading(heading, highlightWord);
+
+  // Grid adapts: ≤2 → 2 cols, 3 → 3 cols, 4+ → 4 cols (more wrap to next row)
+  const colsClass = stats.length <= 2 ? "lg:grid-cols-2" : stats.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4";
+
   return (
-    <section className="relative overflow-hidden bg-[#0a0b14] py-24 sm:py-28 px-4 border-t border-white/[0.04]">
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[800px] h-[300px] rounded-full bg-cyan-500/5 blur-[120px]" />
+    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         <MotionInView className="text-center mb-14">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
-            What Print Shops See in{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              30-60 Days
-            </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+            {headBefore}
+            {headHighlight && (
+              <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+                {headHighlight}
+              </span>
+            )}
+            {headAfter}
           </h2>
+          <p className="mt-4 text-[#94A3B8] text-lg max-w-2xl mx-auto">{subheading}</p>
         </MotionInView>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map(({ icon: Icon, value, suffix, label, gradient, iconBg, iconBorder, iconColor }, i) => (
-            <MotionInView key={label} delay={i * 0.1}>
-              <div className="group relative h-full rounded-2xl border border-white/[0.07] bg-[#0e0f1c] p-8 text-center transition-all duration-300 hover:border-cyan-400/40 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(34,211,238,0.12)]">
-                <div
-                  className={`w-14 h-14 mx-auto mb-6 rounded-full bg-gradient-to-br ${iconBg} border ${iconBorder} flex items-center justify-center`}
-                >
-                  <Icon className={`w-6 h-6 ${iconColor}`} strokeWidth={1.75} />
-                </div>
-
-                <p
-                  className={`text-[2.4rem] sm:text-[2.8rem] font-extrabold leading-none bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
-                >
-                  {value}
+        <div className={`grid grid-cols-2 ${colsClass} gap-5`}>
+          {stats.map((s, i) => (
+            <MotionInView key={i} delay={i * 0.1}>
+              <div className="group h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#3B82F6]/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300">
+                <p className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent mb-3">
+                  {s.value}
                 </p>
-                {suffix && (
-                  <p
-                    className={`text-[1.6rem] font-extrabold leading-tight bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}
-                  >
-                    {suffix}
-                  </p>
-                )}
-                <p className="mt-4 text-gray-400 text-[13.5px] leading-[1.5]">
-                  {label}
-                </p>
+                <p className="text-[#94A3B8] text-[14px] font-medium leading-snug">{s.label}</p>
               </div>
             </MotionInView>
           ))}

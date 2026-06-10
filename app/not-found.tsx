@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="relative overflow-hidden bg-[#0a0b14] min-h-[80vh] flex items-center justify-center px-4 py-24">
+    <section className="relative overflow-hidden bg-[#0a0b14] min-h-[80vh] flex items-center justify-center px-4 section-pad">
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-violet-600/15 blur-[140px]" />
 
       <div className="relative z-10 text-center max-w-2xl">

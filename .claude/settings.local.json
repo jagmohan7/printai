@@ -4,7 +4,20 @@
       "WebFetch(domain:printai.cloud)",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "Bash(npm install *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(rmdir /S /Q \"D:\\\\printai\\\\.next\\\\cache\\\\images\")",
+      "Bash(npx kill-port *)",
+      "Bash(exit 0)",
+      "Bash(cd /d D:\\\\printai)",
+      "Bash(npx tsc *)",
+      "Bash(node -e ' *)",
+      "Bash(xcopy \"D:\\\\printai\\\\app\\\\studio\" \"D:\\\\printai\\\\app\\\\admin\" /E /I /Y)",
+      "Bash(rmdir /S /Q \"D:\\\\printai\\\\app\\\\studio\")",
+      "PowerShell(Copy-Item -Recurse -Force \"D:\\\\printai\\\\app\\\\studio\" \"D:\\\\printai\\\\app\\\\admin\")",
+      "Bash(node scripts/seed-homepage.mjs)",
+      "Bash(npm run *)"
     ]
   }
 }

@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Allow HMR WebSocket connections when accessing via local network IP.
+  allowedDevOrigins: ["192.168.1.13", "*.ngrok-free.app", "*.ngrok-free.dev", "*.ngrok.io"],
+
   reactCompiler: true,
 
   // Gzip/Brotli compression at the framework layer (Vercel/most hosts also apply edge compression).
@@ -19,11 +22,18 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // 301 redirects — old /services/* routes were removed; preserve any existing link equity.
+  // 301 redirects — preserve link equity across URL moves.
   async redirects() {
     return [
+      // ── Services moved from /products/* → /services/* (SEO URL optimization) ──
+      // These keep Google ranking on the old /products/* URLs.
+      { source: "/products/automation",  destination: "/services/automation", permanent: true },
+      { source: "/products/devops",       destination: "/services/devops",     permanent: true },
+      { source: "/products/custom-ai",    destination: "/services/custom-ai",  permanent: true },
+
+      // ── Legacy /services/* links for pages that STAYED under /products/* ──
+      // (chatbots stayed; do NOT redirect /services/automation here — it is now a real page.)
       { source: "/services/chatbots",     destination: "/products/chatbots",   permanent: true },
-      { source: "/services/automation",   destination: "/products/automation", permanent: true },
       { source: "/services/erpnext",      destination: "/#services",           permanent: true },
       { source: "/services",              destination: "/#services",           permanent: true },
     ];

@@ -1,7 +1,5 @@
 "use server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export type ContactFormState = {
   success: boolean;
@@ -12,8 +10,8 @@ export async function submitContact(
   prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
+  const name    = formData.get("name")    as string;
+  const email   = formData.get("email")   as string;
   const company = formData.get("company") as string;
   const service = formData.get("service") as string;
   const message = formData.get("message") as string;
@@ -23,9 +21,21 @@ export async function submitContact(
   }
 
   try {
-    await resend.emails.send({
-      from: "PrintAI Contact <noreply@printai.cloud>",
-      to: "sales@printai.cloud",
+    const smtpPort = parseInt(process.env.SMTP_PORT || "587");
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"PrintAI Contact" <${process.env.SMTP_USER}>`,
+      to: process.env.SMTP_USER,
+      replyTo: email,
       subject: `New Inquiry from ${name} – ${service || "General"}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -41,7 +51,7 @@ export async function submitContact(
             </table>
             <div style="margin-top: 16px; padding: 16px; background: white; border-radius: 6px; border: 1px solid #e2e8f0;">
               <p style="margin: 0 0 8px; color: #64748b; font-size: 14px;">Message</p>
-              <p style="margin: 0;">${message}</p>
+              <p style="margin: 0; white-space: pre-wrap;">${message}</p>
             </div>
           </div>
         </div>
@@ -56,7 +66,7 @@ export async function submitContact(
     console.error("Email send error:", error);
     return {
       success: false,
-      message: "Something went wrong. Please email us directly at sales@printai.cloud.",
+      message: "Something went wrong. Please email us directly at hello@printai.cloud.",
     };
   }
 }

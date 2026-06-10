@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PrintAI — AI Automation for the Printing Industry
+
+Marketing website for **PrintAI** — AI-powered automation solutions built specifically for print shops, commercial printers, and web-to-print businesses.
+
+🌐 **Live:** [printai.cloud](https://printai.cloud)
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Animation:** Framer Motion
+- **Icons:** Lucide React
+- **CMS:** Sanity *(integration in progress)*
+- **Email:** Nodemailer (SMTP via Hostinger)
+- **Deployment:** printai.cloud
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Run on local network (accessible via IP)
+npx next dev --hostname 0.0.0.0
+
+# Build for production
+npm run build
+
+# Start production server
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pages
 
-## Learn More
+| Page | Route |
+|---|---|
+| Homepage | `/` |
+| AI Chatbot | `/products/chatbots` |
+| Print Workflow Automation | `/products/automation` |
+| ERPNext | `/products/erpnext` |
+| Web-to-Print Platform | `/products/web-to-print` |
+| DevOps | `/products/devops` |
+| Custom AI Development | `/products/custom-ai` |
+| Case Studies | `/case-studies` |
+| Resources | `/resources` |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+printai/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx            # Homepage
+│   ├── layout.tsx          # Root layout
+│   └── products/           # Product & service pages
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── MotionInView.tsx    # Scroll animation wrapper
+│   └── sections/           # Page sections (one file per section)
+│       ├── chatbots/
+│       ├── automation/
+│       ├── erpnext/
+│       ├── web-to-print/
+│       ├── devops/
+│       └── custom-ai/
+├── lib/                    # Utilities
+├── public/                 # Static assets
+└── next.config.ts
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a `.env.local` file in the root:
+
+```env
+# Email — Nodemailer via SMTP (Hostinger)
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=465
+SMTP_USER=hello@printai.cloud
+SMTP_PASS=
+
+# Sanity CMS (create project at sanity.io)
+NEXT_PUBLIC_SANITY_PROJECT_ID=
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_TOKEN=
+
+# Google Analytics
+NEXT_PUBLIC_GA_ID=
+```
+
+---
+
+## Design System
+
+**Background colors:**
+- Base: `#070B14`
+- Alternate sections: `#0B1220`
+- Cards: `#0F172A`
+- Borders: `#1E293B`
+
+**Primary CTA gradient:** `from-[#3B82F6] to-[#06B6D4]` (blue → cyan)
+
+---
+
+## Redirects
+
+| From | To |
+|---|---|
+| `/products/devops-infrastructure` | `/products/devops` |
+| `/services/chatbots` | `/products/chatbots` |
+| `/services/automation` | `/products/automation` |
+
+---
+
+## Roadmap
+
+- [x] 6 product/service pages
+- [x] Homepage with services section
+- [x] Case Studies page
+- [x] Resources page
+- [x] SEO metadata + JSON-LD schemas
+- [x] Navbar split into Products + Services dropdowns
+- [ ] Sanity CMS — homepage content
+- [ ] Sanity CMS — all product pages
+- [ ] Sanity CMS — live preview
+- [ ] Case study detail pages
+- [ ] Resource guide pages

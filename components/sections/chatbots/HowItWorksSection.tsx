@@ -1,65 +1,89 @@
 "use client";
-import { Database, Zap, Users } from "lucide-react";
+
 import MotionInView from "@/components/MotionInView";
+import { getIcon } from "@/lib/lucide-icon";
 
-const steps = [
-  {
-    icon: Database,
-    title: "Train on Your Catalog",
-    desc: "We analyze your pricing, turnaround times, and product specs to build a custom AI model",
-  },
-  {
-    icon: Zap,
-    title: "Connect to Your Channels",
-    desc: "Deploy across web chat, WhatsApp, email, and your existing systems in under 48 hours",
-  },
-  {
-    icon: Users,
-    title: "Smart Human Handoff",
-    desc: "Complex jobs route to your team with full context. AI handles the rest 24/7",
-  },
-];
+export interface HowItWorksSectionData {
+  heading?: string;
+  highlightWord?: string;
+  subheading?: string;
+  steps?: Array<{ stepNumber?: string; icon?: string; title?: string; description?: string }>;
+}
 
-export default function HowItWorksSection() {
+interface Props { data?: HowItWorksSectionData | null }
+
+const FALLBACK = {
+  heading:       "How PrintAI Chatbots Work",
+  highlightWord: "Chatbots Work",
+  subheading:    "From catalog training to 24/7 customer conversations — set up in 48 hours.",
+  steps: [
+    { stepNumber: "01", icon: "Database", title: "Train on Your Catalog",     description: "We feed your pricing, products, turnaround, and file specs into the AI. It learns your shop, not a generic template." },
+    { stepNumber: "02", icon: "Globe",    title: "Connect to Your Channels",   description: "Deploy on your website, WhatsApp, or email. Your chatbot answers instantly — 24/7, in English and Spanish." },
+    { stepNumber: "03", icon: "Users",    title: "Smart Human Handoff",        description: "Complex jobs, custom quotes, and escalations are instantly routed to your team with full context." },
+  ],
+};
+
+function splitHeading(heading: string, highlight?: string): [string, string, string] {
+  if (!highlight) return [heading, "", ""];
+  const idx = heading.indexOf(highlight);
+  if (idx === -1) return [heading, "", ""];
+  return [heading.slice(0, idx), highlight, heading.slice(idx + highlight.length)];
+}
+
+export default function HowItWorksSection({ data }: Props) {
+  const heading       = data?.heading       ?? FALLBACK.heading;
+  const highlightWord = data?.highlightWord ?? FALLBACK.highlightWord;
+  const subheading    = data?.subheading    ?? FALLBACK.subheading;
+  const steps         = (data?.steps && data.steps.length > 0) ? data.steps : FALLBACK.steps;
+
+  const [headBefore, headHighlight, headAfter] = splitHeading(heading, highlightWord);
+
+  // Grid columns adjust to step count so editors can add 4-5 steps without breaking layout
+  const colsClass = steps.length <= 3 ? "md:grid-cols-3" : steps.length === 4 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3 lg:grid-cols-5";
+
   return (
-    <section
-      id="how-it-works"
-      className="relative overflow-hidden bg-[#0a0b14] py-24 sm:py-28 px-4 border-t border-white/[0.04]"
-    >
-      <div className="relative z-10 max-w-7xl mx-auto">
+    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <MotionInView className="text-center mb-16">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
-            How{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-              PrintAI Chatbots
-            </span>{" "}
-            Work
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+            {headBefore}
+            {headHighlight && (
+              <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+                {headHighlight}
+              </span>
+            )}
+            {headAfter}
           </h2>
+          <p className="mt-4 text-[#94A3B8] text-lg max-w-2xl mx-auto">{subheading}</p>
         </MotionInView>
 
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {/* Connector lines (desktop only) */}
-          <div className="pointer-events-none hidden md:block absolute top-1/2 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent -translate-y-1/2" />
+        <div className={`grid grid-cols-1 ${colsClass} gap-6 relative`}>
+          {/* Dashed connector line scales with step count */}
+          {steps.length === 3 && (
+            <div className="hidden md:block absolute top-[52px] left-[calc(16.7%+24px)] right-[calc(16.7%+24px)] h-px border-t border-dashed border-[#1E293B]" />
+          )}
 
-          {steps.map(({ icon: Icon, title, desc }, i) => (
-            <MotionInView key={title} delay={i * 0.15}>
-              <div className="group relative h-full rounded-2xl border border-white/[0.07] bg-[#0e0f1c] p-8 transition-all duration-300 hover:border-cyan-400/40 hover:-translate-y-1">
-                {/* Top-left glow blob */}
-                <div className="pointer-events-none absolute -top-4 -left-4 w-24 h-24 rounded-full bg-cyan-400/30 blur-2xl" />
-
-                <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/15 to-blue-500/10 border border-cyan-400/25 flex items-center justify-center mb-7 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-                  <Icon className="w-6 h-6 text-cyan-300" strokeWidth={1.75} />
+          {steps.map((s, i) => {
+            const Icon = getIcon(s.icon);
+            return (
+              <MotionInView key={i} delay={i * 0.15}>
+                <div className="group relative h-full p-8 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#3B82F6]/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white font-black text-lg mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)] relative z-10">
+                    {s.stepNumber || String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div className="w-11 h-11 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center mb-5">
+                    <Icon size={22} className="text-[#3B82F6]" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="text-white font-bold text-[17px] mb-3">{s.title}</h3>
+                  <p className="text-[#94A3B8] text-[14px] leading-relaxed">{s.description}</p>
                 </div>
-
-                <h3 className="relative text-white font-bold text-[18px] mb-3">
-                  {title}
-                </h3>
-                <p className="relative text-gray-400 text-[14px] leading-[1.7]">
-                  {desc}
-                </p>
-              </div>
-            </MotionInView>
-          ))}
+              </MotionInView>
+            );
+          })}
         </div>
       </div>
     </section>

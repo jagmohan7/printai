@@ -1,0 +1,295 @@
+================================================================================
+PRINTAI WEBSITE — DEPLOYMENT GUIDE FOR DEVOPS
+================================================================================
+Project : PrintAI marketing website + Sanity CMS
+Stack   : Next.js 16.2.4 (App Router) · React 19 · TypeScript · Tailwind CSS v4
+          · Sanity CMS (next-sanity v12) · Nodemailer (contact form)
+Domain  : https://printai.cloud
+Date    : 2026-06-01
+
+
+================================================================================
+0. READ THIS FIRST — "CAN WE JUST PUSH A BUILD?" (IMPORTANT)
+================================================================================
+
+QUESTION: "We can only push our build to the server for hosting — is it fine?"
+
+ANSWER: It depends on what "build" means. Please read carefully.
+
+THIS IS NOT A STATIC WEBSITE.
+It is a server-rendered (SSR) Next.js application. It CANNOT be deployed as a
+folder of static .html/.css/.js files (i.e. there is NO `next export` / static
+output). The following features REQUIRE a live Node.js server at runtime:
+
+  - Server Components that fetch content from Sanity on each request
+  - generateMetadata() — SEO titles/descriptions fetched per page at runtime
+  - Server Actions — the contact form sends email via Nodemailer (server-side)
+  - API routes — /api/contact, /api/draft-mode/enable, /api/draft-mode/disable
+  - Live CMS queries — sanityFetch + <SanityLive /> (auto-refresh on edits)
+  - next.config redirects() and headers() — only run on a Node server
+  - Sanity Studio embedded at /admin (the CMS editor UI)
+
+WHAT "PUSHING A BUILD" CORRECTLY MEANS HERE:
+  The deployable artifact is the project + a Node.js process running it.
+  You do NOT get a static dist/ folder. Instead you do ONE of:
+
+    OPTION A (build on server — simplest):
+      1. Copy project source to server
+      2. npm install
+      3. npm run build      → creates the .next/ folder
+      4. npm run start      → starts Node server on port 3000 (or $PORT)
+
+    OPTION B (build locally, ship artifact):
+      1. npm run build locally
+      2. Ship: .next/  +  public/  +  package.json  +  package-lock.json
+               +  next.config.ts  +  node_modules/ (or run npm ci on server)
+      3. On server: npm run start
+
+  EITHER WAY, a long-running Node.js process must stay alive to serve requests.
+  Use PM2, systemd, Docker, or a Node-capable host (Vercel, Netlify w/ SSR,
+  Railway, Render, AWS, DigitalOcean App Platform, a VPS with Node, etc.).
+
+IF YOUR SERVER CANNOT RUN NODE.JS (pure static/Apache/Nginx-only file host):
+  This app will NOT work there. You would need to either:
+    (a) Provision a Node.js runtime on the server, OR
+    (b) Deploy to a platform that runs Node (Vercel is the easiest — it is the
+        company that makes Next.js, zero-config deploy).
+  Please confirm the server can run Node.js 18.18+ (ideally 20.x LTS) before
+  proceeding.
+
+
+================================================================================
+1. SERVER REQUIREMENTS
+================================================================================
+  - Node.js  : 18.18+ (recommended: 20.x LTS)
+  - npm      : 9+ (comes with Node)
+  - RAM      : 1 GB minimum, 2 GB recommended for build step
+  - Disk     : ~1.5 GB (node_modules + .next build output)
+  - Port     : App listens on 3000 by default. Put Nginx/Caddy in front as a
+               reverse proxy to map 80/443 -> 3000, terminate SSL there.
+  - Process  : Keep the Node process alive with PM2 / systemd / Docker.
+               (`next start` alone dies if the SSH session closes.)
+
+
+================================================================================
+2. ENVIRONMENT VARIABLES (REQUIRED)
+================================================================================
+Create a file named `.env.local` (or `.env.production`) in the project ROOT
+before running `npm run build`. The build AND the running server both read it.
+
+NOTE: The actual secret VALUES are sent SEPARATELY via secure channel
+(password manager / encrypted message) — NOT inside the project zip.
+
+  # ---- Sanity CMS (required — app will not build without the first two) ----
+  NEXT_PUBLIC_SANITY_PROJECT_ID=<8-char project id>     # safe to expose
+  NEXT_PUBLIC_SANITY_DATASET=production                 # safe to expose
+  SANITY_API_TOKEN=<secret token, Editor role>          # SECRET — keep private
+
+  # ---- Public URLs ----
+  NEXT_PUBLIC_SITE_URL=https://printai.cloud
+  NEXT_PUBLIC_SANITY_STUDIO_URL=https://printai.cloud/admin
+
+  # ---- Contact form email (Nodemailer SMTP) ----
+  SMTP_HOST=<smtp host>
+  SMTP_PORT=587
+  SMTP_USER=<smtp user / from-address>
+  SMTP_PASS=<smtp password>
+
+  # ---- Analytics (optional — safe to omit) ----
+  NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+  NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+
+IMPORTANT:
+  - Vars prefixed NEXT_PUBLIC_ are baked into the browser bundle AT BUILD TIME.
+    If you change them, you MUST rebuild (`npm run build`) — restarting is not
+    enough.
+  - Non-public vars (SANITY_API_TOKEN, SMTP_*) are read server-side at runtime.
+  - If NEXT_PUBLIC_SANITY_PROJECT_ID or _DATASET are missing, the build FAILS
+    (this is intentional — the app cannot run without Sanity).
+
+
+================================================================================
+3. STEP-BY-STEP DEPLOYMENT (Node server / VPS)
+================================================================================
+  1.  Unzip the project to e.g. /var/www/printai
+  2.  cd /var/www/printai
+  3.  Create .env.local with the values from section 2
+  4.  npm ci                 # clean install from package-lock.json
+                             # (or `npm install` if npm ci complains)
+  5.  npm run build          # ~1–3 min; outputs .next/. Must end "Compiled OK"
+  6.  npm run start          # starts on port 3000
+        - To keep it alive:  pm2 start "npm run start" --name printai
+                             pm2 save && pm2 startup
+  7.  Configure reverse proxy (Nginx example):
+
+        server {
+          server_name printai.cloud www.printai.cloud;
+          location / {
+            proxy_pass http://127.0.0.1:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+          }
+        }
+
+  8.  Point DNS A-record for printai.cloud -> server IP
+  9.  Install SSL (Let's Encrypt / Certbot) on the reverse proxy
+  10. BACK UP the existing (old, no-CMS) printai.cloud first so you can roll
+      back if needed.
+
+
+================================================================================
+4. ALTERNATIVE: DEPLOY TO VERCEL (EASIEST — RECOMMENDED IF ALLOWED)
+================================================================================
+Vercel is made by the Next.js team and handles all the SSR/Node runtime for you
+with zero server config.
+
+  1.  Push the project to a GitHub/GitLab repo
+  2.  vercel.com -> New Project -> import the repo
+  3.  Add all env vars from section 2 in Project Settings -> Environment
+      Variables
+  4.  Deploy (auto-builds)
+  5.  Add custom domain printai.cloud in Vercel -> Domains
+  6.  Done — auto SSL, auto CDN, auto rebuilds on git push
+
+If the company policy requires self-hosting, use section 3 instead.
+
+
+================================================================================
+5. HOW SANITY CMS WORKS (PLAIN ENGLISH)
+================================================================================
+WHAT SANITY IS:
+  Sanity is a headless CMS. "Headless" means the content (text, headings,
+  cards, FAQs, etc.) lives in Sanity's cloud database — NOT in our codebase.
+  Our Next.js app FETCHES that content at runtime and renders it.
+
+THE TWO HALVES:
+  1. THE CONTENT (Sanity Cloud)
+     - Lives on Sanity's servers (sanity.io), identified by our Project ID +
+       dataset ("production").
+     - Editors log in and change content there.
+     - We do NOT host this — Sanity does. It is free for our usage tier.
+
+  2. THE STUDIO (the editor UI at /admin)
+     - This is BUNDLED INTO our Next.js app at the route /admin.
+     - So https://printai.cloud/admin IS the CMS editor — same deployment,
+       no separate hosting.
+     - Editors visit /admin, log in with a Sanity account, edit, hit Publish.
+
+HOW CONTENT REACHES THE WEBSITE:
+  - When a visitor opens printai.cloud, our server runs a GROQ query
+    (Sanity's query language) to pull the latest published content for that
+    page, then renders the HTML.
+  - We use `sanityFetch` (from next-sanity) which supports live updates and
+    draft preview.
+  - FALLBACKS: Every section has hardcoded default content baked into the code.
+    If the CMS field is empty (or Sanity is unreachable), the page still shows
+    the default text. So the site NEVER looks broken even before editors fill
+    in content. This means you can deploy first and populate the CMS later.
+
+WHAT EDITORS CAN CHANGE (via /admin):
+  - Homepage: hero, about, services, why, contact, SEO
+  - 6 product pages (chatbots, web-to-print, erpnext, automation, devops,
+    custom-ai): every section — headings, cards, stats, FAQs, CTAs, SEO
+  - Site Settings: navbar + footer
+  - Editors can ADD/REMOVE items (cards, FAQs, stats) — grids auto-adjust.
+
+WHAT STAYS IN CODE (not editable):
+  - Layout, spacing, animations, colors, fonts
+  - Icons (Lucide — editors type the icon name as text, e.g. "Server")
+  - Page routes/URLs, form logic, email sending
+
+
+================================================================================
+6. WHAT YOU NEED TO SET UP IN SANITY (ONE-TIME, IN sanity.io/manage)
+================================================================================
+Done by the PrintAI owner, not DevOps — but DevOps should verify these exist:
+
+  A. PROJECT
+     - A Sanity project must exist. Note its Project ID (8 chars).
+     - Dataset = "production".
+
+  B. API TOKEN
+     - sanity.io/manage -> project -> API -> Tokens -> Add API token
+     - Role: Editor (needs read-drafts + write)
+     - This becomes SANITY_API_TOKEN. Shown only once — save it.
+
+  C. CORS ORIGINS  (CRITICAL — studio breaks without this)
+     - sanity.io/manage -> project -> API -> CORS Origins -> Add
+     - Add (each with "Allow credentials" checked):
+         https://printai.cloud
+         https://www.printai.cloud
+         http://localhost:3002   (for local dev only)
+
+  D. STUDIO HOST  (so /admin loads without the "register studio" wall)
+     - sanity.io/manage -> project -> Studios -> Add studio
+     - URL: https://printai.cloud/admin
+
+  E. (RECOMMENDED) WEBHOOK FOR INSTANT UPDATES
+     - Without it, content updates appear within ~60s (our revalidate window).
+     - For instant updates, add a webhook that pings a revalidation endpoint
+       on content change. Optional — the 60s default is fine for launch.
+
+
+================================================================================
+7. POST-DEPLOY VERIFICATION CHECKLIST
+================================================================================
+  [ ] https://printai.cloud loads (homepage, with content or fallbacks)
+  [ ] https://printai.cloud/products/chatbots loads (and the other 5 products)
+  [ ] https://printai.cloud/admin loads the Sanity Studio login (not an error)
+  [ ] Log into /admin, edit Homepage hero heading, Publish
+       -> refresh printai.cloud, new heading appears within ~60 seconds
+  [ ] Submit the contact form -> email is received (tests SMTP)
+  [ ] Browser DevTools -> Console: no CORS errors on printai.cloud or /admin
+  [ ] View page source of a product page -> correct <title> + meta description
+  [ ] Old /services/* URLs 301-redirect to /products/* (configured in code)
+  [ ] SSL padlock is green (valid HTTPS cert)
+
+
+================================================================================
+8. TROUBLESHOOTING
+================================================================================
+  BUILD FAILS "missing NEXT_PUBLIC_SANITY_PROJECT_ID"
+     -> .env.local missing or not in project root. Create it (section 2).
+
+  /admin shows "Connect this studio to your project"
+     -> Studio host not registered in Sanity. Do section 6.D.
+
+  /admin console shows CORS error
+     -> Add the domain in Sanity CORS origins. Do section 6.C.
+
+  Content edits in CMS don't appear on the live site
+     -> Wait 60s (revalidate window). If still nothing, check SANITY_API_TOKEN
+        is set and valid. Hard-refresh (Ctrl+Shift+R).
+
+  Contact form doesn't send email
+     -> SMTP_* env vars missing/wrong, or port 587 blocked by host firewall.
+
+  Site works but redirects/headers ignored
+     -> You deployed as static export. This app needs `next start` on Node.
+        Re-read section 0.
+
+  App crashes when SSH session closes
+     -> You ran `next start` directly. Use PM2/systemd/Docker (section 3.6).
+
+
+================================================================================
+9. QUICK SUMMARY
+================================================================================
+  - This is a SERVER-RENDERED Next.js app. It needs Node.js 18.18+ running.
+    It is NOT a static site — you cannot ship plain HTML files.
+  - Deploy = (npm install -> npm run build -> npm run start) on a Node server,
+    kept alive by PM2/systemd/Docker, behind an Nginx reverse proxy with SSL.
+    OR deploy to Vercel for zero-config.
+  - Sanity = the CMS. Content lives in Sanity's cloud; the editor UI is at
+    /admin in this same app. Set up Project ID, API token, CORS origins, and
+    studio host in sanity.io/manage (section 6).
+  - Env vars (section 2) are mandatory and sent separately and securely.
+  - Every page has hardcoded fallback content, so the site works immediately
+    even before the CMS is filled in.
+
+Questions during deploy: contact the PrintAI dev/owner with the exact error
+text + which section number it relates to.
+================================================================================

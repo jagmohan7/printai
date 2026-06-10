@@ -1,220 +1,241 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, ArrowRight, FileText, Lightbulb, ExternalLink } from "lucide-react";
+import { BookOpen, ArrowRight, ExternalLink, Lightbulb, BookMarked } from "lucide-react";
+import MotionInView from "@/components/MotionInView";
+import type { Metadata } from "next";
+import { getResourcesPage } from "@/lib/sanity.queries";
+import { getIcon } from "@/lib/lucide-icon";
+import { pickArray, splitHeading } from "@/lib/section-utils";
+import { buildProductMetadata } from "@/lib/page-metadata";
+import CustomSchema from "@/components/CustomSchema";
 
-export const metadata: Metadata = {
-  title: "Resources",
-  description:
-    "Guides, insights, and documentation for AI automation in your printing business — best practices, ROI calculators, and implementation playbooks.",
-  alternates: { canonical: "/resources" },
-  openGraph: {
-    type: "website",
-    url: "/resources",
-    title: "Resources | PrintAI",
-    description:
-      "Guides, insights, and documentation for AI automation in your printing business.",
+const TITLE = "Resources";
+const DESCRIPTION =
+  "Guides, insights, and documentation to help you navigate AI automation for your printing business.";
+const PATH = "/resources";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await getResourcesPage();
+  return buildProductMetadata({
+    cmsTitle:      cms?.seo?.title,
+    cmsDesc:       cms?.seo?.description,
+    fallbackTitle: TITLE,
+    fallbackDesc:  DESCRIPTION,
+    path:          PATH,
+  });
+}
+
+export const revalidate = 5;
+
+// ── Fallback content ──────────────────────────────────────────────────────
+const FALLBACK = {
+  hero: {
+    heading:     "Resources",
+    description: "Guides, insights, and documentation to help you navigate AI automation for your printing business.",
   },
-  twitter: {
-    title: "Resources | PrintAI",
-    description:
-      "Guides, insights, and documentation for AI automation in your printing business.",
+  guides: {
+    heading: "Guides",
+    items: [
+      { icon: "Play",       title: "Getting Started with Print Automation", description: "A step-by-step guide to identifying automation opportunities in your print shop and building your first automated workflow.", ctaText: "Request Guide", ctaHref: "/#contact" },
+      { icon: "FileText",   title: "ERPNext Implementation Checklist",      description: "Everything you need to prepare before, during, and after your ERPNext rollout — from data migration to team training.", ctaText: "Request Guide", ctaHref: "/#contact" },
+      { icon: "BookMarked", title: "Chatbot ROI Calculator Guide",          description: "How to calculate the return on investment for deploying an AI chatbot in your printing business, with real benchmarks.", ctaText: "Request Guide", ctaHref: "/#contact" },
+    ],
+  },
+  insights: {
+    heading: "Industry Insights",
+    items: [
+      { title: "The Future of Print Operations: AI from Prepress to Delivery", description: "A deep dive into how leading print businesses are transforming end-to-end operations — from automated prepress to intelligent customer service.", ctaText: "Request Report", ctaHref: "/#contact" },
+      { title: "Digital Transformation Roadmap for Mid-Size Printers",        description: "A practical framework for print businesses starting their digital journey — how to sequence investments for quick wins while building toward full digital operations.", ctaText: "Request Report", ctaHref: "/#contact" },
+    ],
+  },
+  docs: {
+    heading: "Documentation",
+    items: [
+      { icon: "BookOpen", title: "ERPNext Official Documentation", description: "Complete reference for ERPNext modules, configuration, and customization used in PrintAI implementations.", ctaText: "View Docs", ctaHref: "https://docs.erpnext.com", external: true },
+      { icon: "Code2",    title: "Frappe Framework Reference",     description: "Developer documentation for the Frappe framework that powers our custom ERPNext modules and integrations.", ctaText: "View Docs", ctaHref: "https://frappeframework.com/docs", external: true },
+    ],
+  },
+  cta: {
+    heading:       "Need Personalized Guidance?",
+    highlightWord: "Personalized",
+    description:   "Our team can help you find the right solution for your specific needs.",
+    ctaText:       "Talk to Us",
+    ctaHref:       "/#contact",
   },
 };
 
-const guides = [
-  {
-    title: "Getting Started with Print Automation",
-    description:
-      "A step-by-step guide to identifying automation opportunities in your print shop and building your first automated workflow.",
-    readTime: "8 min read",
-    tag: "Guide",
-  },
-  {
-    title: "ERPNext Implementation Checklist",
-    description:
-      "Everything you need to prepare before, during, and after your ERPNext rollout — from data migration to team training.",
-    readTime: "12 min read",
-    tag: "Checklist",
-  },
-  {
-    title: "Chatbot ROI Calculator Guide",
-    description:
-      "How to calculate the return on investment for deploying an AI chatbot in your printing business, with real benchmarks.",
-    readTime: "6 min read",
-    tag: "Guide",
-  },
-  {
-    title: "Workflow Design Best Practices",
-    description:
-      "Learn how to map, optimize, and automate your print production workflows for maximum efficiency.",
-    readTime: "10 min read",
-    tag: "Best Practices",
-  },
+// Cycling icon themes for card icons
+const ICON_THEMES = [
+  { iconBg: "bg-violet-500/20 border-violet-500/25", iconColor: "text-violet-400" },
+  { iconBg: "bg-cyan-500/20 border-cyan-500/25",     iconColor: "text-cyan-400" },
 ];
 
-const insights = [
-  {
-    title: "The State of AI in Printing (2024)",
-    description:
-      "An overview of how AI is reshaping the printing industry — from automated prepress to intelligent customer service.",
-    readTime: "15 min read",
-    tag: "Industry Report",
-  },
-  {
-    title: "Digital Transformation Roadmap for Printers",
-    description:
-      "A phased approach to modernizing your print business — prioritizing quick wins while building toward full digital operations.",
-    readTime: "11 min read",
-    tag: "Roadmap",
-  },
-];
-
-const docs = [
-  { title: "ERPNext Official Documentation", href: "#", external: true },
-  { title: "Frappe Framework Reference", href: "#", external: true },
-  { title: "PrintAI API Reference", href: "#", external: false },
-  { title: "FAQ & Troubleshooting", href: "#", external: false },
-];
-
-const tagColors: Record<string, string> = {
-  Guide: "bg-blue-50 text-blue-700",
-  Checklist: "bg-green-50 text-green-700",
-  "Best Practices": "bg-purple-50 text-purple-700",
-  "Industry Report": "bg-orange-50 text-orange-700",
-  Roadmap: "bg-teal-50 text-teal-700",
-};
-
-export default function ResourcesPage() {
+function SectionHeading({ icon: Icon, iconColor, label }: { icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>; iconColor: string; label: string }) {
   return (
-    <>
-      {/* Header */}
-      <section className="bg-[#0d2137] text-white py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+    <div className="flex items-center gap-2.5 mb-6">
+      <Icon size={20} className={iconColor} strokeWidth={1.8} />
+      <h2 className="text-white font-extrabold text-[1.4rem]">{label}</h2>
+    </div>
+  );
+}
+
+export default async function ResourcesPage() {
+  const cms = await getResourcesPage();
+
+  const hero     = cms?.hero ?? FALLBACK.hero;
+  const guides   = { heading: cms?.guides?.heading   ?? FALLBACK.guides.heading,   items: pickArray(cms?.guides?.items,   FALLBACK.guides.items) };
+  const insights = { heading: cms?.insights?.heading ?? FALLBACK.insights.heading, items: pickArray(cms?.insights?.items, FALLBACK.insights.items) };
+  const docs     = { heading: cms?.docs?.heading     ?? FALLBACK.docs.heading,     items: pickArray(cms?.docs?.items,     FALLBACK.docs.items) };
+  const cta      = cms?.cta ?? FALLBACK.cta;
+
+  const [cb, ch, ca] = splitHeading(cta.heading || FALLBACK.cta.heading, cta.highlightWord);
+
+  return (
+    <main className="min-h-screen bg-[#0a0b14]">
+      <CustomSchema raw={cms?.seo?.customSchema} />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-cyan-600/6 blur-[150px]" />
+      </div>
+
+      {/* ── HERO ── */}
+      <section className="relative section-hero px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-2 text-[13px] text-[#9ca3af] mb-8">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span>/</span>
             <span className="text-white">Resources</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-5">Resources</h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
-            Guides, insights, and documentation to help you navigate AI automation for your printing business.
-          </p>
+
+          <MotionInView>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] flex items-center justify-center mb-6 shadow-[0_0_32px_rgba(124,58,237,0.4)]">
+              <BookOpen size={24} className="text-white" strokeWidth={1.8} />
+            </div>
+          </MotionInView>
+
+          <MotionInView delay={0.1}>
+            <h1 className="text-[3rem] sm:text-[3.8rem] font-extrabold tracking-tight leading-[1.05] bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">
+              {hero.heading}
+            </h1>
+          </MotionInView>
+
+          <MotionInView delay={0.2}>
+            <p className="mt-4 text-[#9ca3af] text-[16px] leading-[1.8] max-w-lg">{hero.description}</p>
+          </MotionInView>
         </div>
       </section>
 
-      {/* Guides */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-blue-600" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-[#0d2137]">Guides</h2>
-              <p className="text-gray-500 text-sm">Practical how-to resources for your automation journey</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {guides.map(({ title, description, readTime, tag }) => (
-              <div key={title} className="group p-6 rounded-2xl border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all bg-gray-50 hover:bg-white cursor-pointer">
-                <div className="flex items-start justify-between mb-3">
-                  <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${tagColors[tag] ?? "bg-gray-100 text-gray-600"}`}>
-                    {tag}
-                  </span>
-                  <span className="text-xs text-gray-400">{readTime}</span>
-                </div>
-                <h3 className="text-base font-bold text-[#0d2137] mb-2 group-hover:text-blue-700 transition-colors">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-4">{description}</p>
-                <div className="flex items-center gap-1 text-sm font-semibold text-blue-600 group-hover:gap-2 transition-all">
-                  Read Guide <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Industry Insights */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-              <Lightbulb className="w-5 h-5 text-orange-600" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-[#0d2137]">Industry Insights</h2>
-              <p className="text-gray-500 text-sm">Research and analysis on AI trends in printing</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {insights.map(({ title, description, readTime, tag }) => (
-              <div key={title} className="group p-6 rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all bg-white cursor-pointer">
-                <div className="flex items-start justify-between mb-3">
-                  <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${tagColors[tag] ?? "bg-gray-100 text-gray-600"}`}>
-                    {tag}
-                  </span>
-                  <span className="text-xs text-gray-400">{readTime}</span>
-                </div>
-                <h3 className="text-base font-bold text-[#0d2137] mb-2 group-hover:text-orange-700 transition-colors">{title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-4">{description}</p>
-                <div className="flex items-center gap-1 text-sm font-semibold text-orange-600 group-hover:gap-2 transition-all">
-                  Read Article <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Documentation */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-              <FileText className="w-5 h-5 text-gray-600" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-[#0d2137]">Documentation</h2>
-              <p className="text-gray-500 text-sm">Technical references and developer resources</p>
-            </div>
-          </div>
-
+      {/* ── GUIDES ── */}
+      <section className="relative section-pad px-4">
+        <div className="max-w-6xl mx-auto">
+          <MotionInView><SectionHeading icon={BookMarked} iconColor="text-violet-400" label={guides.heading} /></MotionInView>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {docs.map(({ title, href, external }) => (
-              <a
-                key={title}
-                href={href}
-                className="flex items-center justify-between p-5 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group"
-              >
-                <span className="font-medium text-gray-700 group-hover:text-blue-700">{title}</span>
-                {external ? (
-                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
-                ) : (
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600" />
-                )}
-              </a>
+            {guides.items.map((g, i) => {
+              const Icon = getIcon(g.icon);
+              const t = ICON_THEMES[i % ICON_THEMES.length];
+              return (
+                <MotionInView key={i} delay={0.08 * i}>
+                  <div className="group h-full flex gap-4 p-6 rounded-2xl border border-white/[0.07] bg-[#12131f] hover:border-[#a78bfa]/30 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(124,58,237,0.1)] transition-all duration-300">
+                    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 mt-0.5 ${t.iconBg}`}>
+                      <Icon size={16} className={t.iconColor} strokeWidth={1.8} />
+                    </div>
+                    <div className="flex flex-col">
+                      <h3 className="text-white font-bold text-[15px] mb-2">{g.title}</h3>
+                      <p className="text-[#9ca3af] text-[13px] leading-[1.7] flex-1">{g.description}</p>
+                      <Link href={g.ctaHref || "/#contact"} className="mt-3 inline-flex items-center gap-1 text-[#a78bfa] text-[13px] font-semibold hover:text-[#22d3ee] transition-colors duration-200 group/link">
+                        {g.ctaText || "Request Guide"}
+                        <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform duration-200" />
+                      </Link>
+                    </div>
+                  </div>
+                </MotionInView>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── INDUSTRY INSIGHTS ── */}
+      <section className="relative section-pad px-4">
+        <div className="max-w-6xl mx-auto">
+          <MotionInView><SectionHeading icon={Lightbulb} iconColor="text-amber-400" label={insights.heading} /></MotionInView>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {insights.items.map((ins, i) => (
+              <MotionInView key={i} delay={0.1 * i}>
+                <div className="group h-full flex flex-col p-6 rounded-2xl border border-white/[0.07] bg-[#12131f] hover:border-[#06b6d4]/30 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(6,182,212,0.08)] transition-all duration-300">
+                  <h3 className="text-white font-bold text-[15px] mb-2">{ins.title}</h3>
+                  <p className="text-[#9ca3af] text-[13px] leading-[1.7] flex-1">{ins.description}</p>
+                  <Link href={ins.ctaHref || "/#contact"} className="mt-4 inline-flex items-center gap-1 text-[#a78bfa] text-[13px] font-semibold hover:text-[#22d3ee] transition-colors duration-200 group/link">
+                    {ins.ctaText || "Request Report"}
+                    <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform duration-200" />
+                  </Link>
+                </div>
+              </MotionInView>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-[#0d2137] text-white text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-4">Need Custom Guidance?</h2>
-          <p className="text-gray-300 text-lg mb-8">
-            Our team is ready to help you build the right automation strategy for your printing business.
-          </p>
-          <Link
-            href="/#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
-          >
-            Talk to an Expert <ArrowRight className="w-5 h-5" />
-          </Link>
+      {/* ── DOCUMENTATION ── */}
+      <section className="relative section-pad px-4">
+        <div className="max-w-6xl mx-auto">
+          <MotionInView><SectionHeading icon={BookOpen} iconColor="text-cyan-400" label={docs.heading} /></MotionInView>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {docs.items.map((d, i) => {
+              const Icon = getIcon(d.icon);
+              const t = ICON_THEMES[i % ICON_THEMES.length];
+              const external = d.external !== false;
+              return (
+                <MotionInView key={i} delay={0.1 * i}>
+                  <div className="group h-full flex gap-4 p-6 rounded-2xl border border-white/[0.07] bg-[#12131f] hover:border-[#06b6d4]/30 hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(6,182,212,0.08)] transition-all duration-300">
+                    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 mt-0.5 ${t.iconBg}`}>
+                      <Icon size={16} className={t.iconColor} strokeWidth={1.8} />
+                    </div>
+                    <div className="flex flex-col">
+                      <h3 className="text-white font-bold text-[15px] mb-2">{d.title}</h3>
+                      <p className="text-[#9ca3af] text-[13px] leading-[1.7] flex-1">{d.description}</p>
+                      <a
+                        href={d.ctaHref || "#"}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noopener noreferrer" : undefined}
+                        className="mt-3 inline-flex items-center gap-1.5 text-[#a78bfa] text-[13px] font-semibold hover:text-[#22d3ee] transition-colors duration-200"
+                      >
+                        {d.ctaText || "View Docs"}
+                        {external
+                          ? <ExternalLink size={12} />
+                          : <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-200" />}
+                      </a>
+                    </div>
+                  </div>
+                </MotionInView>
+              );
+            })}
+          </div>
         </div>
       </section>
-    </>
+
+      {/* ── BOTTOM CTA ── */}
+      <section className="relative section-pad-sm px-4 border-t border-white/[0.04]">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full bg-violet-600/10 blur-[130px]" />
+        </div>
+
+        <div className="relative z-10 max-w-xl mx-auto text-center">
+          <MotionInView>
+            <h2 className="text-[2rem] sm:text-[2.6rem] font-extrabold tracking-tight text-white leading-[1.15]">
+              {cb}{ch && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{ch}</span>}{ca}
+            </h2>
+          </MotionInView>
+
+          <MotionInView delay={0.15}>
+            <p className="mt-4 text-[#9ca3af] text-[15px] leading-[1.8]">{cta.description}</p>
+          </MotionInView>
+
+          <MotionInView delay={0.3}>
+            <Link href={cta.ctaHref || "/#contact"} className="mt-8 inline-flex items-center gap-2.5 px-9 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] hover:from-violet-500 hover:to-cyan-400 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_40px_rgba(124,58,237,0.4)]">
+              {cta.ctaText || "Talk to Us"}
+            </Link>
+          </MotionInView>
+        </div>
+      </section>
+    </main>
   );
 }

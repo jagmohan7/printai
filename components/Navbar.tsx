@@ -3,36 +3,54 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import type { SanityNavbar } from "@/lib/sanity.types";
 
-const navLinks = [
+type DropdownKey = "products" | "services";
+
+const navLinks: { label: string; href: string; dropdown?: DropdownKey }[] = [
   { label: "Home",         href: "/#home" },
   { label: "About",        href: "/#about" },
-  { label: "Services",     href: "/#services", dropdown: true },
+  { label: "Products",     href: "/#services", dropdown: "products" },
+  { label: "Services",     href: "/#services", dropdown: "services" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Resources",    href: "/resources" },
   { label: "Contact",      href: "/#contact" },
 ];
 
-const serviceLinks = [
-  { label: "Custom AI Chatbots",  href: "/products/chatbots" },
-  { label: "Process Automation",  href: "/products/automation" },
-  { label: "ERPNext Integration", href: "/#services" },
-  { label: "Web-to-Print",        href: "/#services" },
+const DEFAULT_PRODUCT_LINKS = [
+  { label: "AI Chatbot",            href: "/products/chatbots" },
+  { label: "Web-to-Print Platform", href: "/products/web-to-print" },
+  { label: "ERPNext",               href: "/products/erpnext" },
 ];
 
-export default function Navbar() {
-  const [mounted,      setMounted]      = useState(false);
-  const [mobileOpen,   setMobileOpen]   = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [scrolled,     setScrolled]     = useState(false);
-  const [activeHash,   setActiveHash]   = useState("home");
-  const dropdownRef = useRef<HTMLLIElement>(null);
+const DEFAULT_SERVICE_LINKS = [
+  { label: "Print Workflow Automation", href: "/services/automation" },
+  { label: "DevOps",                    href: "/services/devops" },
+  { label: "Custom AI Development",     href: "/services/custom-ai" },
+];
+
+const DEFAULT_CTA = { text: "Get Started", href: "/#contact" };
+
+export default function Navbar({ data }: { data?: SanityNavbar }) {
+  const productLinks = data?.productLinks?.length ? data.productLinks : DEFAULT_PRODUCT_LINKS;
+  const serviceLinks = data?.serviceLinks?.length ? data.serviceLinks : DEFAULT_SERVICE_LINKS;
+  const ctaText      = data?.ctaText || DEFAULT_CTA.text;
+  const ctaHref      = data?.ctaHref || DEFAULT_CTA.href;
+
+  const dropdownLinks: Record<DropdownKey, typeof productLinks> = {
+    products: productLinks,
+    services: serviceLinks,
+  };
+  const [mounted,       setMounted]       = useState(false);
+  const [mobileOpen,    setMobileOpen]    = useState(false);
+  const [openDropdown,  setOpenDropdown]  = useState<DropdownKey | null>(null);
+  const [scrolled,      setScrolled]      = useState(false);
+  const [activeHash,    setActiveHash]    = useState("home");
+  const productsRef = useRef<HTMLLIElement>(null);
+  const servicesRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
 
-  // Only mount-specific state and effects after client hydration
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!mounted) return;
@@ -44,14 +62,15 @@ export default function Navbar() {
   useEffect(() => {
     if (!mounted) return;
     const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node))
-        setDropdownOpen(false);
+      const target = e.target as Node;
+      const insideProducts = productsRef.current?.contains(target);
+      const insideServices = servicesRef.current?.contains(target);
+      if (!insideProducts && !insideServices) setOpenDropdown(null);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [mounted]);
 
-  // Scroll spy — tracks which section is in view
   useEffect(() => {
     if (!mounted || pathname !== "/") return;
     const ids = ["home", "about", "services", "contact"];
@@ -70,11 +89,15 @@ export default function Navbar() {
   }, [mounted, pathname]);
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     const [path, hash] = href.split("#");
     if (path && path !== "/" && path !== "") return pathname.startsWith(path);
     if (pathname !== "/") return false;
     return hash ? activeHash === hash : false;
   };
+
+  const getRef = (key: DropdownKey) =>
+    key === "products" ? productsRef : servicesRef;
 
   return (
     <>
@@ -132,17 +155,15 @@ export default function Navbar() {
         <div className="max-w-[1200px] mx-auto px-6 h-[70px] flex items-center justify-between">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
-              <Image
-                src="/logo.png"
-                alt="PrintAI Logo"
-                width={36}
-                height={36}
-                className="w-full h-full object-contain"
-                priority
-              />
-            </div>
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="PrintAI Logo"
+              width={36}
+              height={36}
+              className="object-contain flex-shrink-0"
+              priority
+            />
             <span className="font-bold text-[20px] text-white tracking-tight">
               Print
               <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
@@ -157,14 +178,16 @@ export default function Navbar() {
               dropdown ? (
                 <li
                   key={label}
-                  ref={dropdownRef}
+                  ref={getRef(dropdown)}
                   className="relative"
-                  onMouseEnter={() => setDropdownOpen(true)}
-                  onMouseLeave={() => setDropdownOpen(false)}
+                  onMouseEnter={() => setOpenDropdown(dropdown)}
+                  onMouseLeave={() => setOpenDropdown(null)}
                 >
                   <button
-                    onClick={() => setDropdownOpen((p) => !p)}
-                    aria-expanded={dropdownOpen}
+                    onClick={() =>
+                      setOpenDropdown((p) => (p === dropdown ? null : dropdown))
+                    }
+                    aria-expanded={openDropdown === dropdown}
                     className={`nav-btn-item flex items-center gap-1 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer border-0 bg-transparent ${
                       isActive(href)
                         ? "active text-white"
@@ -173,7 +196,9 @@ export default function Navbar() {
                   >
                     {label}
                     <svg
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        openDropdown === dropdown ? "rotate-180" : ""
+                      }`}
                       viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" strokeWidth="2.5"
                       strokeLinecap="round" strokeLinejoin="round"
@@ -182,15 +207,14 @@ export default function Navbar() {
                     </svg>
                   </button>
 
-                  {/* Dropdown — outer wrapper has no gap (kills hover dead-zone); inner pt-2.5 preserves the visual offset */}
-                  {dropdownOpen && (
+                  {openDropdown === dropdown && (
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
                       <div className="w-52 bg-[#12131f] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
-                        {serviceLinks.map((s, i) => (
+                        {dropdownLinks[dropdown].map((s, i) => (
                           <Link
                             key={`${s.label}-${i}`}
                             href={s.href}
-                            onClick={() => setDropdownOpen(false)}
+                            onClick={() => setOpenDropdown(null)}
                             className="block px-4 py-[11px] text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.06] border-b border-white/5 last:border-0 transition-colors duration-150"
                           >
                             {s.label}
@@ -244,9 +268,9 @@ export default function Navbar() {
             dropdown ? (
               <div key={label}>
                 <p className="px-3.5 pt-4 pb-1 text-[11px] uppercase tracking-widest font-semibold text-white/30">
-                  Services
+                  {label}
                 </p>
-                {serviceLinks.map((s, i) => (
+                {dropdownLinks[dropdown].map((s, i) => (
                   <Link
                     key={`${s.label}-${i}`}
                     href={s.href}
@@ -270,13 +294,13 @@ export default function Navbar() {
               </Link>
             )
           )}
-          {/* Keep Get Started only in mobile menu */}
+          {/* CTA — mobile only */}
           <Link
-            href="/#contact"
+            href={ctaHref}
             onClick={() => setMobileOpen(false)}
             className="block mt-3 text-center px-5 py-3 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 transition-opacity duration-200"
           >
-            Get Started
+            {ctaText}
           </Link>
         </div>
       )}

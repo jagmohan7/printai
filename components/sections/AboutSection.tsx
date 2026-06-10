@@ -1,32 +1,55 @@
 "use client";
 import { Brain, Disc3, Sparkles, TrendingUp, CheckCircle2 } from "lucide-react";
 import MotionInView from "@/components/MotionInView";
+import type { SanityAbout } from "@/lib/sanity.types";
 
-const highlights = [
-  "One Stop Print Operation Partner",
-  "Expert Team of 20+ Professionals",
-  "Web-to-Print Specialists",
-  "End-to-End Automation",
-];
+// ── Fallback hardcoded content (used when Sanity data is missing) ─────────────
+const DEFAULTS = {
+  badge:            "About PrintAI",
+  heading:          "Your Partner in Digital Transformation",
+  headingHighlight: "Digital Transformation",
+  subtext:          "We are a tech-enabled AI solutions provider creating custom strategies for printing businesses",
+  whoWeAreP1:       "PrintAI is at the forefront of AI automation in the printing industry. We combine cutting-edge artificial intelligence with deep industry expertise to deliver solutions that transform how printing businesses operate.",
+  whoWeAreP2:       'Our mission is to create a <strong>Single Source of Truth</strong> for your business operations using Frappe/ERPNext/CRM integration, custom chatbots, and intelligent automation that reduces time wastage and optimizes every decision you make.',
+  highlights: [
+    "One Stop Print Operation Partner",
+    "Expert Team of 20+ Professionals",
+    "Web-to-Print Specialists",
+    "End-to-End Automation",
+  ],
+};
 
-export default function AboutSection() {
+export default function AboutSection({ data }: { data?: SanityAbout }) {
+  const badge            = data?.badge            || DEFAULTS.badge;
+  const heading          = data?.heading          || DEFAULTS.heading;
+  const headingHighlight = data?.headingHighlight || DEFAULTS.headingHighlight;
+  const subtext          = data?.subtext          || DEFAULTS.subtext;
+  const whoWeAreP1       = data?.whoWeAreP1       || DEFAULTS.whoWeAreP1;
+  const whoWeAreP2       = data?.whoWeAreP2       || DEFAULTS.whoWeAreP2;
+  const highlights       = (data?.highlights?.length ? data.highlights : null) ?? DEFAULTS.highlights;
+
+  // Split heading around the highlight phrase for gradient styling
+  const highlightIndex   = heading.indexOf(headingHighlight);
+  const beforeHighlight  = highlightIndex > -1 ? heading.slice(0, highlightIndex) : heading;
+  const afterHighlight   = highlightIndex > -1 ? heading.slice(highlightIndex + headingHighlight.length) : "";
+
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-[#0a0b14] py-24 sm:py-28 px-4"
+      className="relative overflow-hidden bg-[#0a0b14] section-pad px-4"
     >
       <div className="pointer-events-none absolute left-1/2 -top-40 -translate-x-1/2 w-[700px] h-[400px] section-glow" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <MotionInView className="text-center mb-16">
-          <span className="badge">About PrintAI</span>
+          <span className="badge">{badge}</span>
           <h2 className="mt-5 text-[2.1rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
-            Your Partner in{" "}
-            <span className="gradient-text">Digital Transformation</span>
+            {beforeHighlight}
+            <span className="gradient-text">{headingHighlight}</span>
+            {afterHighlight}
           </h2>
           <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto">
-            We are a tech-enabled AI solutions provider creating custom strategies
-            for printing businesses
+            {subtext}
           </p>
         </MotionInView>
 
@@ -36,18 +59,12 @@ export default function AboutSection() {
               Who We Are
             </h3>
             <p className="text-gray-400 leading-[1.8] text-[15px] mb-5">
-              PrintAI is at the forefront of AI automation in the printing industry. We
-              combine cutting-edge artificial intelligence with deep industry
-              expertise to deliver solutions that transform how printing businesses
-              operate.
+              {whoWeAreP1}
             </p>
-            <p className="text-gray-400 leading-[1.8] text-[15px] mb-8">
-              Our mission is to create a{" "}
-              <strong className="text-white font-semibold">Single Source of Truth</strong>{" "}
-              for your business operations using Frappe/ERPNext/CRM integration,
-              custom chatbots, and intelligent automation that reduces time wastage
-              and optimizes every decision you make.
-            </p>
+            <p
+              className="text-gray-400 leading-[1.8] text-[15px] mb-8 [&_strong]:text-white [&_strong]:font-semibold"
+              dangerouslySetInnerHTML={{ __html: whoWeAreP2 }}
+            />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {highlights.map((label, i) => (
@@ -95,4 +112,3 @@ export default function AboutSection() {
     </section>
   );
 }
-

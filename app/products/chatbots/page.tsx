@@ -8,42 +8,38 @@ import ResultsSection from "@/components/sections/chatbots/ResultsSection";
 import DemoSection from "@/components/sections/chatbots/DemoSection";
 import FaqSection from "@/components/sections/chatbots/FaqSection";
 import FinalCtaSection from "@/components/sections/chatbots/FinalCtaSection";
+import { getChatbotsPage } from "@/lib/sanity.queries";
+import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
-const TITLE = "AI Chatbots for Print Shops";
+// Re-fetch CMS content every 5 seconds (auto-revalidation for live updates)
+export const revalidate = 5;
+import { buildProductMetadata } from "@/lib/page-metadata";
+import { buildProductBreadcrumb } from "@/lib/breadcrumb-schema";
+
+const TITLE = "AI Chatbot for Print Shops";
 const DESCRIPTION =
   "AI chatbots trained on how your print shop actually quotes — answer pricing, turnaround, and file-spec questions instantly, and route complex jobs to your team.";
 const PATH = "/products/chatbots";
 
-export const metadata: Metadata = {
-  title: TITLE,
-  description: DESCRIPTION,
-  alternates: { canonical: PATH },
-  openGraph: {
-    type: "website",
-    url: PATH,
-    title: `${TITLE} | PrintAI`,
-    description: DESCRIPTION,
-  },
-  twitter: {
-    title: `${TITLE} | PrintAI`,
-    description: DESCRIPTION,
-  },
-};
+// ── CMS-driven metadata: reads seo.title/seo.description from Sanity with ─
+// ── hardcoded fallbacks. SEO team can override from the studio without dev. ─
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await getChatbotsPage();
+  return buildProductMetadata({
+    cmsTitle:      cms?.seo?.title,
+    cmsDesc:       cms?.seo?.description,
+    fallbackTitle: TITLE,
+    fallbackDesc:  DESCRIPTION,
+    path:          PATH,
+  });
+}
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home",     item: "https://printai.cloud/" },
-    { "@type": "ListItem", position: 2, name: "Products", item: "https://printai.cloud/#services" },
-    { "@type": "ListItem", position: 3, name: "AI Chatbots", item: "https://printai.cloud/products/chatbots" },
-  ],
-};
+const breadcrumbSchema = buildProductBreadcrumb("AI Chatbot", PATH);
 
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "PrintAI Chatbots",
+  name: "PrintAI Chatbot",
   description: DESCRIPTION,
   brand: { "@type": "Brand", name: "PrintAI" },
   url: "https://printai.cloud/products/chatbots",
@@ -94,21 +90,35 @@ const faqSchema = {
   ],
 };
 
-export default function ChatbotsProductPage() {
+export default async function ChatbotsProductPage() {
+  // Fetch CMS overrides — each section uses its data slice with hardcoded fallbacks.
+  // If the CMS doc is empty / unsaved, sections render with their original text.
+  const cms = await getChatbotsPage();
+
   return (
     <>
-      <Script id="ld-breadcrumb-chatbots" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <Script id="ld-product-chatbots"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
-      <Script id="ld-faq-chatbots"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {/* SEO team can paste custom JSON-LD in the CMS to override the built-in schema. */}
+      {hasCustomSchema(cms?.seo?.customSchema) ? (
+        <CustomSchema raw={cms?.seo?.customSchema} />
+      ) : (
+        <>
+          <Script id="ld-breadcrumb-chatbots" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+          <Script id="ld-product-chatbots"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+          <Script id="ld-faq-chatbots"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        </>
+      )}
 
-      <HeroChatbots />
-      <ProblemSection />
-      <HowItWorksSection />
-      <IncludedSection />
-      <ResultsSection />
-      <DemoSection />
-      <FaqSection />
-      <FinalCtaSection />
+      {/* Every section accepts CMS data with hardcoded fallback. Editors can */}
+      {/* add/remove problems, steps, features, stats, messages, FAQs, and    */}
+      {/* support points dynamically — the grids auto-adapt to item count.    */}
+      <HeroChatbots      data={cms?.hero} />
+      <ProblemSection    data={cms?.problem} />
+      <HowItWorksSection data={cms?.howItWorks} />
+      <IncludedSection   data={cms?.included} />
+      <ResultsSection    data={cms?.results} />
+      <DemoSection       data={cms?.demo} />
+      <FaqSection        data={cms?.faq} />
+      <FinalCtaSection   data={cms?.finalCta} />
     </>
   );
 }

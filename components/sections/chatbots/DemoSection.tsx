@@ -1,122 +1,134 @@
 "use client";
-import Link from "next/link";
-import { MessageSquare, PlayCircle, Calendar } from "lucide-react";
+
 import MotionInView from "@/components/MotionInView";
+import Link from "next/link";
 
-export default function DemoSection() {
+export interface DemoSectionData {
+  heading?: string;
+  highlightWord?: string;
+  description?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  demoMessages?: Array<{ userText?: string; botText?: string }>;
+  quickReplyButtons?: string[];
+}
+
+interface Props { data?: DemoSectionData | null }
+
+const FALLBACK = {
+  heading:       "See a Real Chatbot in Action",
+  highlightWord: "in Action",
+  description:   "Watch PrintAI handle a real customer conversation — pricing, file specs, and a smooth human handoff. This is what your customers experience from the first message.",
+  ctaText:       "Book 20-Min Demo",
+  ctaHref:       "/#contact",
+  demoMessages: [
+    { userText: "I need 250 flyers, full color both sides",        botText: "" },
+    { userText: "",                                                  botText: "250 Full-Color Flyers (Double-Sided):\n• Standard: $145\n• Premium Gloss: $185\nTurnaround: 3–5 days. Rush available (+$40). Which finish?" },
+    { userText: "Premium gloss, standard turnaround",                botText: "" },
+    { userText: "",                                                  botText: "Perfect! $185 for premium gloss 250 flyers. Your file needs: ✓ 0.125\" bleed · ✓ 300 DPI · ✓ CMYK" },
+    { userText: "",                                                  botText: "Ready to upload your file or talk to our team? 👇" },
+  ],
+  quickReplyButtons: ["Upload File", "Talk to Team", "Get Full Quote"],
+};
+
+function splitHeading(heading: string, highlight?: string): [string, string, string] {
+  if (!highlight) return [heading, "", ""];
+  const idx = heading.indexOf(highlight);
+  if (idx === -1) return [heading, "", ""];
+  return [heading.slice(0, idx), highlight, heading.slice(idx + highlight.length)];
+}
+
+export default function DemoSection({ data }: Props) {
+  const heading       = data?.heading       ?? FALLBACK.heading;
+  const highlightWord = data?.highlightWord ?? FALLBACK.highlightWord;
+  const description   = data?.description   ?? FALLBACK.description;
+  const ctaText       = data?.ctaText       ?? FALLBACK.ctaText;
+  const ctaHref       = data?.ctaHref       ?? FALLBACK.ctaHref;
+  const messages      = (data?.demoMessages && data.demoMessages.length > 0) ? data.demoMessages : FALLBACK.demoMessages;
+  const buttons       = (data?.quickReplyButtons && data.quickReplyButtons.length > 0) ? data.quickReplyButtons : FALLBACK.quickReplyButtons;
+
+  const [headBefore, headHighlight, headAfter] = splitHeading(heading, highlightWord);
+
   return (
-    <section className="relative overflow-hidden bg-[#0a0b14] py-24 sm:py-28 px-4 border-t border-white/[0.04]">
-      <div className="pointer-events-none absolute left-1/2 -top-24 -translate-x-1/2 w-[800px] h-[300px] rounded-full bg-blue-500/5 blur-[120px]" />
+    <section id="demo" className="relative overflow-hidden bg-[#0B1220] section-pad px-4 border-t border-[#1E293B]/50">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <MotionInView className="text-center mb-14">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
-            See a Real Chatbot in{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Action
-            </span>
-          </h2>
-        </MotionInView>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-          {/* Left: Chat demo */}
-          <MotionInView>
-            <div className="relative rounded-3xl border border-white/[0.08] bg-[#0e0f1c] p-6 sm:p-7 h-full">
-              <div className="flex items-center gap-3 pb-5 border-b border-white/[0.06]">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-white font-semibold text-[15px]">PrintAI Demo</p>
-                  <span className="text-[12px] text-gray-500">Try asking about pricing</span>
-                </div>
-              </div>
-
-              <div className="pt-5 space-y-4">
-                {/* User msg */}
-                <div className="flex justify-end">
-                  <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-br-md text-white text-[13.5px] leading-[1.55] bg-gradient-to-br from-violet-500 to-blue-500 shadow-[0_0_20px_rgba(99,102,241,0.25)]">
-                    What&apos;s your pricing for 1000 flyers, full color, both sides?
-                  </div>
-                </div>
-
-                {/* Bot msg */}
-                <div className="flex justify-start">
-                  <div className="max-w-[88%] px-4 py-3.5 rounded-2xl rounded-bl-md bg-[#0a0b14] border border-white/[0.06] text-[13.5px] leading-[1.6]">
-                    <p className="text-white">For 1,000 full-color flyers (8.5&quot;x11&quot;, 100lb gloss text, both sides):</p>
-                    <p className="mt-2 text-cyan-300 font-bold text-[18px]">$287.00</p>
-                    <ul className="mt-2 space-y-1 text-gray-400 text-[12.5px]">
-                      <li>• Standard turnaround: 5-7 days</li>
-                      <li>• Upload files: 300 DPI, PDF with 0.125&quot; bleed</li>
-                    </ul>
-                    <p className="mt-2 text-gray-400 text-[12.5px]">
-                      Need a quote for a different size or paper stock?
-                    </p>
-                  </div>
-                </div>
-
-                {/* User msg */}
-                <div className="flex justify-end">
-                  <div className="px-4 py-3 rounded-2xl rounded-br-md text-white text-[13.5px] bg-gradient-to-br from-violet-500 to-blue-500 shadow-[0_0_20px_rgba(99,102,241,0.25)]">
-                    Do you offer matte finish instead?
-                  </div>
-                </div>
-
-                {/* Bot msg */}
-                <div className="flex justify-start">
-                  <div className="max-w-[80%] px-4 py-3.5 rounded-2xl rounded-bl-md bg-[#0a0b14] border border-white/[0.06] text-[13.5px] leading-[1.6]">
-                    <p className="text-white">Yes! With 100lb matte text paper:</p>
-                    <p className="mt-1.5 text-cyan-300 font-bold text-[18px]">$279.00</p>
-                    <p className="mt-1.5 text-gray-400 text-[12.5px]">
-                      (Same turnaround and file specs)
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div>
+          <MotionInView delay={0}>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-5">
+              {headBefore}
+              {headHighlight && (
+                <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+                  {headHighlight}
+                </span>
+              )}
+              {headAfter}
+            </h2>
           </MotionInView>
 
-          {/* Right: Try it yourself */}
-          <MotionInView delay={0.15}>
-            <div className="rounded-3xl border border-white/[0.08] bg-[#0e0f1c] p-7 sm:p-9 h-full flex flex-col">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shrink-0">
-                  <PlayCircle className="w-6 h-6 text-white" strokeWidth={2} />
-                </div>
-                <h3 className="text-white font-bold text-[1.5rem]">Try it yourself</h3>
-              </div>
+          <MotionInView delay={0.1}>
+            <p className="text-[#94A3B8] text-lg leading-relaxed mb-8">{description}</p>
+          </MotionInView>
 
-              <p className="text-gray-400 text-[14.5px] leading-[1.75] mb-7">
-                See how PrintAI handles real customer questions about pricing, file
-                specs, turnaround times, and more. Book a 20-minute demo to see it
-                trained on your actual catalog.
-              </p>
-
-              <ul className="space-y-3.5 mb-9">
-                {[
-                  "No credit card required",
-                  "See ROI calculator specific to your shop",
-                  "Get custom integration roadmap",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-[14px] text-gray-200">
-                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                    </span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/#contact"
-                className="mt-auto inline-flex items-center justify-center gap-2.5 w-full px-7 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-400 hover:to-cyan-300 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(34,211,238,0.35)]"
-              >
-                <Calendar className="w-4 h-4" />
-                Book 20-Min Demo
-              </Link>
-            </div>
+          <MotionInView delay={0.2}>
+            <Link
+              href={ctaHref}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white font-semibold text-base shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_45px_rgba(59,130,246,0.6)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              {ctaText}
+            </Link>
           </MotionInView>
         </div>
+
+        <MotionInView delay={0.2} from="left">
+          <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.12)]">
+            <div className="bg-[#0B1220] border-b border-[#1E293B] px-5 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white text-sm font-bold">P</div>
+                <div>
+                  <p className="text-white text-sm font-semibold leading-none">PrintAI Assistant</p>
+                  <p className="text-[#64748B] text-[11px] mt-0.5">Print Specialist</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-400 text-xs font-medium">Online</span>
+              </div>
+            </div>
+
+            <div className="p-5 space-y-4 bg-[#070B14]">
+              {messages.map((m, i) => (
+                <div key={i} className="space-y-4">
+                  {m.userText && (
+                    <div className="flex justify-end">
+                      <div className="max-w-[75%] px-4 py-2.5 rounded-2xl rounded-br-sm bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white text-sm leading-relaxed">
+                        {m.userText}
+                      </div>
+                    </div>
+                  )}
+                  {m.botText && (
+                    <div className="flex justify-start">
+                      <div className="max-w-[85%] px-4 py-3 rounded-2xl rounded-bl-sm bg-[#1E293B] text-white text-sm leading-relaxed whitespace-pre-line">
+                        {m.botText}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-[#0B1220] border-t border-[#1E293B] px-5 py-3 flex flex-wrap gap-2">
+              {buttons.map((b, i) => (
+                <button key={i} className="px-3 py-1.5 rounded-full border border-[#3B82F6]/30 bg-[#3B82F6]/10 text-[#3B82F6] text-xs font-medium hover:bg-[#3B82F6]/20 transition-colors">
+                  {b}
+                </button>
+              ))}
+            </div>
+          </div>
+        </MotionInView>
       </div>
     </section>
   );

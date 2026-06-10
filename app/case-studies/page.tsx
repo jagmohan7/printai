@@ -1,181 +1,182 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Clock, DollarSign } from "lucide-react";
+import { TrendingUp, ArrowRight } from "lucide-react";
+import MotionInView from "@/components/MotionInView";
+import type { Metadata } from "next";
+import { getCaseStudiesPage } from "@/lib/sanity.queries";
+import { getIcon } from "@/lib/lucide-icon";
+import { splitHeading, pickArray } from "@/lib/section-utils";
+import { buildProductMetadata } from "@/lib/page-metadata";
+import CustomSchema from "@/components/CustomSchema";
 
-export const metadata: Metadata = {
-  title: "Case Studies",
-  description:
-    "Real results from real printing businesses. See how PrintAI drives measurable impact — faster quoting, fewer reprints, and on-time delivery.",
-  alternates: { canonical: "/case-studies" },
-  openGraph: {
-    type: "website",
-    url: "/case-studies",
-    title: "Case Studies | PrintAI",
-    description:
-      "Real results from real printing businesses using PrintAI to capture more leads and ship faster.",
+const TITLE = "Case Studies";
+const DESCRIPTION =
+  "Real results from real printing businesses. See how our AI solutions drive measurable impact across the industry.";
+const PATH = "/case-studies";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await getCaseStudiesPage();
+  return buildProductMetadata({
+    cmsTitle:      cms?.seo?.title,
+    cmsDesc:       cms?.seo?.description,
+    fallbackTitle: TITLE,
+    fallbackDesc:  DESCRIPTION,
+    path:          PATH,
+  });
+}
+
+export const revalidate = 5;
+
+// ── Fallback content (used when CMS is empty) ─────────────────────────────────
+const FALLBACK = {
+  hero: {
+    heading:       "Case Studies",
+    highlightWord: "Studies",
+    description:   "Real results from real printing businesses. See how our AI solutions drive measurable impact across the industry.",
   },
-  twitter: {
-    title: "Case Studies | PrintAI",
-    description:
-      "Real results from real printing businesses using PrintAI to capture more leads and ship faster.",
+  cases: [
+    { category: "Commercial Printing", icon: "Printer", title: "Regional Print Shop Automates Order Processing",       description: "A mid-size commercial printer eliminated manual order entry and reduced processing time from hours to minutes.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "85%", label: "FASTER\nPROCESSING" }, { value: "3x", label: "ORDER\nVOLUME" }, { value: "$120K", label: "ANNUAL\nSAVINGS" }] },
+    { category: "Large Format",        icon: "Bot",     title: "Enterprise Printer Deploys AI Customer Support",        description: "A large format printing company deployed an AI chatbot that handles 80% of customer inquiries without human intervention.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "80%", label: "AUTO-RESOLVED" }, { value: "24/7", label: "AVAILABILITY" }, { value: "4.8/5", label: "SATISFACTION" }] },
+    { category: "Multi-Location",      icon: "Database",title: "Print Chain Unifies Operations with ERPNext",          description: "A 5-location print chain consolidated disparate systems into a single ERPNext platform with custom print modules.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "5", label: "SITES UNIFIED" }, { value: "40%", label: "COST REDUCTION" }, { value: "1", label: "PLATFORM" }] },
+    { category: "Packaging",           icon: "Package", title: "Packaging Company Optimizes Inventory with AI",         description: "A packaging printer reduced material waste and stockouts by implementing AI-driven inventory management.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "60%", label: "LESS\nWASTE" }, { value: "95%", label: "STOCK\nACCURACY" }, { value: "$85K", label: "SAVED\nYEARLY" }] },
+    { category: "Web-to-Print",        icon: "Globe",   title: "Online Print Store Scales with Automation",             description: "A web-to-print business automated their entire fulfillment pipeline, enabling rapid growth without proportional staff increases.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "300%", label: "REVENUE\nGROWTH" }, { value: "2hr", label: "AVG\nTURNAROUND" }, { value: "99.2%", label: "ACCURACY" }] },
+    { category: "Digital Printing",    icon: "Settings",title: "Digital Printer Transforms QC with Machine Learning",   description: "A digital printing operation implemented ML-based quality control that catches defects in real-time during production runs.", ctaText: "Get Similar Results", ctaHref: "/#contact", stats: [{ value: "98%", label: "DEFECT\nDETECTION" }, { value: "50%", label: "LESS\nREPRINTS" }, { value: "ROI\n6 MONTHS", label: "" }] },
+  ],
+  cta: {
+    heading:       "Want Results Like These?",
+    highlightWord: "These",
+    description:   "Let's discuss how PrintAI can transform your printing operations.",
+    ctaText:       "🚀 Get Started",
+    ctaHref:       "/#contact",
   },
 };
 
-const caseStudies = [
-  {
-    category: "Commercial Printing",
-    title: "Regional Print Shop Automates Order Processing",
-    description:
-      "A mid-size commercial printer eliminated manual order entry and reduced processing time from hours to minutes.",
-    metrics: [
-      { icon: Clock, value: "85%", label: "Faster Processing" },
-      { icon: TrendingUp, value: "3x", label: "Order Volume" },
-      { icon: DollarSign, value: "$120K", label: "Annual Savings" },
-    ],
-    color: "blue",
-  },
-  {
-    category: "Large Format",
-    title: "Enterprise Printer Deploys AI Customer Support",
-    description:
-      "A large format printing company deployed an AI chatbot that handles 80% of customer inquiries without human intervention.",
-    metrics: [
-      { icon: TrendingUp, value: "80%", label: "Auto-Resolved" },
-      { icon: Clock, value: "24/7", label: "Availability" },
-      { icon: TrendingUp, value: "4.8/5", label: "Satisfaction" },
-    ],
-    color: "green",
-  },
-  {
-    category: "Multi-Location",
-    title: "Print Chain Unifies Operations with ERPNext",
-    description:
-      "A 5-location print chain consolidated disparate systems into a single ERPNext platform with custom print modules.",
-    metrics: [
-      { icon: TrendingUp, value: "5", label: "Sites Unified" },
-      { icon: DollarSign, value: "40%", label: "Cost Reduction" },
-      { icon: TrendingUp, value: "1", label: "Platform" },
-    ],
-    color: "purple",
-  },
-  {
-    category: "Packaging",
-    title: "Packaging Company Optimizes Inventory with AI",
-    description:
-      "A packaging printer reduced material waste and stockouts by implementing AI-driven inventory management.",
-    metrics: [
-      { icon: TrendingUp, value: "60%", label: "Less Waste" },
-      { icon: TrendingUp, value: "95%", label: "Stock Accuracy" },
-      { icon: DollarSign, value: "$85K", label: "Saved Yearly" },
-    ],
-    color: "orange",
-  },
-  {
-    category: "Web-to-Print",
-    title: "Online Print Store Scales with Automation",
-    description:
-      "A web-to-print business automated their entire fulfillment pipeline, enabling rapid growth without proportional staff increases.",
-    metrics: [
-      { icon: TrendingUp, value: "300%", label: "Revenue Growth" },
-      { icon: Clock, value: "2hr", label: "Avg Turnaround" },
-      { icon: TrendingUp, value: "99.2%", label: "Accuracy" },
-    ],
-    color: "blue",
-  },
-  {
-    category: "Digital Printing",
-    title: "Digital Printer Transforms QC with Machine Learning",
-    description:
-      "A digital printing operation implemented ML-based quality control that catches defects in real-time during production runs.",
-    metrics: [
-      { icon: TrendingUp, value: "98%", label: "Defect Detection" },
-      { icon: TrendingUp, value: "50%", label: "Less Reprints" },
-      { icon: Clock, value: "6mo", label: "ROI Achieved" },
-    ],
-    color: "green",
-  },
+// Cycling colour themes — editors just supply text + icon; colours rotate.
+const CARD_THEMES = [
+  { categoryColor: "text-violet-400 bg-violet-400/10 border-violet-400/20",  iconBg: "from-violet-700/60 to-indigo-800/60" },
+  { categoryColor: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", iconBg: "from-teal-700/60 to-cyan-800/60" },
+  { categoryColor: "text-pink-400 bg-pink-400/10 border-pink-400/20",        iconBg: "from-purple-800/60 to-pink-800/60" },
+  { categoryColor: "text-orange-400 bg-orange-400/10 border-orange-400/20",  iconBg: "from-orange-800/60 to-amber-900/60" },
+  { categoryColor: "text-cyan-400 bg-cyan-400/10 border-cyan-400/20",        iconBg: "from-cyan-800/60 to-teal-800/60" },
+  { categoryColor: "text-purple-400 bg-purple-400/10 border-purple-400/20",  iconBg: "from-violet-900/60 to-purple-800/60" },
 ];
 
-const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-700 border-blue-200",
-  green: "bg-green-50 text-green-700 border-green-200",
-  purple: "bg-purple-50 text-purple-700 border-purple-200",
-  orange: "bg-orange-50 text-orange-700 border-orange-200",
-};
+export default async function CaseStudiesPage() {
+  const cms = await getCaseStudiesPage();
 
-const metricColorMap: Record<string, string> = {
-  blue: "text-blue-600",
-  green: "text-green-600",
-  purple: "text-purple-600",
-  orange: "text-orange-600",
-};
+  const hero  = cms?.hero ?? FALLBACK.hero;
+  const cases = pickArray(cms?.cases?.items, FALLBACK.cases);
+  const cta   = cms?.cta ?? FALLBACK.cta;
 
-export default function CaseStudiesPage() {
+  const [hb, hh, ha]  = splitHeading(hero.heading || FALLBACK.hero.heading, hero.highlightWord);
+  const [cb, ch, ca]  = splitHeading(cta.heading || FALLBACK.cta.heading, cta.highlightWord);
+
   return (
-    <>
-      {/* Header */}
-      <section className="bg-[#0d2137] text-white py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+    <main className="min-h-screen bg-[#0a0b14]">
+      <CustomSchema raw={cms?.seo?.customSchema} />
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-violet-600/8 blur-[150px]" />
+      </div>
+
+      {/* ── HERO ── */}
+      <section className="relative section-hero px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-2 text-[13px] text-[#9ca3af] mb-8">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <span>/</span>
             <span className="text-white">Case Studies</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-5">Case Studies</h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
-            Real results from real printing businesses. See how our AI solutions drive measurable impact across the industry.
-          </p>
+
+          <MotionInView>
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] flex items-center justify-center mb-6 shadow-[0_0_32px_rgba(124,58,237,0.4)]">
+              <TrendingUp size={24} className="text-white" strokeWidth={1.8} />
+            </div>
+          </MotionInView>
+
+          <MotionInView delay={0.1}>
+            <h1 className="text-[3rem] sm:text-[3.8rem] font-extrabold tracking-tight leading-[1.05]">
+              <span className="text-white">{hb}</span>
+              {hh && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{hh}</span>}
+              <span className="text-white">{ha}</span>
+            </h1>
+          </MotionInView>
+
+          <MotionInView delay={0.2}>
+            <p className="mt-4 text-[#9ca3af] text-[16px] leading-[1.8] max-w-lg">{hero.description}</p>
+          </MotionInView>
         </div>
       </section>
 
-      {/* Case Studies Grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map(({ category, title, description, metrics, color }) => (
-              <div key={title} className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-                <div className="p-7">
-                  <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border mb-4 ${colorMap[color]}`}>
-                    {category}
-                  </span>
-                  <h2 className="text-lg font-bold text-[#0d2137] mb-3 leading-snug">{title}</h2>
-                  <p className="text-gray-500 text-sm leading-relaxed mb-6">{description}</p>
+      {/* ── CASE STUDY GRID ── */}
+      <section className="relative section-pad px-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cases.map((c, i) => {
+            const Icon  = getIcon(c.icon);
+            const theme = CARD_THEMES[i % CARD_THEMES.length];
+            const stats = pickArray(c.stats, []);
+            return (
+              <MotionInView key={i} delay={0.08 * i}>
+                <div className="group h-full flex flex-col rounded-2xl border border-white/[0.07] bg-[#12131f] overflow-hidden hover:border-white/[0.13] hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300">
+                  <div className={`relative h-[130px] bg-gradient-to-br ${theme.iconBg} flex items-center justify-center overflow-hidden`}>
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.08)_0%,transparent_60%)]" />
+                    <Icon size={44} className="text-white/40" strokeWidth={1.2} />
+                  </div>
 
-                  <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100">
-                    {metrics.map(({ icon: Icon, value, label }) => (
-                      <div key={label} className="text-center">
-                        <p className={`text-xl font-bold ${metricColorMap[color]}`}>{value}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+                  <div className="flex flex-col flex-1 p-6">
+                    {c.category && (
+                      <span className={`self-start text-[11px] font-semibold px-3 py-1 rounded-full border ${theme.categoryColor} mb-4`}>
+                        {c.category}
+                      </span>
+                    )}
+                    <h2 className="text-white font-bold text-[16px] leading-snug mb-3">{c.title}</h2>
+                    <p className="text-[#9ca3af] text-[13px] leading-[1.7] flex-1">{c.description}</p>
+
+                    {stats.length > 0 && (
+                      <div className="flex gap-4 mt-5 pt-5 border-t border-white/[0.06]">
+                        {stats.map((s, j) => (
+                          <div key={j} className="flex flex-col">
+                            <span className="text-[#22d3ee] font-extrabold text-[16px] leading-tight whitespace-pre-line">{s.value}</span>
+                            <span className="text-[#9ca3af] text-[10px] font-medium mt-0.5 whitespace-pre-line leading-tight">{s.label}</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+
+                    <Link href={c.ctaHref || "/#contact"} className="mt-5 inline-flex items-center gap-1.5 text-[#a78bfa] text-[13px] font-semibold hover:text-[#22d3ee] transition-colors duration-200 group/link">
+                      {c.ctaText || "Get Similar Results"}
+                      <ArrowRight size={13} className="group-hover/link:translate-x-1 transition-transform duration-200" />
+                    </Link>
                   </div>
                 </div>
-                <div className="px-7 pb-5">
-                  <button className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:gap-2.5 transition-all">
-                    Read Case Study <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              </MotionInView>
+            );
+          })}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-[#0d2137] text-white text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-4">Want Results Like These?</h2>
-          <p className="text-gray-300 text-lg mb-8">
-            Let&apos;s discuss how PrintAI can transform your printing operations.
-          </p>
-          <Link
-            href="/#contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors"
-          >
-            Get Started <ArrowRight className="w-5 h-5" />
-          </Link>
+      {/* ── BOTTOM CTA ── */}
+      <section className="relative section-pad-sm px-4 border-t border-white/[0.04]">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full bg-violet-600/10 blur-[130px]" />
+        </div>
+
+        <div className="relative z-10 max-w-xl mx-auto text-center">
+          <MotionInView>
+            <h2 className="text-[2rem] sm:text-[2.6rem] font-extrabold tracking-tight text-white leading-[1.15]">
+              {cb}{ch && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{ch}</span>}{ca}
+            </h2>
+          </MotionInView>
+
+          <MotionInView delay={0.15}>
+            <p className="mt-4 text-[#9ca3af] text-[15px] leading-[1.8]">{cta.description}</p>
+          </MotionInView>
+
+          <MotionInView delay={0.3}>
+            <Link href={cta.ctaHref || "/#contact"} className="mt-8 inline-flex items-center gap-2.5 px-9 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#7c3aed] to-[#06b6d4] hover:from-violet-500 hover:to-cyan-400 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_40px_rgba(124,58,237,0.4)]">
+              {cta.ctaText || "Get Started"}
+            </Link>
+          </MotionInView>
         </div>
       </section>
-    </>
+    </main>
   );
 }

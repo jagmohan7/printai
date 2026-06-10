@@ -230,6 +230,34 @@ body {
   width: 100%;
 }
 
+/* ─── Standard section spacing ─────────────────────── */
+/* Hero sections: mobile 80px top + 48px bottom, tablet 96px/64px, desktop 128px/80px */
+.section-hero  { @apply pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-20; }
+/* Content sections: mobile 48px, tablet 64px, desktop 96px */
+.section-pad   { @apply py-12 sm:py-16 lg:py-24; }
+/* Tighter CTA / divider sections: mobile 40px, tablet 56px, desktop 80px */
+.section-pad-sm { @apply py-10 sm:py-14 lg:py-20; }
+/* Horizontal container: consistent side padding + max width */
+.section-inner { @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8; }
+
+
+/* ─── Custom AI page — section background glow ─────── */
+/* Radial spotlight: bright blue centre → pure black edges */
+.ai-section {
+  background: radial-gradient(50% 50% at 50% 50%, #162239 0%, #050505 100%);
+}
+
+/* ─── Custom AI page — card hover (Figma-accurate) ──── */
+.ai-card {
+  transition: all 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ai-card:hover {
+  border-color: #00D1FF !important;
+  box-shadow: 0 0 30px rgba(0, 209, 255, 0.3) !important;
+  transform: translateY(-4px);
+  background: rgba(22, 34, 57, 0.5);
+}
+
 /* ─── Scrollbar ─────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0a0b14; }

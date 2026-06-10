@@ -1,53 +1,73 @@
 "use client";
+import React from "react";
 import Link from "next/link";
+import type { SanityHero } from "@/lib/sanity.types";
 
-const socials = [
-  {
-    label: "LinkedIn",
-    href: "#",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
-        <circle cx="4" cy="4" r="2" />
-      </svg>
-    ),
-  },
-  {
-    label: "Twitter",
-    href: "#",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Facebook",
-    href: "#",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Instagram",
-    href: "#",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
+// ── Fallback hardcoded content (used when Sanity data is missing) ─────────────
+const DEFAULTS = {
+  badge:               "Leading AI Automation in Printing Industry",
+  heading:             "Transform Your Printing Business with AI-Powered Automation",
+  headingHighlight:    "Printing",
+  subtext:             "Revolutionize your operations with intelligent chatbots, seamless ERPNext integration, and cutting-edge automation solutions that reduce time wastage and optimize decision making.",
+  primaryButtonText:   "Get Started",
+  primaryButtonHref:   "/#contact",
+  secondaryButtonText: "Explore Solutions",
+  secondaryButtonHref: "/#services",
+};
+
+const socialIcons: Record<string, React.ReactElement> = {
+  LinkedIn: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  ),
+  Twitter: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  ),
+  Facebook: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+    </svg>
+  ),
+  Instagram: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+};
+
+const defaultSocials = [
+  { label: "LinkedIn",  href: "#" },
+  { label: "Twitter",   href: "#" },
+  { label: "Facebook",  href: "#" },
+  { label: "Instagram", href: "#" },
 ];
 
-const headingCls = "fu-2 font-extrabold text-white tracking-tight leading-[1.1] mb-6 text-[2.2rem] sm:text-[2.8rem] md:text-[3.4rem] lg:text-[3.75rem]";
-const primaryBtnCls = "inline-flex items-center gap-2.5 px-7 py-[13px] rounded-2xl font-semibold text-[14.5px] text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(124,58,237,0.5)]";
+const headingCls     = "fu-2 font-extrabold text-white tracking-tight leading-[1.1] mb-6 text-[2.2rem] sm:text-[2.8rem] md:text-[3.4rem] lg:text-[3.75rem]";
+const primaryBtnCls  = "inline-flex items-center gap-2.5 px-7 py-[13px] rounded-2xl font-semibold text-[14.5px] text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(124,58,237,0.5)]";
 const secondaryBtnCls = "inline-flex items-center gap-2.5 px-7 py-[13px] rounded-2xl font-semibold text-[14.5px] text-white border border-white/20 bg-white/[0.05] hover:bg-white/[0.09] hover:border-white/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 backdrop-blur-sm";
 
-export default function HeroSection() {
+export default function HeroSection({ data }: { data?: SanityHero }) {
+  const badge               = data?.badge               || DEFAULTS.badge;
+  const heading             = data?.heading             || DEFAULTS.heading;
+  const headingHighlight    = data?.headingHighlight    || DEFAULTS.headingHighlight;
+  const subtext             = data?.subtext             || DEFAULTS.subtext;
+  const primaryButtonText   = data?.primaryButtonText   || DEFAULTS.primaryButtonText;
+  const primaryButtonHref   = data?.primaryButtonHref   || DEFAULTS.primaryButtonHref;
+  const secondaryButtonText = data?.secondaryButtonText || DEFAULTS.secondaryButtonText;
+  const secondaryButtonHref = data?.secondaryButtonHref || DEFAULTS.secondaryButtonHref;
+  const socials             = (data?.socials?.length ? data.socials : null) ?? defaultSocials;
+
+  // Split heading around the highlight word for gradient styling
+  const highlightIndex = heading.indexOf(headingHighlight);
+  const beforeHighlight = highlightIndex > -1 ? heading.slice(0, highlightIndex) : heading;
+  const afterHighlight  = highlightIndex > -1 ? heading.slice(highlightIndex + headingHighlight.length) : "";
+
   return (
     <section id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0a0b14] px-4">
       <style>{`
@@ -92,51 +112,43 @@ export default function HeroSection() {
         {/* Badge */}
         <div className="fu-1 mb-7 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-[#16172a]/90 backdrop-blur-sm">
           <span className="text-yellow-400 text-sm leading-none">⚡</span>
-          <span className="text-[13px] text-gray-300 font-medium tracking-wide">Leading AI Automation in Printing Industry</span>
+          <span className="text-[13px] text-gray-300 font-medium tracking-wide">{badge}</span>
         </div>
 
-        {/* Heading — className extracted to const to avoid multiline template literal hydration mismatch */}
+        {/* Heading */}
         <h1 className={headingCls}>
-          Transform Your{" "}
-          <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">Printing</span>
-          <br />
-          <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Business</span>{" "}
-          with AI-Powered
-          <br />
-          Automation
+          {beforeHighlight}
+          <span className="gradient-text">
+            {headingHighlight}
+          </span>
+          {afterHighlight}
         </h1>
 
         {/* Subtitle */}
         <p className="fu-3 text-gray-400 text-[15px] sm:text-[16.5px] leading-[1.85] max-w-[560px] mb-9">
-          Revolutionize your operations with intelligent chatbots, seamless ERPNext
-          integration, and cutting-edge automation solutions that reduce time
-          wastage and optimize decision making.
+          {subtext}
         </p>
 
-        {/* Buttons — className extracted to const */}
+        {/* Buttons */}
         <div className="fu-4 flex items-center gap-4 mb-12 flex-wrap justify-center">
-          <Link href="/#contact" className={primaryBtnCls}>
-            {/* <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.001 1.992c-5.524 0-8.914 3.457-10.001 6l3 1 1 3 6-4 6 4 1-3 3-1c-1.087-2.543-4.477-6-10-6zm0 4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM4.5 18l1.5-1.5-1.5-.75-.75 1.5.75.75zm15 0-.75-.75-1.5.75 1.5 1.5.75-.75z" />
-            </svg> */}
-            Get Started
+          <Link href={primaryButtonHref} className={primaryBtnCls}>
+            {primaryButtonText}
           </Link>
-
-          <Link href="/#services" className={secondaryBtnCls}>
+          <Link href={secondaryButtonHref} className={secondaryBtnCls}>
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
               <polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none" />
             </svg>
-            Explore Solutions
+            {secondaryButtonText}
           </Link>
         </div>
 
         {/* Socials */}
         <div className="fu-5 flex items-center gap-3">
           <span className="text-gray-500 text-[13px] font-medium mr-1">Follow us:</span>
-          {socials.map(({ label, href, icon }) => (
+          {socials.map(({ label, href }) => (
             <a key={label} href={href} aria-label={label} className="social-icon w-10 h-10 rounded-full border border-white/[0.15] bg-white/[0.05] flex items-center justify-center text-gray-400">
-              {icon}
+              {socialIcons[label] ?? socialIcons["LinkedIn"]}
             </a>
           ))}
         </div>

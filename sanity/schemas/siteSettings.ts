@@ -1,0 +1,77 @@
+import { defineType, defineField } from "sanity";
+
+const linkFields = [
+  defineField({ name: "label", title: "Label", type: "string" }),
+  defineField({ name: "href",  title: "Link",  type: "string", description: "E.g. /products/chatbots or /#contact" }),
+];
+
+export const siteSettings = defineType({
+  name:  "siteSettings",
+  title: "Site Settings",
+  type:  "document",
+
+  preview: {
+    prepare: () => ({ title: "Site Settings", subtitle: "Navbar · Footer" }),
+  },
+
+  groups: [
+    { name: "navbar", title: "🔝 Navbar", default: true },
+    { name: "footer", title: "🔻 Footer" },
+  ],
+
+  fields: [
+
+    // ── NAVBAR ────────────────────────────────────────────────────────────────
+    defineField({
+      name: "navbar", title: "Navbar", type: "object", group: "navbar",
+      fields: [
+        defineField({
+          name: "productLinks", title: "Products Dropdown Links", type: "array",
+          description: "Links shown in the Products dropdown menu.",
+          of: [defineField({ name: "link", title: "Link", type: "object", fields: linkFields })],
+        }),
+        defineField({
+          name: "serviceLinks", title: "Services Dropdown Links", type: "array",
+          description: "Links shown in the Services dropdown menu.",
+          of: [defineField({ name: "link", title: "Link", type: "object", fields: linkFields })],
+        }),
+        defineField({ name: "ctaText", title: "CTA Button Text", type: "string", description: "Mobile menu button. E.g. 'Get Started'" }),
+        defineField({ name: "ctaHref", title: "CTA Button Link", type: "string", description: "E.g. /#contact" }),
+      ],
+    }),
+
+    // ── FOOTER ────────────────────────────────────────────────────────────────
+    defineField({
+      name: "footer", title: "Footer", type: "object", group: "footer",
+      fields: [
+        defineField({ name: "tagline", title: "Brand Tagline", type: "text", rows: 3,
+          description: "Short description shown below the logo." }),
+        defineField({
+          name: "socials", title: "Social Links", type: "array",
+          description: "Labels must be: LinkedIn, Twitter, Facebook, or Instagram.",
+          of: [defineField({ name: "social", title: "Social", type: "object",
+            fields: [
+              defineField({ name: "label", title: "Platform", type: "string" }),
+              defineField({ name: "href",  title: "URL",      type: "url" }),
+            ],
+          })],
+        }),
+        defineField({
+          name: "quickLinks", title: "Quick Links Column", type: "array",
+          of: [defineField({ name: "link", title: "Link", type: "object", fields: linkFields })],
+        }),
+        defineField({
+          name: "productLinks", title: "Products Column", type: "array",
+          of: [defineField({ name: "link", title: "Link", type: "object", fields: linkFields })],
+        }),
+        defineField({
+          name: "serviceLinks", title: "Services Column", type: "array",
+          of: [defineField({ name: "link", title: "Link", type: "object", fields: linkFields })],
+        }),
+        defineField({ name: "copyright", title: "Copyright Text", type: "string",
+          description: "E.g. 'PrintAI. All rights reserved.' — year is added automatically." }),
+      ],
+    }),
+
+  ],
+});

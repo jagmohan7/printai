@@ -1,9 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteShell from "@/components/SiteShell";
+import { getSiteSettings } from "@/lib/sanity.queries";
+import { SanityLive } from "@/lib/sanity.live";
+
+// Re-fetch site settings (navbar/footer) every 5 seconds
+export const revalidate = 5;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +46,9 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/logo.png",
     shortcut: "/favicon.png",
+  },
+  verification: {
+    google: "gOPlEY7PKlhVylDHfTVSiMNIZbOIpiAlE_S2iNkbn5Y",
   },
   alternates: {
     canonical: "/",
@@ -126,13 +135,15 @@ const websiteSchema = {
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSiteSettings();
+  const { isEnabled: isDraftMode } = await draftMode();
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`} data-scroll-behavior="smooth">
       <head>
         {/* Organization + WebSite JSON-LD (global) */}
         <Script
@@ -180,9 +191,22 @@ export default function RootLayout({
           </noscript>
         )}
 
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteShell navData={settings?.navbar} footerData={settings?.footer}>
+          {children}
+        </SiteShell>
+
+        {/* ── Visual Editing (Sanity Presentation Tool) ────────────────────
+            Only rendered when draft mode is on (i.e. when an editor opens
+            the Presentation tool). Injects the click-to-edit overlay that
+            maps stega-encoded content back to Sanity document fields.       */}
+        {isDraftMode && <VisualEditing />}
+
+        {/* ── Sanity Live ─────────────────────────────────────────────────
+            Always rendered. Subscribes to Sanity's live API so any page that
+            uses sanityFetch() auto-revalidates the moment a document changes
+            in the studio. Works in published mode too — published pages
+            still revalidate, just without the editing overlay.              */}
+        <SanityLive />
       </body>
     </html>
   );
