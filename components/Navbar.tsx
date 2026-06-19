@@ -1,26 +1,24 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import type { SanityNavbar } from "@/lib/sanity.types";
 
-type DropdownKey = "products" | "services";
+type DropdownKey = "products" | "services" | "resources";
 
+// ── Top-level nav (labels hardcoded; dropdown items below are CMS-driven) ─────
 const navLinks: { label: string; href: string; dropdown?: DropdownKey }[] = [
-  { label: "Home",         href: "/#home" },
-  { label: "About",        href: "/#about" },
-  { label: "Products",     href: "/#services", dropdown: "products" },
-  { label: "Services",     href: "/#services", dropdown: "services" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Resources",    href: "/resources" },
-  { label: "Contact",      href: "/#contact" },
+  { label: "Home",      href: "/#home" },
+  { label: "About",     href: "/about" },
+  { label: "Products",  href: "/products/chatbots",   dropdown: "products" },
+  { label: "Services",  href: "/services/automation", dropdown: "services" },
+  { label: "Resources", href: "/resources",           dropdown: "resources" },
 ];
 
+// ── Dropdown fallbacks (used when Sanity has no data) ─────────────────────────
 const DEFAULT_PRODUCT_LINKS = [
-  { label: "AI Chatbot",            href: "/products/chatbots" },
-  { label: "Web-to-Print Platform", href: "/products/web-to-print" },
-  { label: "ERPNext",               href: "/products/erpnext" },
+  { label: "AI Chatbot",   href: "/products/chatbots" },
+  { label: "Web To Print", href: "/products/web-to-print" },
 ];
 
 const DEFAULT_SERVICE_LINKS = [
@@ -29,7 +27,14 @@ const DEFAULT_SERVICE_LINKS = [
   { label: "Custom AI Development",     href: "/services/custom-ai" },
 ];
 
-const DEFAULT_CTA = { text: "Get Started", href: "/#contact" };
+// Resources dropdown is not yet CMS-backed — hardcoded for now.
+const RESOURCE_LINKS = [
+  { label: "Blogs",        href: "/resources" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "FAQs",         href: "/#faq" },
+];
+
+const DEFAULT_CTA = { text: "Book Demo", href: "/#contact" };
 
 export default function Navbar({ data }: { data?: SanityNavbar }) {
   const productLinks = data?.productLinks?.length ? data.productLinks : DEFAULT_PRODUCT_LINKS;
@@ -37,43 +42,69 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
   const ctaText      = data?.ctaText || DEFAULT_CTA.text;
   const ctaHref      = data?.ctaHref || DEFAULT_CTA.href;
 
-  const dropdownLinks: Record<DropdownKey, typeof productLinks> = {
-    products: productLinks,
-    services: serviceLinks,
+  const dropdownLinks: Record<DropdownKey, { label: string; href: string }[]> = {
+    products:  productLinks,
+    services:  serviceLinks,
+    resources: RESOURCE_LINKS,
   };
-  const [mounted,       setMounted]       = useState(false);
-  const [mobileOpen,    setMobileOpen]    = useState(false);
-  const [openDropdown,  setOpenDropdown]  = useState<DropdownKey | null>(null);
-  const [scrolled,      setScrolled]      = useState(false);
-  const [activeHash,    setActiveHash]    = useState("home");
-  const productsRef = useRef<HTMLLIElement>(null);
-  const servicesRef = useRef<HTMLLIElement>(null);
+
+  const [mounted,      setMounted]      = useState(false);
+  const [mobileOpen,   setMobileOpen]   = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
+  const [mobileGroup,  setMobileGroup]  = useState<DropdownKey | null>(null);
+  const [scrolled,     setScrolled]     = useState(false);
+  const [activeHash,   setActiveHash]   = useState("home");
+  const [dark,         setDark]         = useState(false);
+
+  const productsRef  = useRef<HTMLLIElement>(null);
+  const servicesRef  = useRef<HTMLLIElement>(null);
+  const resourcesRef = useRef<HTMLLIElement>(null);
   const pathname = usePathname();
 
-  useEffect(() => { setMounted(true); }, []);
+  const getRef = (key: DropdownKey) =>
+    key === "products" ? productsRef : key === "services" ? servicesRef : resourcesRef;
+
+  useEffect(() => {
+    setMounted(true);
+    setDark(document.documentElement.getAttribute("data-theme") === "dark");
+  }, []);
+
+  // Light/dark theme — writes data-theme on <html> + persists. The no-flash
+  // script in layout.tsx applies the saved value before paint.
+  const toggleTheme = () => {
+    const next = dark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("printai-theme", next); } catch {}
+    setDark(!dark);
+  };
 
   useEffect(() => {
     if (!mounted) return;
     const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [mounted]);
 
+  // Close any open dropdown when clicking outside all dropdown items.
   useEffect(() => {
     if (!mounted) return;
     const handler = (e: MouseEvent) => {
-      const target = e.target as Node;
-      const insideProducts = productsRef.current?.contains(target);
-      const insideServices = servicesRef.current?.contains(target);
-      if (!insideProducts && !insideServices) setOpenDropdown(null);
+      const t = e.target as Node;
+      const inside =
+        productsRef.current?.contains(t) ||
+        servicesRef.current?.contains(t) ||
+        resourcesRef.current?.contains(t);
+      if (!inside) setOpenDropdown(null);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [mounted]);
 
+  // Scrollspy for the homepage hash sections.
   useEffect(() => {
     if (!mounted || pathname !== "/") return;
-    const ids = ["home", "about", "services", "contact"];
+    const ids = ["home", "about", "contact"];
     const onScroll = () => {
       const y = window.scrollY + 120;
       let current = "home";
@@ -96,84 +127,102 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
     return hash ? activeHash === hash : false;
   };
 
-  const getRef = (key: DropdownKey) =>
-    key === "products" ? productsRef : servicesRef;
+  // A dropdown reads active if the current route matches any of its children.
+  const dropdownActive: Record<DropdownKey, boolean> = {
+    products:  !!pathname?.startsWith("/products"),
+    services:  !!pathname?.startsWith("/services"),
+    resources: !!pathname && (pathname.startsWith("/resources") || pathname.startsWith("/case-studies")),
+  };
+
+  // Theme toggle icon: half-filled circle (◐) — left half filled.
+  const ThemeIcon = (
+    <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" />
+    </svg>
+  );
+
+  const Logo = (
+    <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
+      <span
+        className="relative w-[34px] h-[34px] rounded-[9px] flex-shrink-0"
+        style={{ background: "linear-gradient(150deg,#13C07A,#0F6E56)", boxShadow: "0 4px 12px rgba(15,110,86,.35)" }}
+      >
+        <span className="absolute rounded-[3px]" style={{ inset: "9px 10px", background: "rgba(255,255,255,.92)" }} />
+        <span className="absolute rounded-full" style={{ left: 13, top: 13, width: 8, height: 8, background: "#0F6E56" }} />
+      </span>
+      <span className="pa-word font-extrabold text-[20px] tracking-tight">
+        Print<span style={{ color: "#13C07A" }}>AI</span>
+      </span>
+    </Link>
+  );
 
   return (
     <>
       <style>{`
-        .nav-item {
-          position: relative;
-          padding-bottom: 2px;
+        :root {
+          --pa-ink:#0B1628; --pa-ink2:#5A6675; --pa-line:#E3E7EC; --pa-card:#ffffff;
+          /* Solid bar — pages behind are still dark, so translucent glass reads
+             as muddy grey. Reintroduce glass once the light homepage lands. */
+          --pa-bar:#ffffff; --pa-bar-scroll:#ffffff;
         }
-        .nav-item::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #818cf8, #a78bfa);
-          border-radius: 2px;
-          transition: width 0.25s ease;
+        :root[data-theme="dark"] {
+          --pa-ink:#EAF1F8; --pa-ink2:#9FB3C8; --pa-line:rgba(255,255,255,.12); --pa-card:#13243E;
+          --pa-bar:#0B1628; --pa-bar-scroll:#0B1628;
         }
-        .nav-item:hover::after,
-        .nav-item.active::after {
-          width: 100%;
+
+        .pa-bar {
+          background: var(--pa-bar);
+          border-bottom: 1px solid var(--pa-line);
+          /* No backdrop-filter while pages behind are dark — a blur layer samples
+             the dark page and tints the solid bar grey. Add it back with the
+             light homepage if a frosted-glass look is wanted. */
+          transition: background .3s, box-shadow .3s, border-color .3s;
         }
-        .nav-item.active {
-          color: #fff !important;
-        }
-        .nav-btn-item {
-          position: relative;
-          padding-bottom: 2px;
-        }
-        .nav-btn-item::after {
-          content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #818cf8, #a78bfa);
-          border-radius: 2px;
-          transition: width 0.25s ease;
-        }
-        .nav-btn-item:hover::after,
-        .nav-btn-item.active::after {
-          width: 100%;
-        }
+        .pa-bar.is-scrolled { background: var(--pa-bar-scroll); box-shadow: 0 2px 24px rgba(11,22,40,.10); }
+        :root[data-theme="dark"] .pa-bar.is-scrolled { box-shadow: 0 2px 24px rgba(0,0,0,.5); }
+
+        .pa-word { color: var(--pa-ink); }
+
+        .pa-link { position: relative; color: var(--pa-ink2); transition: color .2s; background: transparent; border: 0; cursor: pointer; }
+        .pa-link:hover, .pa-link.is-active { color: var(--pa-ink); }
+        .pa-link::after { content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:#13C07A; border-radius:2px; transition:width .25s ease; }
+        .pa-link:hover::after, .pa-link.is-active::after { width:100%; }
+
+        .pa-toggle { color: var(--pa-ink2); border:1px solid var(--pa-line); background:transparent; transition: color .2s, border-color .2s; }
+        .pa-toggle:hover { color: var(--pa-ink); border-color:#13C07A; }
+
+        .pa-ghost { color: var(--pa-ink); border:1px solid var(--pa-line); background:transparent; transition: border-color .2s, color .2s; }
+        .pa-ghost:hover { border-color:#13C07A; color:#0F6E56; }
+        :root[data-theme="dark"] .pa-ghost:hover { color:#13C07A; }
+
+        .pa-cta { color:#062A1E; background:#13C07A; box-shadow:0 6px 18px rgba(19,192,122,.30); transition: background .2s, color .2s, transform .2s; }
+        .pa-cta:hover { background:#0F6E56; color:#fff; transform:translateY(-1px); }
+
+        .pa-drop { background: var(--pa-card); border:1px solid var(--pa-line); box-shadow:0 16px 40px rgba(11,22,40,.14); }
+        :root[data-theme="dark"] .pa-drop { box-shadow:0 16px 40px rgba(0,0,0,.5); }
+        .pa-drop-item { color: var(--pa-ink2); transition: color .15s, background .15s; }
+        .pa-drop-item:hover { color:#0F6E56; background: rgba(19,192,122,.10); }
+        :root[data-theme="dark"] .pa-drop-item:hover { color:#13C07A; }
+
+        .pa-mobile { background: var(--pa-card); border-top:1px solid var(--pa-line); box-shadow:0 8px 24px rgba(11,22,40,.12); }
+        .pa-mlink { color: var(--pa-ink2); }
+        .pa-mlink:hover, .pa-mlink.is-active { color: var(--pa-ink); }
+        .pa-mhead { color: var(--pa-ink); background: transparent; border: 0; cursor: pointer; }
+        .pa-burger { color: var(--pa-ink); }
+        .pa-switch { background: var(--pa-line); }
+        .pa-switch.on { background:#13C07A; }
+        .pa-switch-knob { background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.3); }
       `}</style>
 
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-[#0a0b14]/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.4)] border-b border-white/5"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-[1200px] mx-auto px-6 h-[70px] flex items-center justify-between">
+      <header className={`pa-bar fixed top-0 left-0 right-0 z-50 ${scrolled ? "is-scrolled" : ""}`}>
+        <div className="max-w-[1200px] mx-auto px-6 h-[72px] flex items-center justify-between">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Image
-              src="/logo.png"
-              alt="PrintAI Logo"
-              width={36}
-              height={36}
-              className="object-contain flex-shrink-0"
-              priority
-            />
-            <span className="font-bold text-[20px] text-white tracking-tight">
-              Print
-              <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
-                AI
-              </span>
-            </span>
-          </Link>
+          {/* Logo (left) */}
+          {Logo}
 
-          {/* Desktop Nav */}
-          <ul className="hidden md:flex items-center gap-8 list-none m-0 p-0">
+          {/* Desktop nav */}
+          <ul className="hidden md:flex items-center gap-7 list-none m-0 p-0">
             {navLinks.map(({ label, href, dropdown }) =>
               dropdown ? (
                 <li
@@ -184,38 +233,28 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
                   <button
-                    onClick={() =>
-                      setOpenDropdown((p) => (p === dropdown ? null : dropdown))
-                    }
+                    onClick={() => setOpenDropdown((p) => (p === dropdown ? null : dropdown))}
                     aria-expanded={openDropdown === dropdown}
-                    className={`nav-btn-item flex items-center gap-1 py-2 text-sm font-medium transition-colors duration-200 cursor-pointer border-0 bg-transparent ${
-                      isActive(href)
-                        ? "active text-white"
-                        : "text-white/70 hover:text-white"
-                    }`}
+                    className={`pa-link flex items-center gap-1 py-2 text-[14.5px] font-medium ${dropdownActive[dropdown] ? "is-active" : ""}`}
                   >
                     {label}
                     <svg
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        openDropdown === dropdown ? "rotate-180" : ""
-                      }`}
-                      viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" strokeWidth="2.5"
-                      strokeLinecap="round" strokeLinejoin="round"
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === dropdown ? "rotate-180" : ""}`}
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                     >
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </button>
 
                   {openDropdown === dropdown && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
-                      <div className="w-52 bg-[#12131f] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50">
+                      <div className="pa-drop min-w-[224px] rounded-2xl overflow-hidden p-1.5">
                         {dropdownLinks[dropdown].map((s, i) => (
                           <Link
                             key={`${s.label}-${i}`}
                             href={s.href}
                             onClick={() => setOpenDropdown(null)}
-                            className="block px-4 py-[11px] text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.06] border-b border-white/5 last:border-0 transition-colors duration-150"
+                            className="pa-drop-item block px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium"
                           >
                             {s.label}
                           </Link>
@@ -226,12 +265,7 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
                 </li>
               ) : (
                 <li key={label}>
-                  <Link
-                    href={href}
-                    className={`nav-item block py-2 text-sm font-medium transition-colors duration-200 ${
-                      isActive(href) ? "active text-white" : "text-white/70 hover:text-white"
-                    }`}
-                  >
+                  <Link href={href} className={`pa-link block py-2 text-[14.5px] font-medium ${isActive(href) ? "is-active" : ""}`}>
                     {label}
                   </Link>
                 </li>
@@ -239,22 +273,32 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
             )}
           </ul>
 
+          {/* Right cluster (desktop): theme toggle · Contact · Book Demo */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+              className="pa-toggle w-9 h-9 rounded-full flex items-center justify-center"
+            >
+              {ThemeIcon}
+            </button>
+            <Link href="/#contact" className="pa-ghost inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-[14px] font-semibold">
+              Contact
+            </Link>
+            <Link href={ctaHref} className="pa-cta inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-[14px] font-semibold">
+              {ctaText}
+            </Link>
+          </div>
+
           {/* Mobile hamburger */}
-          <button
-            className="md:hidden text-white/70 hover:text-white transition-colors p-1.5 rounded-md"
-            onClick={() => setMobileOpen((p) => !p)}
-            aria-label="Toggle menu"
-          >
+          <button className="pa-burger md:hidden p-1.5 rounded-md" onClick={() => setMobileOpen((p) => !p)} aria-label="Toggle menu">
             {mobileOpen ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             ) : (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
               </svg>
             )}
           </button>
@@ -263,44 +307,79 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed top-[70px] left-0 right-0 z-40 bg-[#0a0b14] border-t border-white/[0.06] px-4 pt-3 pb-5 shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+        <div className="pa-mobile md:hidden fixed top-[72px] left-0 right-0 z-40 px-4 pt-3 pb-5">
           {navLinks.map(({ label, href, dropdown }) =>
             dropdown ? (
               <div key={label}>
-                <p className="px-3.5 pt-4 pb-1 text-[11px] uppercase tracking-widest font-semibold text-white/30">
+                <button
+                  onClick={() => setMobileGroup((p) => (p === dropdown ? null : dropdown))}
+                  aria-expanded={mobileGroup === dropdown}
+                  className="pa-mhead w-full flex items-center justify-between px-3.5 py-3 text-[14px] font-medium"
+                >
                   {label}
-                </p>
-                {dropdownLinks[dropdown].map((s, i) => (
-                  <Link
-                    key={`${s.label}-${i}`}
-                    href={s.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block pl-6 pr-3.5 py-2.5 text-[13.5px] text-white/60 hover:text-white transition-colors duration-200"
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${mobileGroup === dropdown ? "rotate-180" : ""}`}
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
                   >
-                    {s.label}
-                  </Link>
-                ))}
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                {mobileGroup === dropdown && (
+                  <div className="pb-1">
+                    {dropdownLinks[dropdown].map((s, i) => (
+                      <Link
+                        key={`${s.label}-${i}`}
+                        href={s.href}
+                        onClick={() => { setMobileOpen(false); setMobileGroup(null); }}
+                        className="pa-mlink block pl-6 pr-3.5 py-2.5 text-[13.5px]"
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <Link
                 key={label}
                 href={href}
                 onClick={() => setMobileOpen(false)}
-                className={`block px-3.5 py-2.5 text-sm transition-colors duration-200 ${
-                  isActive(href) ? "text-white font-medium" : "text-white/65 hover:text-white"
-                }`}
+                className={`pa-mlink block px-3.5 py-3 text-[14px] ${isActive(href) ? "is-active font-semibold" : ""}`}
               >
                 {label}
               </Link>
             )
           )}
-          {/* CTA — mobile only */}
+
+          {/* Dark mode row */}
+          <button
+            onClick={toggleTheme}
+            className="pa-mhead w-full flex items-center justify-between px-3.5 py-3 text-[14px] font-medium mt-1"
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            Dark mode
+            <span className={`pa-switch relative w-[38px] h-[22px] rounded-full transition-colors ${dark ? "on" : ""}`}>
+              <span
+                className="pa-switch-knob absolute top-[2px] w-[18px] h-[18px] rounded-full transition-transform"
+                style={{ left: 2, transform: dark ? "translateX(16px)" : "translateX(0)" }}
+              />
+            </span>
+          </button>
+
+          {/* CTAs — mobile */}
           <Link
             href={ctaHref}
             onClick={() => setMobileOpen(false)}
-            className="block mt-3 text-center px-5 py-3 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 transition-opacity duration-200"
+            className="pa-cta block mt-3 text-center px-5 py-3 text-[14px] font-semibold rounded-xl"
           >
             {ctaText}
+          </Link>
+          <Link
+            href="/#contact"
+            onClick={() => setMobileOpen(false)}
+            className="pa-ghost block mt-2 text-center px-5 py-3 text-[14px] font-semibold rounded-xl"
+          >
+            Contact
           </Link>
         </div>
       )}

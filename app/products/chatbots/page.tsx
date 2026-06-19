@@ -6,8 +6,34 @@ import HowItWorksSection from "@/components/sections/chatbots/HowItWorksSection"
 import IncludedSection from "@/components/sections/chatbots/IncludedSection";
 import ResultsSection from "@/components/sections/chatbots/ResultsSection";
 import DemoSection from "@/components/sections/chatbots/DemoSection";
-import FaqSection from "@/components/sections/chatbots/FaqSection";
-import FinalCtaSection from "@/components/sections/chatbots/FinalCtaSection";
+import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
+import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
+import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
+import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
+
+const CHATBOTS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
+  heading:       "Frequently Asked Questions",
+  highlightWord: "Questions",
+  faqs: [
+    { question: "Will the chatbot replace my CSRs?",        answer: "No — it handles the repetitive 80% (pricing, specs, turnarounds) so your CSRs focus on complex jobs, large accounts, and relationships. Most shops see CSR productivity increase 30–40%." },
+    { question: "How long does setup take?",                answer: "Most shops are live in 48–72 hours. We handle everything: training on your catalog, connecting your channels, and testing. You approve before it goes live." },
+    { question: "Can it integrate with my existing tools?", answer: "Yes. We integrate with ERPNext, most print MIS platforms, CRMs, and communication tools including WhatsApp Business. Our team assesses your stack during onboarding." },
+    { question: "What if it gives a wrong quote?",          answer: "The AI is trained on your exact pricing and flags anything outside its confidence threshold for human review. Accuracy improves monthly through our optimisation service." },
+    { question: "Is there a long-term contract?",           answer: "No — month-to-month with no lock-in. Cancel anytime. Most clients stay because results speak for themselves." },
+  ],
+};
+
+const CHATBOTS_CTA: SolutionCtaDefaults = {
+  badge:         "GET STARTED",
+  heading:       "Stop Losing Leads to Inbox Lag",
+  highlightWord: "Inbox Lag",
+  description:   "Let AI handle the repetitive work so your team can focus on real jobs and real relationships.",
+  primaryText:   "Book Free Audit",
+  primaryHref:   "/#contact",
+  secondaryText: "Talk to Sales",
+  secondaryHref: "/#contact",
+  trustPoints:   ["Free 30-min audit", "No commitment", "Results in 30 days"],
+};
 import { getChatbotsPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -117,8 +143,8 @@ export default async function ChatbotsProductPage() {
       <IncludedSection   data={cms?.included} />
       <ResultsSection    data={cms?.results} />
       <DemoSection       data={cms?.demo} />
-      <FaqSection        data={cms?.faq} />
-      <FinalCtaSection   data={cms?.finalCta} />
+      <SolutionCtaSection defaults={CHATBOTS_CTA} data={cms?.sharedCta} />
+      <SolutionFaqSection data={cms?.faq} defaults={CHATBOTS_FAQ} />
     </>
   );
 }

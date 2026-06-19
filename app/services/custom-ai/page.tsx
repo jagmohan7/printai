@@ -7,8 +7,34 @@ import CustomAIProcessSection    from "@/components/sections/custom-ai/CustomAIP
 import CustomAIStatsSection      from "@/components/sections/custom-ai/CustomAIStatsSection";
 import CustomAIIncludedSection   from "@/components/sections/custom-ai/CustomAIIncludedSection";
 import CustomAIComparisonSection from "@/components/sections/custom-ai/CustomAIComparisonSection";
-import CustomAIFaqSection        from "@/components/sections/custom-ai/CustomAIFaqSection";
-import CustomAICtaSection        from "@/components/sections/custom-ai/CustomAICtaSection";
+import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
+import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
+import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
+import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
+
+const CUSTOM_AI_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
+  heading:       "Frequently Asked Questions",
+  highlightWord: "Questions",
+  faqs: [
+    { question: "What makes custom AI different from off-the-shelf tools?",  answer: "Custom AI is trained on your specific pricing logic, production rules, and customer workflows — not generic patterns from unrelated industries. It knows what a bleed margin is, how rush orders affect pricing, and how your MIS works." },
+    { question: "How long does it take to build a custom AI system?",         answer: "Typical projects take 4–10 weeks from scoping to deployment, depending on data availability and integration complexity." },
+    { question: "Do I need technical staff to run it?",                      answer: "No. We build the system, handle deployment, and provide training so your team can operate it without any technical knowledge." },
+    { question: "What data do you need to train the AI?",                    answer: "Usually your historical order data, pricing rules, product catalogue, and customer FAQs. We work with whatever you have — even partial data sets produce strong results." },
+    { question: "Can the AI integrate with my existing print software?",     answer: "Yes — we build API integrations with ERPNext, Printsmith, Tharstern, and most web-to-print platforms so the AI works within your existing workflow, not alongside it." },
+  ],
+};
+
+const CUSTOM_AI_CTA: SolutionCtaDefaults = {
+  badge:         "GET STARTED",
+  heading:       "Ready to build AI on your terms?",
+  highlightWord: "on your terms?",
+  description:   "Get AI trained on your workflows, your pricing logic, and your production rules — not borrowed from a generic SaaS platform.",
+  primaryText:   "Book a Scoping Call",
+  primaryHref:   "/#contact",
+  secondaryText: "Talk to Sales",
+  secondaryHref: "/#contact",
+  trustPoints:   ["Free scoping call", "Fixed-price project", "No vendor lock-in"],
+};
 import { getCustomAiPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -92,8 +118,8 @@ export default async function CustomAIPage() {
         <CustomAIStatsSection      data={cms?.stats} />
         <CustomAIIncludedSection   data={cms?.included} />
         <CustomAIComparisonSection data={cms?.comparison} />
-        <CustomAIFaqSection        data={cms?.faq} />
-        <CustomAICtaSection        data={cms?.cta} />
+        <SolutionCtaSection defaults={CUSTOM_AI_CTA} data={cms?.sharedCta} />
+        <SolutionFaqSection data={cms?.faq} defaults={CUSTOM_AI_FAQ} />
       </>
     </>
   );

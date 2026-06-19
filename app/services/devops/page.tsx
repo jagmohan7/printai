@@ -10,7 +10,34 @@ import DevOpsStatsSection       from "@/components/sections/devops/DevOpsStatsSe
 import DevOpsBenefitsSection    from "@/components/sections/devops/DevOpsBenefitsSection";
 import DevOpsImpactSection      from "@/components/sections/devops/DevOpsImpactSection";
 import DevOpsProcessSection     from "@/components/sections/devops/DevOpsProcessSection";
-import DevOpsCtaSection         from "@/components/sections/devops/DevOpsCtaSection";
+import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
+import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
+import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
+import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
+
+const DEVOPS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
+  heading:       "Frequently Asked Questions",
+  highlightWord: "Questions",
+  faqs: [
+    { question: "What DevOps services do you provide for print businesses?", answer: "We handle server setup, CI/CD pipelines, auto-scaling, monitoring, security hardening, and ongoing infrastructure management — tailored for print workflows with large file handling and traffic spikes." },
+    { question: "Do you support cloud and on-premise deployments?",          answer: "Yes — we work with AWS, Google Cloud, Azure, and on-premise environments. We'll recommend the best fit based on your volume and compliance requirements." },
+    { question: "How quickly can you respond to infrastructure issues?",     answer: "Our monitoring detects issues automatically. Critical incidents get a response within 1 hour, with 24/7 on-call support available on premium plans." },
+    { question: "Will downtime affect my customers during migration?",       answer: "We plan all migrations during low-traffic windows with zero-downtime deployment strategies. Most transitions complete without any customer-facing interruption." },
+    { question: "Can you take over infrastructure we've already set up?",    answer: "Yes — we perform an infrastructure audit first, document everything, fix existing issues, then take over ongoing management. No need to start from scratch." },
+  ],
+};
+
+const DEVOPS_CTA: SolutionCtaDefaults = {
+  badge:         "GET STARTED",
+  heading:       "Ready for infrastructure you can rely on?",
+  highlightWord: "you can rely on?",
+  description:   "Keep your print systems fast, stable, and secure — even under heavy file uploads, traffic spikes, and complex workflows.",
+  primaryText:   "Get Free Infrastructure Audit",
+  primaryHref:   "/#contact",
+  secondaryText: "Talk to Sales",
+  secondaryHref: "/#contact",
+  trustPoints:   ["Free infrastructure audit", "No long-term contract", "24/7 monitoring"],
+};
 import { getDevopsPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -98,7 +125,8 @@ export default async function DevOpsPage() {
         <DevOpsBenefitsSection   data={cms?.benefits} />
         <DevOpsImpactSection     data={cms?.impact} />
         <DevOpsProcessSection    data={cms?.process} />
-        <DevOpsCtaSection        data={cms?.cta} />
+        <SolutionCtaSection      defaults={DEVOPS_CTA} data={cms?.sharedCta} />
+        <SolutionFaqSection      data={cms?.faq} defaults={DEVOPS_FAQ} />
       </>
     </>
   );

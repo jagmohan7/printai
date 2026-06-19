@@ -1,69 +1,206 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import type { SanityContactForm } from "@/lib/sanity.types";
+import { useState, useEffect, useRef } from "react";
+import { CheckCircle, AlertCircle, Loader2, CalendarCheck, Search, ChevronDown } from "lucide-react";
 
 type FormState = { success: boolean; message: string };
-const initialState: FormState = { success: false, message: "" };
 
-type FieldProps = {
-  name:      string;
-  label:     string;
-  type?:     string;
-  required?: boolean;
-  textarea?: boolean;
-};
+const COUNTRY_CODES = [
+  { code: "+1",   flag: "🇺🇸", name: "US"  },
+  { code: "+1",   flag: "🇨🇦", name: "CA"  },
+  { code: "+44",  flag: "🇬🇧", name: "GB"  },
+  { code: "+91",  flag: "🇮🇳", name: "IN"  },
+  { code: "+61",  flag: "🇦🇺", name: "AU"  },
+  { code: "+64",  flag: "🇳🇿", name: "NZ"  },
+  { code: "+27",  flag: "🇿🇦", name: "ZA"  },
+  { code: "+971", flag: "🇦🇪", name: "AE"  },
+  { code: "+966", flag: "🇸🇦", name: "SA"  },
+  { code: "+65",  flag: "🇸🇬", name: "SG"  },
+  { code: "+60",  flag: "🇲🇾", name: "MY"  },
+  { code: "+92",  flag: "🇵🇰", name: "PK"  },
+  { code: "+880", flag: "🇧🇩", name: "BD"  },
+  { code: "+94",  flag: "🇱🇰", name: "LK"  },
+  { code: "+49",  flag: "🇩🇪", name: "DE"  },
+  { code: "+33",  flag: "🇫🇷", name: "FR"  },
+  { code: "+39",  flag: "🇮🇹", name: "IT"  },
+  { code: "+34",  flag: "🇪🇸", name: "ES"  },
+  { code: "+31",  flag: "🇳🇱", name: "NL"  },
+  { code: "+41",  flag: "🇨🇭", name: "CH"  },
+  { code: "+46",  flag: "🇸🇪", name: "SE"  },
+  { code: "+47",  flag: "🇳🇴", name: "NO"  },
+  { code: "+45",  flag: "🇩🇰", name: "DK"  },
+  { code: "+48",  flag: "🇵🇱", name: "PL"  },
+  { code: "+86",  flag: "🇨🇳", name: "CN"  },
+  { code: "+81",  flag: "🇯🇵", name: "JP"  },
+  { code: "+82",  flag: "🇰🇷", name: "KR"  },
+  { code: "+55",  flag: "🇧🇷", name: "BR"  },
+  { code: "+52",  flag: "🇲🇽", name: "MX"  },
+  { code: "+234", flag: "🇳🇬", name: "NG"  },
+  { code: "+254", flag: "🇰🇪", name: "KE"  },
+  { code: "+20",  flag: "🇪🇬", name: "EG"  },
+];
 
-function FloatingField({ name, label, type = "text", required, textarea }: FieldProps) {
-  const baseClass =
-    "peer w-full px-4 pt-5 pb-2 bg-transparent border border-white/[0.1] rounded-xl text-white text-[14.5px] outline-none transition-colors placeholder-transparent focus:border-violet-500/60";
+const inputBase =
+  "peer w-full px-4 pt-5 pb-2 bg-white border border-[color:var(--pa-line)] rounded-xl " +
+  "text-[color:var(--pa-ink)] text-[14.5px] outline-none transition-colors placeholder-transparent " +
+  "focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(19,192,122,0.12)]";
+
+const labelBase =
+  "pointer-events-none absolute left-4 text-[color:var(--pa-ink-2)] text-[14px] transition-all duration-200 " +
+  "peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-[11px] peer-focus:font-semibold peer-focus:text-[color:var(--pa-teal-deep)] " +
+  "peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0 " +
+  "peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:text-[color:var(--pa-ink-2)]";
+
+function Field({
+  name, label, type = "text", required, rows,
+}: {
+  name: string; label: string; type?: string; required?: boolean; rows?: number;
+}) {
+  const labelClass = `${labelBase} ${rows ? "top-5" : "top-1/2 -translate-y-1/2"}`;
   return (
     <div className="relative">
-      {textarea ? (
+      {rows ? (
         <textarea
-          id={name} name={name} rows={4} required={required}
-          placeholder={label} className={`${baseClass} resize-none`}
-          suppressHydrationWarning
+          id={name} name={name} rows={rows} required={required}
+          placeholder={label} className={`${inputBase} resize-none`}
         />
       ) : (
         <input
           id={name} name={name} type={type} required={required}
-          placeholder={label} className={baseClass}
-          suppressHydrationWarning
+          placeholder={label} className={inputBase}
         />
       )}
-      <label
-        htmlFor={name}
-        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-[14px] transition-all duration-200
-          peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-[11.5px] peer-focus:text-violet-300 peer-focus:font-medium
-          peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0
-          peer-[:not(:placeholder-shown)]:text-[11.5px] peer-[:not(:placeholder-shown)]:text-violet-300"
-      >
-        {label}
+      <label htmlFor={name} className={labelClass}>
+        {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
     </div>
   );
 }
 
-// Defaults used when no CMS config is passed
-const DEFAULT_CONFIG: SanityContactForm = {
-  nameLabel:      "Your Name",
-  emailLabel:     "Email Address",
-  companyLabel:   "Company Name",
-  showCompany:    true,
-  serviceLabel:   "Service Interest",
-  showService:    true,
-  messageLabel:   "Your Message",
-  buttonText:     "Send Message",
-  successMessage: "Message sent! We'll get back to you soon.",
-};
+// ── Searchable country-code dropdown ─────────────────────────────────────────
+function CountryCodePicker({
+  value, onChange,
+}: {
+  value: string;
+  onChange: (code: string) => void;
+}) {
+  const [open, setOpen]       = useState(false);
+  const [query, setQuery]     = useState("");
+  const wrapRef               = useRef<HTMLDivElement>(null);
+  const searchRef             = useRef<HTMLInputElement>(null);
 
-export default function ContactForm({ config }: { config?: SanityContactForm }) {
-  const cfg = config ?? DEFAULT_CONFIG;
+  const selected = COUNTRY_CODES.find((c) => c.code === value) ?? COUNTRY_CODES[3];
 
+  const filtered = query.trim()
+    ? COUNTRY_CODES.filter(
+        (c) =>
+          c.code.includes(query) ||
+          c.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : COUNTRY_CODES;
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setQuery("");
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // Focus search when opened
+  useEffect(() => {
+    if (open) setTimeout(() => searchRef.current?.focus(), 50);
+  }, [open]);
+
+  return (
+    <div ref={wrapRef} className="relative flex-shrink-0 w-[118px]">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => { setOpen((o) => !o); setQuery(""); }}
+        className="w-full h-[54px] flex items-center justify-between gap-1.5 px-3 bg-white
+                   border border-[color:var(--pa-line)] rounded-xl text-[14px]
+                   text-[color:var(--pa-ink)] transition-colors outline-none
+                   focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(19,192,122,0.12)]"
+        style={{ borderColor: open ? "var(--pa-teal)" : undefined }}
+      >
+        <span className="flex items-center gap-1.5 truncate">
+          <span className="text-[18px] leading-none">{selected.flag}</span>
+          <span className="font-medium">{selected.code}</span>
+        </span>
+        <ChevronDown
+          className="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200"
+          style={{ color: "var(--pa-ink-2)", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+        />
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div
+          className="absolute z-50 top-[58px] left-0 w-[220px] rounded-xl overflow-hidden"
+          style={{
+            background: "#fff",
+            border: "1px solid var(--pa-line)",
+            boxShadow: "0 12px 32px -8px rgba(11,22,40,0.15)",
+          }}
+        >
+          {/* Search input */}
+          <div className="flex items-center gap-2 px-3 py-2.5 border-b" style={{ borderColor: "var(--pa-line)" }}>
+            <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "var(--pa-ink-2)" }} />
+            <input
+              ref={searchRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search code or country…"
+              className="flex-1 text-[13px] outline-none bg-transparent"
+              style={{ color: "var(--pa-ink)" }}
+            />
+          </div>
+
+          {/* Options list */}
+          <ul className="max-h-[200px] overflow-y-auto">
+            {filtered.length === 0 ? (
+              <li className="px-4 py-3 text-[13px]" style={{ color: "var(--pa-ink-2)" }}>No results</li>
+            ) : (
+              filtered.map((c, i) => (
+                <li key={`${c.code}-${c.name}-${i}`}>
+                  <button
+                    type="button"
+                    onClick={() => { onChange(c.code); setOpen(false); setQuery(""); }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13.5px]
+                               transition-colors hover:bg-[rgba(19,192,122,0.07)]"
+                    style={{
+                      color: "var(--pa-ink)",
+                      background: c.code === value && c.name === selected.name
+                        ? "rgba(19,192,122,0.1)"
+                        : undefined,
+                    }}
+                  >
+                    <span className="text-[17px] leading-none">{c.flag}</span>
+                    <span className="font-medium" style={{ color: "var(--pa-teal-deep)" }}>{c.code}</span>
+                    <span style={{ color: "var(--pa-ink-2)" }}>{c.name}</span>
+                  </button>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+export default function ContactForm() {
   const [mounted, setMounted]     = useState(false);
-  const [state, setState]         = useState<FormState>(initialState);
+  const [state, setState]         = useState<FormState>({ success: false, message: "" });
   const [isPending, setIsPending] = useState(false);
+  const [countryCode, setCountryCode] = useState("+91");
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -72,13 +209,15 @@ export default function ContactForm({ config }: { config?: SanityContactForm }) 
     setIsPending(true);
     setState({ success: false, message: "" });
 
-    const formData = new FormData(e.currentTarget);
+    const fd = new FormData(e.currentTarget);
     const payload = {
-      name:    formData.get("name")    as string,
-      email:   formData.get("email")   as string,
-      company: formData.get("company") as string,
-      service: formData.get("service") as string,
-      message: formData.get("message") as string,
+      firstName:   fd.get("firstName")  as string,
+      lastName:    fd.get("lastName")   as string,
+      email:       fd.get("email")      as string,
+      countryCode,
+      phone:       fd.get("phone")      as string,
+      company:     fd.get("company")    as string,
+      message:     fd.get("message")    as string,
     };
 
     try {
@@ -90,67 +229,78 @@ export default function ContactForm({ config }: { config?: SanityContactForm }) 
       const data = await res.json();
 
       if (data.success) {
-        setState({ success: true, message: cfg.successMessage });
+        setState({ success: true, message: "We got your request! We'll reach out to book your demo." });
         e.currentTarget?.reset();
+        setCountryCode("+91");
       } else {
-        setState({ success: false, message: data.message || "Error sending message. Please try again." });
+        setState({ success: false, message: data.message || "Something went wrong. Please try again." });
       }
-    } catch (err) {
-      console.error(err);
-      setState({ success: false, message: "Error sending message. Please try again." });
+    } catch {
+      setState({ success: false, message: "Something went wrong. Please try again." });
     } finally {
       setIsPending(false);
     }
   };
 
-  if (!mounted) return <div className="space-y-4" />;
+  if (!mounted) return <div className="space-y-4 animate-pulse">{Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-[54px] rounded-xl bg-[color:var(--pa-line)]" />)}</div>;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
-      <FloatingField name="name"    label={cfg.nameLabel}  required />
-      <FloatingField name="email"   label={cfg.emailLabel} type="email" required />
-      {cfg.showCompany  && <FloatingField name="company" label={cfg.companyLabel} />}
-      {cfg.showService  && <FloatingField name="service" label={cfg.serviceLabel} />}
-
-      {/* Message — always shown */}
-      <div className="relative">
-        <textarea
-          id="message" name="message" rows={4} required
-          placeholder={cfg.messageLabel}
-          className="peer w-full px-4 pt-5 pb-2 bg-transparent border border-white/[0.1] rounded-xl text-white text-[14.5px] outline-none transition-colors placeholder-transparent focus:border-violet-500/60 resize-none"
-          suppressHydrationWarning
-        />
-        <label
-          htmlFor="message"
-          className="pointer-events-none absolute left-4 top-5 text-gray-400 text-[14px] transition-all duration-200
-            peer-focus:top-2 peer-focus:text-[11.5px] peer-focus:text-violet-300 peer-focus:font-medium
-            peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-[11.5px] peer-[:not(:placeholder-shown)]:text-violet-300"
-        >
-          {cfg.messageLabel}
-        </label>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Row 1 — First + Last name */}
+      <div className="grid grid-cols-2 gap-4">
+        <Field name="firstName" label="First Name" required />
+        <Field name="lastName"  label="Last Name"  required />
       </div>
 
+      {/* Row 2 — Email */}
+      <Field name="email" label="Email Address" type="email" required />
+
+      {/* Row 3 — Phone with country code */}
+      <div className="flex gap-2">
+        <CountryCodePicker value={countryCode} onChange={setCountryCode} />
+
+        {/* Phone number */}
+        <div className="relative flex-1">
+          <input
+            id="phone" name="phone" type="tel"
+            placeholder="Contact Number"
+            className={inputBase}
+          />
+          <label htmlFor="phone" className={`${labelBase} top-1/2 -translate-y-1/2`}>
+            Contact Number <span className="text-[color:var(--pa-ink-2)] opacity-60 text-[11px]">(optional)</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Row 4 — Company */}
+      <Field name="company" label="Company Name" />
+
+      {/* Row 5 — Message */}
+      <Field name="message" label="Your Message" rows={4} />
+
+      {/* Status */}
       {state.message && (
-        <div className={`flex items-start gap-3 p-4 rounded-xl text-sm ${
+        <div className={`flex items-start gap-3 p-4 rounded-xl text-[13.5px] ${
           state.success
-            ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
-            : "bg-red-500/10 text-red-300 border border-red-500/30"
+            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+            : "bg-red-50 text-red-600 border border-red-200"
         }`}>
           {state.success
-            ? <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" />
-            : <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />}
+            ? <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            : <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />}
           <span>{state.message}</span>
         </div>
       )}
 
+      {/* Submit */}
       <button
         type="submit" disabled={isPending}
-        className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl text-white font-semibold text-[15px] bg-gradient-to-r from-violet-600 to-cyan-500 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-60 disabled:translate-y-0 transition-all duration-200 shadow-[0_0_28px_rgba(124,58,237,0.4)]"
-        suppressHydrationWarning
+        className="pa-btn-pri w-full flex items-center justify-center gap-2 py-4 px-6
+                   rounded-xl font-semibold text-[15px] disabled:opacity-60 transition-all duration-200"
       >
         {isPending
-          ? <><Loader2 className="w-5 h-5 animate-spin" /> Sending...</>
-          : <><Send className="w-5 h-5" /> {cfg.buttonText}</>}
+          ? <><Loader2 className="w-5 h-5 animate-spin" /> Booking...</>
+          : <><CalendarCheck className="w-5 h-5" /> Book My Demo</>}
       </button>
     </form>
   );

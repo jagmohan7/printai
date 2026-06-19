@@ -64,7 +64,7 @@ export default function HeroChatbots({ data }: Props) {
   const supportParts = supportText.split("·").map(s => s.trim()).filter(Boolean);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-hero px-4 flex items-center min-h-[92vh]">
+    <section className="relative overflow-hidden pa-band-page section-hero px-4 flex items-center min-h-[92vh]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
       </div>
@@ -79,7 +79,7 @@ export default function HeroChatbots({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.1}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black pa-ink-text leading-[1.08] tracking-tight mb-6">
               {headBefore}
               {headHighlight && (
                 <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
@@ -91,7 +91,7 @@ export default function HeroChatbots({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.2}>
-            <p className="text-[#94A3B8] text-lg sm:text-xl leading-relaxed mb-8">{subtext}</p>
+            <p className="pa-soft text-lg sm:text-xl leading-relaxed mb-8">{subtext}</p>
           </MotionInView>
 
           <MotionInView delay={0.3}>
@@ -104,7 +104,7 @@ export default function HeroChatbots({ data }: Props) {
               </Link>
               <Link
                 href={ctaSecondaryHref}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-[#1E293B] hover:border-[#3B82F6]/50 text-white font-semibold text-base hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] hover:-translate-y-0.5 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-[var(--pa-line)] hover:border-[#3B82F6]/50 pa-ink-text font-semibold text-base hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] hover:-translate-y-0.5 transition-all duration-300"
               >
                 {ctaSecondaryText}
               </Link>
@@ -112,11 +112,11 @@ export default function HeroChatbots({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.4}>
-            <p className="text-[#64748B] text-sm flex flex-wrap items-center gap-x-3 gap-y-1">
+            <p className="pa-soft text-sm flex flex-wrap items-center gap-x-3 gap-y-1">
               {supportParts.map((part, i) => (
                 <span key={i} className="flex items-center gap-x-3">
                   <span>{part}</span>
-                  {i < supportParts.length - 1 && <span className="text-[#1E293B]">·</span>}
+                  {i < supportParts.length - 1 && <span style={{ color: "var(--pa-line)" }}>·</span>}
                 </span>
               ))}
             </p>
@@ -125,15 +125,15 @@ export default function HeroChatbots({ data }: Props) {
 
         {/* Right col — chat window */}
         <MotionInView delay={0.2} from="left">
-          <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)]">
-            <div className="bg-[#0B1220] border-b border-[#1E293B] px-5 py-4 flex items-center justify-between">
+          <div className="bg-[var(--pa-card)] border border-[var(--pa-line)] rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.15)]">
+            <div className="bg-[var(--pa-card)] border-b border-[var(--pa-line)] px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white text-sm font-bold">
                   P
                 </div>
                 <div>
-                  <p className="text-white text-sm font-semibold leading-none">PrintAI Assistant</p>
-                  <p className="text-[#64748B] text-[11px] mt-0.5">Print Specialist</p>
+                  <p className="pa-ink-text text-sm font-semibold leading-none">PrintAI Assistant</p>
+                  <p className="pa-soft text-[11px] mt-0.5">Print Specialist</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5">
@@ -142,12 +142,12 @@ export default function HeroChatbots({ data }: Props) {
               </div>
             </div>
 
-            <div className="p-5 space-y-4 bg-[#070B14]">
+            <div className="p-5 space-y-4" style={{ background: "var(--pa-page)" }}>
               {chatMessages.map((msg, i) => (
                 <div key={i} className="space-y-4">
                   {msg.botText && (
                     <div className="flex justify-start">
-                      <div className="max-w-[82%] px-4 py-2.5 rounded-2xl rounded-bl-sm bg-[#1E293B] text-white text-sm leading-relaxed">
+                      <div className="max-w-[82%] px-4 py-2.5 rounded-2xl rounded-bl-sm bg-[var(--pa-card)] pa-ink-text text-sm leading-relaxed">
                         {msg.botText}
                       </div>
                     </div>
@@ -163,7 +163,7 @@ export default function HeroChatbots({ data }: Props) {
               ))}
             </div>
 
-            <div className="bg-[#0B1220] border-t border-[#1E293B] px-5 py-3 flex gap-2">
+            <div className="bg-[var(--pa-card)] border-t border-[var(--pa-line)] px-5 py-3 flex gap-2">
               <button className="px-3 py-1.5 rounded-full border border-[#3B82F6]/30 bg-[#3B82F6]/10 text-[#3B82F6] text-xs font-medium hover:bg-[#3B82F6]/20 transition-colors">
                 Get a Quote
               </button>

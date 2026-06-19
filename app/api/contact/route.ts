@@ -14,13 +14,14 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log("[CONTACT] 3. Request body parsed:", { name: body.name, email: body.email });
 
-    const { name, email, company, service, message } = body;
+    const { firstName, lastName, email, countryCode, phone, company, message } = body;
+    const name = `${firstName ?? ""} ${lastName ?? ""}`.trim();
 
     // Validation
-    if (!name || !email || !message) {
+    if (!firstName || !lastName || !email) {
       console.log("[CONTACT] 4. Validation failed - missing required fields");
       return Response.json(
-        { success: false, message: "Name, email, and message are required." },
+        { success: false, message: "First name, last name, and email are required." },
         { status: 400 }
       );
     }
@@ -66,7 +67,7 @@ export async function POST(req: Request) {
       from: `"PrintAI Contact" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER,
       replyTo: email,
-      subject: `New Inquiry from ${name} – ${service || "General"}`,
+      subject: `New Demo Request from ${name}`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: #0d2137; padding: 24px; border-radius: 8px 8px 0 0;">
@@ -76,8 +77,8 @@ export async function POST(req: Request) {
             <table style="width: 100%; border-collapse: collapse;">
               <tr><td style="padding: 8px 0; color: #64748b; font-size: 14px;">Name</td><td style="padding: 8px 0; font-weight: 600;">${name}</td></tr>
               <tr><td style="padding: 8px 0; color: #64748b; font-size: 14px;">Email</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding: 8px 0; color: #64748b; font-size: 14px;">Phone</td><td style="padding: 8px 0;">${phone ? `${countryCode} ${phone}` : "—"}</td></tr>
               <tr><td style="padding: 8px 0; color: #64748b; font-size: 14px;">Company</td><td style="padding: 8px 0;">${company || "—"}</td></tr>
-              <tr><td style="padding: 8px 0; color: #64748b; font-size: 14px;">Service Interest</td><td style="padding: 8px 0;">${service || "—"}</td></tr>
             </table>
             <div style="margin-top: 16px; padding: 16px; background: white; border-radius: 6px; border: 1px solid #e2e8f0;">
               <p style="margin: 0 0 8px; color: #64748b; font-size: 14px;">Message</p>

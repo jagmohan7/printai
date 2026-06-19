@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
 import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
@@ -17,11 +17,19 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+// Mono face used for eyebrows / labels in the redesigned light-first sections.
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  display: "swap",
+  variable: "--font-plex-mono",
+});
+
 const SITE_URL = "https://printai.cloud";
 const SITE_NAME = "PrintAI";
 const SITE_TITLE = "PrintAI – AI-Powered Automation for Printing Businesses";
 const SITE_DESCRIPTION =
-  "PrintAI delivers intelligent chatbots, ERPNext integration, and end-to-end print workflow automation that captures more leads, reduces touch-time, and scales operations.";
+  "PrintAI delivers intelligent chatbots and end-to-end print workflow automation that captures more leads, reduces touch-time, and scales operations.";
 const OG_IMAGE = "/logo.png";
 
 export const metadata: Metadata = {
@@ -37,7 +45,6 @@ export const metadata: Metadata = {
   keywords: [
     "AI automation for print",
     "print shop chatbot",
-    "ERPNext for printing",
     "print workflow automation",
     "prepress automation",
     "web-to-print",
@@ -135,6 +142,22 @@ const websiteSchema = {
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
+function sanitizeHex(v: unknown): string | null {
+  if (typeof v !== "string") return null;
+  return /^#[0-9a-fA-F]{3,8}$/.test(v.trim()) ? v.trim() : null;
+}
+function buildBrandStyle(brand?: { primaryColor?: string; primaryDark?: string; navyColor?: string } | null): string {
+  if (!brand) return "";
+  const vars: string[] = [];
+  const t  = sanitizeHex(brand.primaryColor);
+  const td = sanitizeHex(brand.primaryDark);
+  const n  = sanitizeHex(brand.navyColor);
+  if (t)  vars.push(`--pa-teal:${t}`);
+  if (td) vars.push(`--pa-teal-deep:${td}`);
+  if (n)  vars.push(`--pa-navy:${n}`);
+  return vars.length ? `:root{${vars.join(";")}}` : "";
+}
+
 export default async function RootLayout({
   children,
 }: {
@@ -142,9 +165,25 @@ export default async function RootLayout({
 }) {
   const settings = await getSiteSettings();
   const { isEnabled: isDraftMode } = await draftMode();
+  const brandStyle = buildBrandStyle(settings?.brand);
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} data-scroll-behavior="smooth">
-      <head>
+    <html lang="en" className={`${inter.variable} ${plexMono.variable} h-full antialiased`} data-scroll-behavior="smooth" data-theme="light" suppressHydrationWarning>
+      <head suppressHydrationWarning>
+        {/* No-flash theme — apply saved light/dark preference before first paint.
+            Sets data-theme on <html>; the Navbar (and future light-themed pages)
+            read it. Plain inline script so it runs synchronously, ahead of React. */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html:
+              `try{var t=localStorage.getItem('printai-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}`,
+          }}
+        />
+
+        {/* Dynamic brand colors from Sanity — overrides :root defaults in globals.css.
+            Sanitised server-side (hex-only regex) before injection. */}
+        {brandStyle && <style dangerouslySetInnerHTML={{ __html: brandStyle }} />}
+
         {/* Organization + WebSite JSON-LD (global) */}
         <Script
           id="ld-organization"
@@ -207,6 +246,13 @@ export default async function RootLayout({
             in the studio. Works in published mode too — published pages
             still revalidate, just without the editing overlay.              */}
         <SanityLive />
+
+        {/* ── Chatwoot live chat widget (chat.printai.cloud) ───────────────
+            Loads after the page is interactive so it never blocks rendering.
+            The SDK script self-injects and runs on load.                     */}
+        <Script id="chatwoot" strategy="afterInteractive">
+          {`(function(d,t){var BASE_URL="https://chat.printai.cloud";var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src=BASE_URL+"/packs/js/sdk.js";g.async=true;s.parentNode.insertBefore(g,s);g.onload=function(){window.chatwootSDK.run({websiteToken:'pfECDKtDNbtGVPhcE7yrz86n',baseUrl:BASE_URL})}})(document,"script");`}
+        </Script>
       </body>
     </html>
   );

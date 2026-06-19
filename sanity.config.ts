@@ -41,7 +41,7 @@ export default defineConfig({
   },
 
   // ── Global "+" create menu — only allow creating Flexible Pages ───────────
-  // Every other page (Homepage, AI Chatbot, ERPNext, Case Studies, etc.) is a
+  // Every other page (Homepage, AI Chatbot, Case Studies, etc.) is a
   // SINGLETON — it exists once and is edited from its fixed sidebar entry.
   // This stops editors from accidentally creating duplicate page documents.
   document: {
@@ -90,12 +90,6 @@ export default defineConfig({
               .icon(DocumentsIcon)
               .child(
                 S.document().title("Web-to-Print").schemaType("webToPrintPage").documentId("web-to-print-page")
-              ),
-            S.listItem()
-              .title("📊  ERPNext")
-              .icon(DocumentsIcon)
-              .child(
-                S.document().title("ERPNext").schemaType("erpnextPage").documentId("erpnext-page")
               ),
 
             S.divider(),
@@ -204,7 +198,7 @@ export default defineConfig({
         // Same resolver shape reused across every landing-page schema type:
         // pull id + label hints and map back to the live URL.
         locations: Object.fromEntries(
-          (["homepage", "chatbotsPage", "webToPrintPage", "erpnextPage", "automationPage", "devopsPage", "customAiPage", "caseStudiesPage", "resourcesPage"] as const).map(
+          (["homepage", "chatbotsPage", "webToPrintPage", "automationPage", "devopsPage", "customAiPage", "caseStudiesPage", "resourcesPage"] as const).map(
             (typeName) => [
               typeName,
               defineLocations({

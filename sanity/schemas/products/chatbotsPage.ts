@@ -28,6 +28,7 @@ export const chatbotsPage = defineType({
     { name: "demo",       title: "💬 Demo" },
     { name: "faq",        title: "❓ FAQ" },
     { name: "finalCta",   title: "🎯 Final CTA" },
+    { name: "sharedCta",  title: "📣 CTA Section" },
     { name: "seo",        title: "🔍 SEO" },
   ],
 
@@ -195,6 +196,25 @@ export const chatbotsPage = defineType({
         defineField({ name: "ctaHref",       title: "CTA Link",       type: "string" }),
         defineField({ name: "supportPoints", title: "Support Points", type: "array",
           description: "3 trust points with checkmarks.",
+          of: [{ type: "string" }],
+        }),
+      ],
+    }),
+
+    // ── SHARED CTA ───────────────────────────────────────────────────
+    defineField({ name: "sharedCta", title: "CTA Section", type: "object", group: "sharedCta",
+      description: "Bottom-of-page CTA. Leave empty to use the page defaults.",
+      fields: [
+        defineField({ name: "badge",         title: "Badge Text",            type: "string" }),
+        defineField({ name: "heading",       title: "Heading",               type: "string" }),
+        defineField({ name: "highlightWord", title: "Highlight Word/Phrase", type: "string", description: "Must appear verbatim in Heading" }),
+        defineField({ name: "description",   title: "Description",           type: "text", rows: 2 }),
+        defineField({ name: "primaryText",   title: "Primary Button Text",   type: "string" }),
+        defineField({ name: "primaryHref",   title: "Primary Button Link",   type: "string" }),
+        defineField({ name: "secondaryText", title: "Secondary Button Text", type: "string" }),
+        defineField({ name: "secondaryHref", title: "Secondary Button Link", type: "string" }),
+        defineField({ name: "trustPoints",   title: "Trust Points",          type: "array",
+          description: "Checkmark items below the buttons.",
           of: [{ type: "string" }],
         }),
       ],

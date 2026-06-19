@@ -27,7 +27,7 @@ function renderHeading(text: string) {
     p.startsWith("**") && p.endsWith("**") ? (
       <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
     ) : (
-      <span key={i} className="text-white">{p}</span>
+      <span key={i} className="pa-ink-text">{p}</span>
     )
   );
 }
@@ -39,7 +39,7 @@ export default function DevOpsStatsSection({ data }: Props) {
   const colsClass = stats.length <= 2 ? "lg:grid-cols-2" : stats.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4";
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-white/[0.04]">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full bg-cyan-500/6 blur-[150px]" />
         <div className="absolute top-0 right-0 w-[400px] h-[300px] rounded-full bg-violet-700/7 blur-[120px]" />
@@ -55,9 +55,9 @@ export default function DevOpsStatsSection({ data }: Props) {
         <div className={`grid grid-cols-1 sm:grid-cols-2 ${colsClass} gap-4 sm:gap-5`}>
           {stats.map((s, i) => (
             <MotionInView key={i} delay={0.1 * i}>
-              <div className="group h-full flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl border border-white/[0.07] bg-[#12131f] hover:border-[#06b6d4]/35 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,182,212,0.1)] transition-all duration-300 min-h-[130px] sm:min-h-[160px]">
+              <div className="group h-full flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/35 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,182,212,0.1)] transition-all duration-300 min-h-[130px] sm:min-h-[160px]">
                 <span className="text-[2rem] sm:text-[2.4rem] font-extrabold tracking-tight bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent leading-none whitespace-nowrap">{s.value}</span>
-                <span className="mt-2.5 text-[#9ca3af] text-[13px] font-medium leading-snug">{s.label}</span>
+                <span className="mt-2.5 pa-soft text-[13px] font-medium leading-snug">{s.label}</span>
               </div>
             </MotionInView>
           ))}

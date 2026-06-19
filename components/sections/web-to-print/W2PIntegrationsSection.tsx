@@ -42,23 +42,23 @@ export default function W2PIntegrationsSection({ data }: Props) {
   const footerNote   = data?.footerNote ?? FALLBACK.footerNote;
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="pa-band-page relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .int-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s; }
-        .int-card:hover { border-color: rgba(6,182,212,0.3); box-shadow: 0 0 24px rgba(6,182,212,0.12); transform: translateY(-3px); background: #16172a; }
+        .int-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 24px rgba(6,182,212,0.12); transform: translateY(-3px); background: var(--pa-card); }
         .int-icon-wrap { transition: background 0.25s, box-shadow 0.25s; }
-        .int-card:hover .int-icon-wrap { background: rgba(6,182,212,0.15); box-shadow: 0 0 14px rgba(6,182,212,0.25); }
-        .int-card:hover .int-icon { color: #22d3ee; }
-        .int-card:hover .int-name { color: #fff; }
+        .int-card:hover .int-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 14px rgba(6,182,212,0.25); }
+        .int-card:hover .int-icon { color: var(--pa-teal); }
+        .int-card:hover .int-name { color: var(--pa-ink); }
       `}</style>
 
-      <div className="pointer-events-none absolute right-[-4%] top-[20%] w-[450px] h-[450px] rounded-full bg-[#7c3aed]/8 blur-[120px]" />
+      <div className="pointer-events-none absolute right-[-4%] top-[20%] w-[450px] h-[450px] rounded-full blur-[120px]" style={{ background: "color-mix(in srgb, var(--pa-teal) 8%, transparent)" }} />
 
       <div className="relative z-10 max-w-[1100px] mx-auto">
         <MotionInView className="text-center mb-14">
-          <p className="text-[#a78bfa] text-[13px] font-semibold uppercase tracking-widest mb-3">{sectionTag}</p>
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.8rem] font-extrabold tracking-tight text-white leading-[1.15]">{heading}</h2>
-          <p className="mt-4 text-[#94A3B8] text-[16px]">{subheading}</p>
+          <p className="text-[13px] font-semibold uppercase tracking-widest mb-3" style={{ color: "var(--pa-teal)" }}>{sectionTag}</p>
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.8rem] font-extrabold tracking-tight leading-[1.15]" style={{ color: "var(--pa-ink)" }}>{heading}</h2>
+          <p className="mt-4 text-[16px]" style={{ color: "var(--pa-ink-2)" }}>{subheading}</p>
         </MotionInView>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-7">
@@ -66,13 +66,13 @@ export default function W2PIntegrationsSection({ data }: Props) {
             const Icon = getIcon(it.icon);
             return (
               <MotionInView key={i} delay={i * 0.05}>
-                <div className="int-card rounded-xl border border-[#1E293B] bg-[#0F172A] p-5 flex flex-col items-center text-center gap-3">
-                  <div className="int-icon-wrap w-11 h-11 rounded-lg bg-[#06b6d4]/10 border border-[#06b6d4]/15 flex items-center justify-center">
-                    <Icon className="int-icon w-5 h-5 text-[#06b6d4]" />
+                <div className="int-card rounded-xl p-5 flex flex-col items-center text-center gap-3" style={{ border: "1px solid var(--pa-line)", background: "var(--pa-card)" }}>
+                  <div className="int-icon-wrap w-11 h-11 rounded-lg flex items-center justify-center" style={{ background: "color-mix(in srgb, var(--pa-teal) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--pa-teal) 15%, transparent)" }}>
+                    <Icon className="int-icon w-5 h-5" style={{ color: "var(--pa-teal)" }} />
                   </div>
                   <div>
-                    <p className="int-name text-white font-semibold text-[14px] transition-colors duration-200">{it.name}</p>
-                    <p className="text-[#94A3B8] text-[12px] mt-0.5">{it.category}</p>
+                    <p className="int-name font-semibold text-[14px] transition-colors duration-200" style={{ color: "var(--pa-ink)" }}>{it.name}</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: "var(--pa-ink-2)" }}>{it.category}</p>
                   </div>
                 </div>
               </MotionInView>
@@ -81,7 +81,7 @@ export default function W2PIntegrationsSection({ data }: Props) {
         </div>
 
         <MotionInView delay={0.6}>
-          <p className="text-center text-[#94A3B8] text-[13.5px]">{footerNote}</p>
+          <p className="text-center text-[13.5px]" style={{ color: "var(--pa-ink-2)" }}>{footerNote}</p>
         </MotionInView>
       </div>
     </section>

@@ -29,12 +29,12 @@ export default function DevOpsProcessSection({ data }: Props) {
   const [hb, hh, ha] = splitHeading(heading, highlightWord);
 
   return (
-    <section className="relative overflow-hidden bg-[#0B1220] section-pad px-4 border-t border-white/[0.04]">
+    <section className="relative overflow-hidden pa-band-surface section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-[400px] h-[500px] rounded-full bg-cyan-500/6 blur-[120px]" />
 
       <div className="relative z-10 max-w-3xl mx-auto">
         <MotionInView className="text-center mb-16">
-          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">
+          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text leading-[1.15]">
             {hb}{hh && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{hh}</span>}{ha}
           </h2>
         </MotionInView>
@@ -50,8 +50,8 @@ export default function DevOpsProcessSection({ data }: Props) {
                     <span className="text-white font-bold text-[14px]">{s.stepNumber || String(i + 1).padStart(2, "0")}</span>
                   </div>
                   <div className="pt-2">
-                    <h3 className="text-white font-bold text-[18px] mb-1">{s.title}</h3>
-                    <p className="text-[#9ca3af] text-[14px] leading-relaxed">{s.description}</p>
+                    <h3 className="pa-ink-text font-bold text-[18px] mb-1">{s.title}</h3>
+                    <p className="pa-soft text-[14px] leading-relaxed">{s.description}</p>
                   </div>
                 </div>
               </MotionInView>

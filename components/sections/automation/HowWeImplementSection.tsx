@@ -33,10 +33,10 @@ export default function HowWeImplementSection({ data }: Props) {
   const colsClass = steps.length <= 2 ? "md:grid-cols-2" : steps.length === 3 ? "md:grid-cols-3" : "md:grid-cols-4";
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="relative z-10 max-w-7xl mx-auto">
         <MotionInView className="text-center mb-20">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">{heading}</h2>
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text leading-[1.15]">{heading}</h2>
         </MotionInView>
 
         <div className={`relative grid grid-cols-1 ${colsClass} gap-7 lg:gap-10 pt-12`}>
@@ -55,9 +55,9 @@ export default function HowWeImplementSection({ data }: Props) {
                       <Icon className="w-9 h-9 text-white" strokeWidth={1.75} />
                     </div>
                   </div>
-                  <div className="group h-full rounded-2xl border border-[#1E293B] bg-[#0F172A] pt-20 pb-10 px-7 text-center transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)]">
-                    <h3 className="text-white font-bold text-[1.2rem] mb-3.5">{s.title}</h3>
-                    <p className="text-gray-400 text-[14px] leading-[1.7] max-w-[260px] mx-auto">{s.description}</p>
+                  <div className="group h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] pt-20 pb-10 px-7 text-center transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] pa-card-hover">
+                    <h3 className="pa-ink-text font-bold text-[1.2rem] mb-3.5">{s.title}</h3>
+                    <p className="pa-soft text-[14px] leading-[1.7] max-w-[260px] mx-auto">{s.description}</p>
                   </div>
                 </div>
               </MotionInView>

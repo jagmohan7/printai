@@ -4,12 +4,12 @@ import { siteSettings } from "./siteSettings";
 // ── Product page schemas (one per route under /products/...) ─────────────────
 import { chatbotsPage }   from "./products/chatbotsPage";
 import { webToPrintPage } from "./products/webToPrintPage";
-import { erpnextPage }    from "./products/erpnextPage";
 import { automationPage } from "./products/automationPage";
 import { devopsPage }     from "./products/devopsPage";
 import { customAiPage }   from "./products/customAiPage";
 
 // ── Other content pages ──────────────────────────────────────────────────────
+import { aboutPage }       from "./aboutPage";
 import { caseStudiesPage } from "./caseStudiesPage";
 import { resourcesPage }   from "./resourcesPage";
 
@@ -20,9 +20,9 @@ import { pageBlocks } from "./pageBlocks";
 export const schemaTypes = [
   homepage,
   siteSettings,
+  aboutPage,
   chatbotsPage,
   webToPrintPage,
-  erpnextPage,
   automationPage,
   devopsPage,
   customAiPage,

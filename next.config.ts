@@ -35,6 +35,7 @@ const nextConfig: NextConfig = {
       // (chatbots stayed; do NOT redirect /services/automation here — it is now a real page.)
       { source: "/services/chatbots",     destination: "/products/chatbots",   permanent: true },
       { source: "/services/erpnext",      destination: "/#services",           permanent: true },
+      { source: "/products/erpnext",      destination: "/#services",           permanent: true },
       { source: "/services",              destination: "/#services",           permanent: true },
     ];
   },
@@ -48,7 +49,7 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options",        value: "SAMEORIGIN" },
           { key: "Referrer-Policy",        value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy",     value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Permissions-Policy",     value: "camera=(), microphone=(self \"https://chat.printai.cloud\"), geolocation=()" },
         ],
       },
       {

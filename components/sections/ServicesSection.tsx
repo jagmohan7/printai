@@ -20,7 +20,6 @@ const ICON_BY_NAME: Record<string, React.ElementType> = {
 const ICON_BY_TITLE: Record<string, React.ElementType> = {
   "AI Chatbot":                MessagesSquare,
   "Web-to-Print Platform":     Globe,
-  "ERPNext":                   Database,
   "Print Workflow Automation": Settings,
   "DevOps":                    Server,
   "Custom AI Development":     Brain,
@@ -37,7 +36,6 @@ const DEFAULTS = {
   cards: [
     { iconName: "MessagesSquare", title: "AI Chatbot",               href: "/products/chatbots",    description: "AI-powered chatbots trained on your print shop's pricing, turnaround times, and file specs — handle enquiries instantly, 24/7.",        features: ["Instant Quote Responses", "24/7 Customer Support", "Seamless Team Handoff"] },
     { iconName: "Globe",          title: "Web-to-Print Platform",    href: "/products/web-to-print", badge: "Most Popular", description: "Seamless online ordering systems with B2B ecommerce, product configurators, and marketplace integrations.", features: ["B2B Store Setup", "Product Configurator", "Marketplace Integrations"] },
-    { iconName: "Database",       title: "ERPNext",                  href: "/products/erpnext",     description: "Replace disconnected tools with a single ERPNext platform — jobs, inventory, billing, and CRM in one place.",          features: ["Jobs & Inventory", "Billing & CRM", "Real-time Reporting"] },
     { iconName: "Settings",       title: "Print Workflow Automation", href: "/services/automation",  description: "Automate order intake, prepress, scheduling, and fulfillment with systems built for real print operations.",            features: ["Order Intake Automation", "Job Scheduling", "Fulfillment Tracking"] },
     { iconName: "Server",         title: "DevOps",                   href: "/services/devops",      description: "Keep your print systems fast, stable, and secure under heavy file uploads, traffic spikes, and complex workflows.",    features: ["Scalable Infrastructure", "24/7 Monitoring", "Security Hardening"] },
     { iconName: "Brain",          title: "Custom AI Development",    href: "/services/custom-ai",   description: "Bespoke AI systems designed around your specific print workflows — from predictive analytics to intelligent automation.", features: ["Tailored AI Models", "Predictive Analytics", "Full Integration Support"] },

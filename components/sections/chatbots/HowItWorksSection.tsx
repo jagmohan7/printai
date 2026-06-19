@@ -42,14 +42,14 @@ export default function HowItWorksSection({ data }: Props) {
   const colsClass = steps.length <= 3 ? "md:grid-cols-3" : steps.length === 4 ? "md:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3 lg:grid-cols-5";
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <MotionInView className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black pa-ink-text tracking-tight leading-tight">
             {headBefore}
             {headHighlight && (
               <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
@@ -58,28 +58,28 @@ export default function HowItWorksSection({ data }: Props) {
             )}
             {headAfter}
           </h2>
-          <p className="mt-4 text-[#94A3B8] text-lg max-w-2xl mx-auto">{subheading}</p>
+          <p className="mt-4 pa-soft text-lg max-w-2xl mx-auto">{subheading}</p>
         </MotionInView>
 
         <div className={`grid grid-cols-1 ${colsClass} gap-6 relative`}>
           {/* Dashed connector line scales with step count */}
           {steps.length === 3 && (
-            <div className="hidden md:block absolute top-[52px] left-[calc(16.7%+24px)] right-[calc(16.7%+24px)] h-px border-t border-dashed border-[#1E293B]" />
+            <div className="hidden md:block absolute top-[52px] left-[calc(16.7%+24px)] right-[calc(16.7%+24px)] h-px border-t border-dashed border-[var(--pa-line)]" />
           )}
 
           {steps.map((s, i) => {
             const Icon = getIcon(s.icon);
             return (
               <MotionInView key={i} delay={i * 0.15}>
-                <div className="group relative h-full p-8 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#3B82F6]/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300">
+                <div className="group relative h-full p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300 pa-card-hover">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white font-black text-lg mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)] relative z-10">
                     {s.stepNumber || String(i + 1).padStart(2, "0")}
                   </div>
                   <div className="w-11 h-11 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center mb-5">
                     <Icon size={22} className="text-[#3B82F6]" strokeWidth={1.75} />
                   </div>
-                  <h3 className="text-white font-bold text-[17px] mb-3">{s.title}</h3>
-                  <p className="text-[#94A3B8] text-[14px] leading-relaxed">{s.description}</p>
+                  <h3 className="pa-ink-text font-bold text-[17px] mb-3">{s.title}</h3>
+                  <p className="pa-soft text-[14px] leading-relaxed">{s.description}</p>
                 </div>
               </MotionInView>
             );

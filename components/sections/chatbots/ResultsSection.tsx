@@ -42,14 +42,14 @@ export default function ResultsSection({ data }: Props) {
   const colsClass = stats.length <= 2 ? "lg:grid-cols-2" : stats.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4";
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <MotionInView className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black pa-ink-text tracking-tight leading-tight">
             {headBefore}
             {headHighlight && (
               <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
@@ -58,17 +58,17 @@ export default function ResultsSection({ data }: Props) {
             )}
             {headAfter}
           </h2>
-          <p className="mt-4 text-[#94A3B8] text-lg max-w-2xl mx-auto">{subheading}</p>
+          <p className="mt-4 pa-soft text-lg max-w-2xl mx-auto">{subheading}</p>
         </MotionInView>
 
         <div className={`grid grid-cols-2 ${colsClass} gap-5`}>
           {stats.map((s, i) => (
             <MotionInView key={i} delay={i * 0.1}>
-              <div className="group h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#3B82F6]/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300">
+              <div className="group h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 pa-card-hover">
                 <p className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent mb-3">
                   {s.value}
                 </p>
-                <p className="text-[#94A3B8] text-[14px] font-medium leading-snug">{s.label}</p>
+                <p className="pa-soft text-[14px] font-medium leading-snug">{s.label}</p>
               </div>
             </MotionInView>
           ))}

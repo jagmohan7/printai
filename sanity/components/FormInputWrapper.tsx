@@ -22,7 +22,6 @@ const BANNER_SCHEMAS = new Set<string>([
   "homepage",
   "chatbotsPage",
   "webToPrintPage",
-  "erpnextPage",
   "automationPage",
   "devopsPage",
   "customAiPage",

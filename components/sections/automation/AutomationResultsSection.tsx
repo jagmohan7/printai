@@ -32,12 +32,12 @@ export default function AutomationResultsSection({ data }: Props) {
   const stats   = pickArray(data?.stats, FALLBACK.stats);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[800px] h-[300px] rounded-full bg-blue-500/5 blur-[120px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <MotionInView className="text-center mb-14">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight text-white leading-[1.15]">{heading}</h2>
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text leading-[1.15]">{heading}</h2>
         </MotionInView>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -46,12 +46,12 @@ export default function AutomationResultsSection({ data }: Props) {
             const theme = THEMES[i % THEMES.length];
             return (
               <MotionInView key={i} delay={i * 0.1}>
-                <div className="group relative h-full rounded-2xl border border-[#1E293B] bg-[#0F172A] p-8 text-center transition-all duration-300 hover:border-[#3B82F6]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+                <div className="group relative h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] p-8 text-center transition-all duration-300 hover:border-[#3B82F6]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)] pa-card-hover">
                   <div className={`w-14 h-14 mx-auto mb-7 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>
                   <p className={`text-[2.4rem] sm:text-[2.8rem] font-extrabold leading-none bg-gradient-to-r ${theme.gradient} bg-clip-text text-transparent`}>{s.value}</p>
-                  <p className="mt-4 text-gray-400 text-[13.5px] leading-[1.55] max-w-[200px] mx-auto">{s.label}</p>
+                  <p className="mt-4 pa-soft text-[13.5px] leading-[1.55] max-w-[200px] mx-auto">{s.label}</p>
                 </div>
               </MotionInView>
             );

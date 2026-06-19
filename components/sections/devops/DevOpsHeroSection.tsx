@@ -39,12 +39,12 @@ const FALLBACK = {
 
 // Fixed positions for the 6 floating tiles in the 460x420 canvas
 const TILE_POSITIONS = [
-  { width: 88,  height: 88,  top: 44,  left: 22,  anim: "ftA 5.5s ease-in-out infinite",        radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-white/[0.07]", bg: "bg-[#0d1117]", zIndex: 1 },
-  { width: 88,  height: 88,  top: 44,  left: 350, anim: "ftB 6s ease-in-out .5s infinite",      radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-white/[0.07]", bg: "bg-[#0d1117]", zIndex: 1 },
-  { width: 74,  height: 74,  top: 106, left: 193, anim: "ftZ 4.8s ease-in-out 1s infinite",     radius: 16, iconSize: 22, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-white/[0.07]", bg: "bg-[#0d1117]", zIndex: 15 },
-  { width: 120, height: 120, top: 170, left: 170, anim: "ftC 5s ease-in-out 1.2s infinite",     radius: 24, iconSize: 38, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-2 border-[#22d3ee]/70", bg: "bg-[#0d1420]", zIndex: 20, isCenter: true },
-  { width: 88,  height: 88,  top: 316, left: 22,  anim: "ftD 5.8s ease-in-out .8s infinite",    radius: 20, iconSize: 28, glow: "g-purple", color: "text-[#c084fc]", border: "border-white/[0.07]", bg: "bg-[#0d1117]", zIndex: 1 },
-  { width: 88,  height: 88,  top: 316, left: 350, anim: "ftA 6.2s ease-in-out 1.5s infinite",   radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-white/[0.07]", bg: "bg-[#0d1117]", zIndex: 1 },
+  { width: 88,  height: 88,  top: 44,  left: 22,  anim: "ftA 5.5s ease-in-out infinite",        radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-[var(--pa-line)]", bg: "bg-[var(--pa-card)]", zIndex: 1 },
+  { width: 88,  height: 88,  top: 44,  left: 350, anim: "ftB 6s ease-in-out .5s infinite",      radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-[var(--pa-line)]", bg: "bg-[var(--pa-card)]", zIndex: 1 },
+  { width: 74,  height: 74,  top: 106, left: 193, anim: "ftZ 4.8s ease-in-out 1s infinite",     radius: 16, iconSize: 22, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-[var(--pa-line)]", bg: "bg-[var(--pa-card)]", zIndex: 15 },
+  { width: 120, height: 120, top: 170, left: 170, anim: "ftC 5s ease-in-out 1.2s infinite",     radius: 24, iconSize: 38, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-2 border-[#22d3ee]/70", bg: "bg-[var(--pa-card)]", zIndex: 20, isCenter: true },
+  { width: 88,  height: 88,  top: 316, left: 22,  anim: "ftD 5.8s ease-in-out .8s infinite",    radius: 20, iconSize: 28, glow: "g-purple", color: "text-[#c084fc]", border: "border-[var(--pa-line)]", bg: "bg-[var(--pa-card)]", zIndex: 1 },
+  { width: 88,  height: 88,  top: 316, left: 350, anim: "ftA 6.2s ease-in-out 1.5s infinite",   radius: 20, iconSize: 28, glow: "g-cyan",   color: "text-[#22d3ee]", border: "border-[var(--pa-line)]", bg: "bg-[var(--pa-card)]", zIndex: 1 },
 ];
 
 // Render a heading line with optional **gradient** markers
@@ -77,7 +77,7 @@ export default function DevOpsHeroSection({ data }: Props) {
   const iconCluster      = pickArray(data?.iconCluster, FALLBACK.iconCluster);
 
   return (
-    <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#070B14] px-4 section-hero">
+    <section className="relative min-h-[92vh] flex items-center overflow-hidden pa-band-page px-4 section-hero">
       <style>{`
         @keyframes ftA { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-6px,-14px);} }
         @keyframes ftB { 0%,100%{transform:translate(0,0);} 50%{transform:translate(5px,-12px);} }
@@ -118,19 +118,19 @@ export default function DevOpsHeroSection({ data }: Props) {
             </span>
           </MotionInView>
           <MotionInView delay={0.1}>
-            <h1 className="text-[2.6rem] sm:text-[3.2rem] lg:text-[3.8rem] font-extrabold tracking-tight leading-[1.08] text-white">
+            <h1 className="text-[2.6rem] sm:text-[3.2rem] lg:text-[3.8rem] font-extrabold tracking-tight leading-[1.08] pa-ink-text">
               {headingLines.map((line, i) => renderLine(line, i, headingLines.length))}
             </h1>
           </MotionInView>
           <MotionInView delay={0.25}>
-            <p className="mt-6 text-[#9ca3af] text-[16px] sm:text-[17px] leading-[1.8] max-w-lg">{description}</p>
+            <p className="mt-6 text-[16px] sm:text-[17px] leading-[1.8] max-w-lg pa-soft">{description}</p>
           </MotionInView>
           <MotionInView delay={0.4}>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link href={ctaPrimaryHref} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891b2] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(59,130,246,0.4)]">
                 {ctaPrimaryText} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] text-white border border-violet-500/40 hover:border-violet-400/70 hover:bg-violet-500/10 hover:-translate-y-0.5 transition-all duration-200">
+              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] pa-ink-text border border-violet-500/40 hover:border-violet-400/70 hover:bg-violet-500/10 hover:-translate-y-0.5 transition-all duration-200">
                 {ctaSecondaryText}
               </Link>
             </div>

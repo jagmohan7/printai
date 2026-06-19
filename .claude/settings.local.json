@@ -17,7 +17,17 @@
       "Bash(rmdir /S /Q \"D:\\\\printai\\\\app\\\\studio\")",
       "PowerShell(Copy-Item -Recurse -Force \"D:\\\\printai\\\\app\\\\studio\" \"D:\\\\printai\\\\app\\\\admin\")",
       "Bash(node scripts/seed-homepage.mjs)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3002/ -o /tmp/home.html -w \"HTTP %{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(curl -s \"http://localhost:3002/?cb=$\\(date +%s\\)\" -o /tmp/home2.html -w \"HTTP %{http_code}\\\\n\")",
+      "Bash([ -f \"$F\" ])",
+      "Bash(curl -s http://localhost:3002/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "PowerShell(netstat -ano)",
+      "Bash(ls \"C:/Users/lenov/.claude/\" 2>/dev/null)",
+      "Bash(git -C D:/printai config user.email)",
+      "Bash(git -C D:/printai config user.name)"
     ]
   }
 }

@@ -60,7 +60,7 @@ export default function HeroAutomation({ data }: Props) {
   const [hb, hh, ha] = splitHeading(heading, highlightGradient);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-hero px-4">
+    <section className="relative overflow-hidden pa-band-page section-hero px-4">
       <div className="pointer-events-none absolute left-[-8%] top-[10%] w-[520px] h-[520px] rounded-full bg-blue-600/15 blur-[140px]" />
       <div className="pointer-events-none absolute right-[-6%] bottom-[-10%] w-[460px] h-[460px] rounded-full bg-cyan-500/15 blur-[140px]" />
 
@@ -72,19 +72,19 @@ export default function HeroAutomation({ data }: Props) {
             </span>
           </MotionInView>
           <MotionInView>
-            <h1 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight text-white leading-[1.1]">
+            <h1 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight pa-ink-text leading-[1.1]">
               {hb}
               {hh && <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">{hh}</span>}
               {ha}
             </h1>
 
-            <p className="mt-7 text-gray-400 text-[16px] sm:text-[17px] leading-[1.75] max-w-xl">{description}</p>
+            <p className="mt-7 pa-soft text-[16px] sm:text-[17px] leading-[1.75] max-w-xl">{description}</p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <Link href={ctaPrimaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] text-white bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-400 hover:to-cyan-300 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(34,211,238,0.4)]">
                 {ctaPrimaryText} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] text-white border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
+              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] pa-ink-text border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 {ctaSecondaryText}
               </Link>
             </div>
@@ -105,8 +105,8 @@ export default function HeroAutomation({ data }: Props) {
                   <div className={`relative z-10 w-16 h-16 shrink-0 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center shadow-[0_0_25px_rgba(34,211,238,0.15)]`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>
-                  <div className="group flex-1 flex items-center justify-between gap-4 px-5 py-[18px] rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#06B6D4]/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-all duration-300">
-                    <span className="text-white font-semibold text-[15.5px]">{s.label}</span>
+                  <div className="group flex-1 flex items-center justify-between gap-4 px-5 py-[18px] rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06B6D4]/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-all duration-300 pa-card-hover">
+                    <span className="pa-ink-text font-semibold text-[15.5px]">{s.label}</span>
                     <ArrowRight className="w-5 h-5 text-cyan-400/70 group-hover:text-cyan-300 group-hover:translate-x-1 transition-all duration-300" />
                   </div>
                 </MotionInView>

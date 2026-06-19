@@ -15,11 +15,38 @@ export const siteSettings = defineType({
   },
 
   groups: [
-    { name: "navbar", title: "🔝 Navbar", default: true },
+    { name: "brand",  title: "🎨 Brand Colors", default: true },
+    { name: "navbar", title: "🔝 Navbar" },
     { name: "footer", title: "🔻 Footer" },
   ],
 
   fields: [
+
+    // ── BRAND COLORS ──────────────────────────────────────────────────────────
+    defineField({
+      name: "brand", title: "Brand Colors", type: "object", group: "brand",
+      description: "Override the default teal/navy palette. Leave blank to use the built-in defaults. Changes go live within 5 seconds.",
+      fields: [
+        defineField({
+          name: "primaryColor", title: "Primary Color (Teal)", type: "string",
+          description: "Hex — used for buttons, links, stat numbers, highlights. Default: #13C07A",
+          placeholder: "#13C07A",
+          validation: Rule => Rule.regex(/^#[0-9a-fA-F]{3,8}$/).warning("Must be a hex value, e.g. #13C07A"),
+        }),
+        defineField({
+          name: "primaryDark", title: "Primary Dark (Teal Deep)", type: "string",
+          description: "Hex — hover/pressed state of the primary color. Default: #0F6E56",
+          placeholder: "#0F6E56",
+          validation: Rule => Rule.regex(/^#[0-9a-fA-F]{3,8}$/).warning("Must be a hex value, e.g. #0F6E56"),
+        }),
+        defineField({
+          name: "navyColor", title: "Dark Panel Color (Navy)", type: "string",
+          description: "Hex — stats band, dark section backgrounds. Default: #0B1628",
+          placeholder: "#0B1628",
+          validation: Rule => Rule.regex(/^#[0-9a-fA-F]{3,8}$/).warning("Must be a hex value, e.g. #0B1628"),
+        }),
+      ],
+    }),
 
     // ── NAVBAR ────────────────────────────────────────────────────────────────
     defineField({

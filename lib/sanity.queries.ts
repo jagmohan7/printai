@@ -14,6 +14,11 @@ import { sanityFetch } from "./sanity.live";
 // ─── Site Settings (Navbar + Footer) ─────────────────────────────────────────
 const SITE_SETTINGS_QUERY = defineQuery(`
   *[_type == "siteSettings"][0]{
+    brand {
+      primaryColor,
+      primaryDark,
+      navyColor
+    },
     navbar {
       productLinks[] { label, href },
       serviceLinks[] { label, href },
@@ -48,7 +53,11 @@ const HOMEPAGE_QUERY = defineQuery(`
       primaryButtonHref,
       secondaryButtonText,
       secondaryButtonHref,
-      socials[] { label, href }
+      socials[] { label, href },
+      review { score, label }
+    },
+    stats {
+      items[] { value, label }
     },
     about {
       badge,
@@ -57,7 +66,12 @@ const HOMEPAGE_QUERY = defineQuery(`
       subtext,
       whoWeAreP1,
       whoWeAreP2,
-      highlights[]
+      highlights[],
+      statBadge { value, label },
+      primaryButtonText,
+      primaryButtonHref,
+      secondaryButtonText,
+      secondaryButtonHref
     },
     services {
       badge,
@@ -72,6 +86,33 @@ const HOMEPAGE_QUERY = defineQuery(`
         badge,
         features[]
       }
+    },
+    how {
+      eyebrow,
+      heading,
+      steps[] { title, description }
+    },
+    blogs {
+      eyebrow,
+      heading,
+      viewAllText,
+      viewAllHref
+    },
+    testimonials {
+      eyebrow,
+      heading,
+      rating { score, count },
+      reviews[] { quote, authorName, authorRole }
+    },
+    contactCta {
+      eyebrow,
+      heading,
+      subtext,
+      primaryButtonText,
+      primaryButtonHref,
+      secondaryButtonText,
+      secondaryButtonHref,
+      trustLabel
     },
     why {
       badge,
@@ -105,6 +146,30 @@ export async function getHomepage() {
   return data as any;
 }
 
+// ─── Latest blog posts (auto-pulled from the Resources page insights) ───────
+// The homepage Blogs band shows heading + view-all only; the cards come from
+// here so editors never enter posts twice. No date field on insights yet, so
+// "latest" = document order (first N).
+const LATEST_RESOURCES_QUERY = defineQuery(`
+  *[_id == "resources-page"][0].insights.items[]{
+    title,
+    "excerpt": description,
+    "href": ctaHref,
+    "category": "Insight"
+  }
+`);
+export async function getLatestResources(limit = 3) {
+  const { data } = await sanityFetch({ query: LATEST_RESOURCES_QUERY });
+  const items = (data as Array<{ title: string; excerpt?: string; href?: string; category?: string }> | null) ?? [];
+  return items.slice(0, limit).map((it) => ({
+    title:    it.title,
+    excerpt:  it.excerpt ?? "",
+    href:     it.href || "/resources",
+    category: it.category ?? "Insight",
+    meta:     "",
+  }));
+}
+
 // ─── Product pages — each fetches its own dedicated schema by doc ID ────────
 //
 // Shape used across all product pages: a single object with one nested object
@@ -112,7 +177,8 @@ export async function getHomepage() {
 // rendering components can read them as-is.
 
 const CHATBOTS_QUERY = defineQuery(`*[_id == "chatbots-page"][0]{
-  hero, problem, howItWorks, included, results, demo, faq, finalCta, seo
+  hero, problem, howItWorks, included, results, demo, faq, finalCta, seo,
+  sharedCta { badge, heading, highlightWord, description, primaryText, primaryHref, secondaryText, secondaryHref, trustPoints[] }
 }`);
 export async function getChatbotsPage() {
   const { data } = await sanityFetch({ query: CHATBOTS_QUERY });
@@ -120,23 +186,20 @@ export async function getChatbotsPage() {
 }
 
 const WEB_TO_PRINT_QUERY = defineQuery(`*[_id == "web-to-print-page"][0]{
-  hero, problem, features, capabilities, beforeAfter, results, integrations, storeAudit, finalCta, seo
+  hero, problem, features, capabilities, beforeAfter, results, integrations, storeAudit, finalCta, seo,
+  faq { heading, highlightWord, faqs[]{ question, answer } },
+  sharedCta { badge, heading, highlightWord, description, primaryText, primaryHref, secondaryText, secondaryHref, trustPoints[] }
 }`);
 export async function getWebToPrintPage() {
   const { data } = await sanityFetch({ query: WEB_TO_PRINT_QUERY });
   return data as any;
 }
 
-const ERPNEXT_QUERY = defineQuery(`*[_id == "erpnext-page"][0]{
-  hero, pain, why, everything, process, comparison, stats, faq, cta, seo
-}`);
-export async function getErpnextPage() {
-  const { data } = await sanityFetch({ query: ERPNEXT_QUERY });
-  return data as any;
-}
 
 const AUTOMATION_QUERY = defineQuery(`*[_id == "automation-page"][0]{
-  hero, painPoints, whatWeAutomate, beforeAfter, results, integrations, implementation, cta, seo
+  hero, painPoints, whatWeAutomate, beforeAfter, results, integrations, implementation, cta, seo,
+  faq { heading, highlightWord, faqs[]{ question, answer } },
+  sharedCta { badge, heading, highlightWord, description, primaryText, primaryHref, secondaryText, secondaryHref, trustPoints[] }
 }`);
 export async function getAutomationPage() {
   const { data } = await sanityFetch({ query: AUTOMATION_QUERY });
@@ -144,7 +207,9 @@ export async function getAutomationPage() {
 }
 
 const DEVOPS_QUERY = defineQuery(`*[_id == "devops-page"][0]{
-  hero, problems, costs, stats, process, benefits, builtFor, difference, impact, services, cta, seo
+  hero, problems, costs, stats, process, benefits, builtFor, difference, impact, services, cta, seo,
+  faq { heading, highlightWord, faqs[]{ question, answer } },
+  sharedCta { badge, heading, highlightWord, description, primaryText, primaryHref, secondaryText, secondaryHref, trustPoints[] }
 }`);
 export async function getDevopsPage() {
   const { data } = await sanityFetch({ query: DEVOPS_QUERY });
@@ -152,10 +217,55 @@ export async function getDevopsPage() {
 }
 
 const CUSTOM_AI_QUERY = defineQuery(`*[_id == "custom-ai-page"][0]{
-  hero, problems, systems, process, comparison, stats, included, faq, cta, seo
+  hero, problems, systems, process, comparison, stats, included, faq, cta, seo,
+  sharedCta { badge, heading, highlightWord, description, primaryText, primaryHref, secondaryText, secondaryHref, trustPoints[] }
 }`);
 export async function getCustomAiPage() {
   const { data } = await sanityFetch({ query: CUSTOM_AI_QUERY });
+  return data as any;
+}
+
+// ─── About Us Page ────────────────────────────────────────────────────────────
+const ABOUT_PAGE_QUERY = defineQuery(`*[_type == "aboutPage"][0]{
+  hero {
+    chip, heading, headingHighlight, subtext,
+    primaryButtonText, primaryButtonHref,
+    secondaryButtonText, secondaryButtonHref,
+    trustItems[] { val, label },
+    solutions[]
+  },
+  about {
+    eyebrow, heading, headingHighlight, pullQuote,
+    paragraph1, paragraph2, paragraph3,
+    capabilities[] { icon, metric, title, desc }
+  },
+  story {
+    heading, headingHighlight, intro, pullQuote,
+    col1Para1, col1Para2, col2Para1, col2Callout
+  },
+  mvv {
+    missionTitle, missionBody,
+    visionTitle, visionBody,
+    valuesTitle, values[]
+  },
+  future {
+    eyebrow, heading, headingHighlight, subtext,
+    primaryButtonText, primaryButtonHref,
+    stats[] { val, label },
+    features[] { icon, title, desc }
+  },
+  brands { eyebrow, heading, headingHighlight, logos[] },
+  reviews { heading, subtext, googleScore, googleCount },
+  cta {
+    chip, heading, subtext,
+    primaryButtonText, primaryButtonHref,
+    secondaryButtonText, secondaryButtonHref,
+    trustLine
+  },
+  seo { title, description }
+}`);
+export async function getAboutPage() {
+  const { data } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
   return data as any;
 }
 

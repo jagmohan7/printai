@@ -35,7 +35,7 @@ function renderHeadingLine(line: string, key: number, total: number) {
         p.startsWith("**") && p.endsWith("**") ? (
           <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
         ) : (
-          <span key={i} className="text-white">{p}</span>
+          <span key={i} className="pa-ink-text">{p}</span>
         )
       )}
       {key < total - 1 && <br />}
@@ -52,12 +52,12 @@ export default function CustomAIProblemsSection({ data }: Props) {
 
   return (
     <>
-      <section id="use-cases" className="relative overflow-hidden ai-section section-pad px-4 border-t border-[#1E293B]/50">
+      <section id="use-cases" className="relative overflow-hidden pa-band-surface section-pad px-4 border-t border-[var(--pa-line)]">
         <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[280px] rounded-full bg-cyan-500/6 blur-[110px]" />
 
         <div className="relative z-10 max-w-6xl mx-auto">
           <MotionInView className="text-center mb-12">
-            <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white">{heading}</h2>
+            <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text">{heading}</h2>
           </MotionInView>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -65,10 +65,10 @@ export default function CustomAIProblemsSection({ data }: Props) {
               const Icon = getIcon(p.icon);
               return (
                 <MotionInView key={i} delay={0.08 * i}>
-                  <div className="ai-card group h-full p-6 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#06b6d4]/40 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(6,182,212,0.12)] transition-all duration-300">
+                  <div className="pa-card pa-card-hover group h-full p-6 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/40 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(6,182,212,0.12)] transition-all duration-300">
                     <Icon size={22} className="text-[#06b6d4] mb-4" strokeWidth={1.5} />
-                    <p className="text-white font-bold text-[14px] leading-snug mb-1">{p.title}</p>
-                    <p className="text-[#94A3B8] text-[12px]">{p.sub}</p>
+                    <p className="pa-ink-text font-bold text-[14px] leading-snug mb-1">{p.title}</p>
+                    <p className="pa-soft text-[12px]">{p.sub}</p>
                   </div>
                 </MotionInView>
               );
@@ -77,8 +77,8 @@ export default function CustomAIProblemsSection({ data }: Props) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden section-pad px-4 border-t border-[#1E293B]/50">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-900/30 via-[#0a0b14] to-cyan-900/20" />
+      <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-900/30 via-[var(--pa-page)] to-cyan-900/20" />
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full bg-violet-700/14 blur-[160px]" />
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] rounded-full bg-cyan-500/10 blur-[120px]" />
@@ -95,7 +95,7 @@ export default function CustomAIProblemsSection({ data }: Props) {
             </h2>
           </MotionInView>
           <MotionInView delay={0.2}>
-            <p className="mt-6 text-[#94A3B8] text-[16px] sm:text-[18px] leading-[1.85] max-w-2xl mx-auto">{approachDescription}</p>
+            <p className="mt-6 pa-soft text-[16px] sm:text-[18px] leading-[1.85] max-w-2xl mx-auto">{approachDescription}</p>
           </MotionInView>
         </div>
       </section>

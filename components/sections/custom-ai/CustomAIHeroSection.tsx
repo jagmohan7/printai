@@ -65,7 +65,7 @@ export default function CustomAIHeroSection({ data }: Props) {
   const ctaSecondaryAnchor = data?.ctaSecondaryAnchor || data?.ctaSecondaryHref || FALLBACK.ctaSecondaryAnchor;
 
   return (
-    <section className="relative min-h-[92vh] flex items-center overflow-hidden ai-section px-4 section-hero">
+    <section className="relative min-h-[92vh] flex items-center overflow-hidden pa-band-page px-4 section-hero">
       <style>{`
         @keyframes dashFlow { to { stroke-dashoffset: -30; } }
         .net-edge { stroke-dasharray: 5 5; animation: dashFlow 2s linear infinite; }
@@ -103,7 +103,7 @@ export default function CustomAIHeroSection({ data }: Props) {
               <g key={i} className={fc}>
                 <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="#22d3ee" strokeWidth="1.2" strokeOpacity="0.5" style={{ animationDelay: n.pulseDelay }} />
                 <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="#22d3ee" strokeWidth="1" strokeOpacity="0.3" style={{ animationDelay: `calc(${n.pulseDelay} + 1.2s)` }} />
-                <circle cx={`${n.cx}%`} cy={`${n.cy}%`} r={n.r} fill="#0a0b14" stroke="#22d3ee" strokeWidth="2" strokeOpacity="0.7" />
+                <circle cx={`${n.cx}%`} cy={`${n.cy}%`} r={n.r} fill="var(--pa-page)" stroke="#22d3ee" strokeWidth="2" strokeOpacity="0.7" />
                 <circle className="net-dot" cx={`${n.cx}%`} cy={`${n.cy}%`} r={Math.round(n.r * 0.42)} fill="#22d3ee" style={{ animationDelay: n.pulseDelay }} />
               </g>
             );
@@ -118,13 +118,13 @@ export default function CustomAIHeroSection({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.1}>
-            <h1 className="text-[2.6rem] sm:text-[3.2rem] lg:text-[3.8rem] font-extrabold tracking-tight leading-[1.08] text-white">
+            <h1 className="text-[2.6rem] sm:text-[3.2rem] lg:text-[3.8rem] font-extrabold tracking-tight leading-[1.08] pa-ink-text">
               {headingLines.map((line, i) => renderHeadingLine(line, i, headingLines.length))}
             </h1>
           </MotionInView>
 
           <MotionInView delay={0.25}>
-            <p className="mt-6 text-[#9ca3af] text-[16px] sm:text-[17px] leading-[1.8]">{description}</p>
+            <p className="mt-6 pa-soft text-[16px] sm:text-[17px] leading-[1.8]">{description}</p>
           </MotionInView>
 
           <MotionInView delay={0.4}>
@@ -132,7 +132,7 @@ export default function CustomAIHeroSection({ data }: Props) {
               <Link href={ctaPrimaryHref} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891b2] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_36px_rgba(6,182,212,.35)]">
                 {ctaPrimaryText} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={ctaSecondaryAnchor} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] text-white border border-white/[0.12] hover:border-cyan-400/40 hover:bg-cyan-500/5 hover:-translate-y-0.5 transition-all duration-200">
+              <Link href={ctaSecondaryAnchor} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] pa-ink-text border border-[var(--pa-line)] hover:border-cyan-400/40 hover:bg-cyan-500/5 hover:-translate-y-0.5 transition-all duration-200">
                 {ctaSecondaryText}
               </Link>
             </div>

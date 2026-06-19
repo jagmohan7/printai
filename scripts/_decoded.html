@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PrintAI · Wireframe Exploration</title>
+<script>
+  // set theme before paint to avoid flash
+  try {
+    var t = localStorage.getItem('printai-wf-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("7b76cdfb-707d-44a6-86d5-47e659d8e261") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("75b1835b-a5f6-496a-9e0b-43bc0ceebdf5") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("129e1d66-477f-4404-84f5-8d588dd88d80") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("42bea4ca-8c68-41e0-883d-b020d57cbb60") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("f6683279-59ca-4c8c-9ac7-abcf96c682f1") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("ee694fbf-2ec2-422a-85bf-2d0e23df8233") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("52607779-57ab-4e7c-84f3-d76f99ceaf24") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("32a1a2ca-1da9-410e-8746-5301f86e8957") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("8bb49871-20b7-4d64-838b-fbfc3bcb17e3") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("dc990e8d-d9e5-4f59-ba39-580c43c48225") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("275675a6-4c2a-4aa0-bdd0-91da9ed179d7") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("20e54bb3-87ec-4aa8-afa7-3ea6628c2290") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("b8a37803-00c9-4002-a37e-619fd8e607a2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("ca123f92-742e-4b80-8d31-9dfd2519d583") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("0b93879c-7a56-400a-9195-bc9fafbe4e09") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("6b9b7143-9b36-4ead-a1cf-ecfc7bef3ac9") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("2af812b9-22c0-4206-8bdf-60d1e996cf45") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("f2e75757-4199-485f-9aea-f85848b55bd6") format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("36998074-7056-4146-b4f6-46c4b7fb1326") format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("64a8b107-fffe-4a93-b798-86781418b5dc") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("bfc6c056-a13e-4615-b71c-9704612f741f") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("6e886bef-70a5-4256-b5a9-ae454aa1ea57") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>/* ============================================================
+   PrintAI · Wireframe Exploration — mid-fi kit
+   Grey-box primitives + brand-aware tokens + annotation layer.
+   Theme is driven by [data-theme] on <html>.
+   ============================================================ */
+
+:root {
+  /* brand */
+  --pa-navy-deep: #0B1628;
+  --pa-navy: #1A3C5E;
+  --pa-teal: #13C07A;
+  --pa-teal-deep: #0F6E56;
+  --pa-grey: #F5F6F8;
+
+  /* shape */
+  --wf-radius: 16px;
+  --wf-radius-sm: 10px;
+  --wf-radius-lg: 22px;
+  --wf-pill: 999px;
+
+  /* LIGHT theme surfaces */
+  --wf-page: #FFFFFF;
+  --wf-page-2: #F5F6F8;
+  --wf-navy: #0B1628;
+  --wf-ink: #0B1628;
+  --wf-ink-2: #5A6675;
+  --wf-box: #E8EBEF;
+  --wf-box-2: #DCE0E6;
+  --wf-bar: #CBD1DA;
+  --wf-bar-2: #AEB6C1;
+  --wf-line: #E3E7EC;
+  --wf-card: #FFFFFF;
+  --wf-shadow: 0 1px 2px rgba(11,22,40,.05), 0 10px 30px rgba(11,22,40,.07);
+  --wf-shadow-sm: 0 1px 2px rgba(11,22,40,.05), 0 4px 14px rgba(11,22,40,.06);
+
+  /* teal usage */
+  --wf-teal: #13C07A;
+  --wf-teal-deep: #0F6E56;
+  --wf-teal-soft: rgba(19,192,122,.12);
+  --wf-on-teal: #062A1E;
+
+  /* annotation ("designer's pen") layer */
+  --wf-anno-bg: #F6F8FA;
+  --wf-anno-line: #C7D1DD;
+  --wf-anno-ink: #5C6B7E;
+  --wf-anno-strong: #2C5D87;
+  --wf-anno-soft: rgba(44,93,135,.10);
+}
+
+:root[data-theme="dark"] {
+  --wf-page: #0B1628;
+  --wf-page-2: #0F1F38;
+  --wf-navy: #060F1C;
+  --wf-ink: #E9EEF4;
+  --wf-ink-2: #93A2B6;
+  --wf-box: rgba(255,255,255,.07);
+  --wf-box-2: rgba(255,255,255,.12);
+  --wf-bar: rgba(255,255,255,.17);
+  --wf-bar-2: rgba(255,255,255,.32);
+  --wf-line: rgba(255,255,255,.12);
+  --wf-card: #13243E;
+  --wf-shadow: 0 1px 2px rgba(0,0,0,.4), 0 14px 34px rgba(0,0,0,.4);
+  --wf-shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.36);
+  --wf-teal-soft: rgba(19,192,122,.18);
+  --wf-on-teal: #04231A;
+
+  --wf-anno-bg: rgba(255,255,255,.035);
+  --wf-anno-line: rgba(255,255,255,.14);
+  --wf-anno-ink: #93A4B8;
+  --wf-anno-strong: #7DBBED;
+  --wf-anno-soft: rgba(125,187,237,.14);
+}
+
+/* ---- context modifiers: a section painted on navy or grey ---- */
+.on-navy {
+  --wf-ink: #EAF1F8;
+  --wf-ink-2: #9FB3C8;
+  --wf-box: rgba(255,255,255,.09);
+  --wf-box-2: rgba(255,255,255,.15);
+  --wf-bar: rgba(255,255,255,.22);
+  --wf-bar-2: rgba(255,255,255,.42);
+  --wf-line: rgba(255,255,255,.14);
+  --wf-card: rgba(255,255,255,.06);
+  --wf-shadow: 0 1px 2px rgba(0,0,0,.3), 0 14px 34px rgba(0,0,0,.3);
+  background: var(--wf-navy);
+  color: var(--wf-ink);
+}
+.on-grey { background: var(--wf-page-2); }
+
+/* ============================================================
+   Artboard shell + annotation footer
+   ============================================================ */
+.wf-art {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--wf-page);
+  color: var(--wf-ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+.wf-art, .wf-art * { box-sizing: border-box; }
+.wf-stage {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* the single child of a stage fills it, so inner height:100% resolves
+   against a definite box and Pad padding stays inside (border-box) */
+.wf-stage > * { flex: 1 1 auto; min-height: 0; }
+.wf-anno {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 26px;
+  background: var(--wf-anno-bg);
+  border-top: 1px dashed var(--wf-anno-line);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+.wf-anno-title {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--wf-anno-strong);
+  letter-spacing: .2px;
+}
+.wf-anno-title::before {
+  content: "";
+  width: 9px; height: 9px;
+  border-radius: 2px;
+  background: var(--wf-anno-strong);
+  transform: rotate(45deg);
+}
+.wf-anno-notes {
+  flex: 1 1 auto;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--wf-anno-ink);
+}
+.wf-anno-tags { flex: 0 0 auto; display: flex; gap: 6px; }
+.wf-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border: 1px solid var(--wf-anno-line);
+  border-radius: var(--wf-pill);
+  color: var(--wf-anno-ink);
+  white-space: nowrap;
+}
+
+/* numbered callout pin */
+.wf-pin {
+  position: absolute;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--wf-anno-strong);
+  color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  z-index: 5;
+}
+
+/* ============================================================
+   Grey-box primitives
+   ============================================================ */
+.wf-bar { display: block; height: 12px; border-radius: 5px; background: var(--wf-bar); }
+.wf-bar.s { background: var(--wf-bar-2); }
+.wf-box { background: var(--wf-box); border-radius: var(--wf-radius-sm); }
+.wf-card {
+  background: var(--wf-card);
+  border: 1px solid var(--wf-line);
+  border-radius: var(--wf-radius);
+  box-shadow: var(--wf-shadow-sm);
+}
+.wf-img {
+  background-color: var(--wf-box);
+  background-image: repeating-linear-gradient(135deg,
+     transparent 0 11px, var(--wf-box-2) 11px 12px);
+  border: 1px dashed var(--wf-line);
+  border-radius: var(--wf-radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  color: var(--wf-ink-2);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .3px;
+  padding: 10px;
+  position: relative;
+}
+.wf-avatar {
+  border-radius: 50%;
+  background-color: var(--wf-box);
+  background-image: repeating-linear-gradient(135deg,
+     transparent 0 7px, var(--wf-box-2) 7px 8px);
+  border: 1px dashed var(--wf-line);
+  flex: 0 0 auto;
+}
+.wf-icon {
+  border-radius: var(--wf-radius-sm);
+  background: var(--wf-teal-soft);
+  border: 1px solid var(--wf-line);
+  display: flex; align-items: center; justify-content: center;
+  flex: 0 0 auto;
+}
+.wf-icon::after {
+  content: "";
+  width: 42%; height: 42%;
+  border-radius: 4px;
+  background: var(--wf-teal);
+  opacity: .65;
+}
+
+/* buttons */
+.wf-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  height: 46px; padding: 0 22px;
+  border-radius: var(--wf-radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 600;
+  white-space: nowrap;
+}
+.wf-btn.pri { background: var(--wf-teal); color: var(--wf-on-teal); }
+.wf-btn.deep { background: var(--wf-teal-deep); color: #fff; }
+.wf-btn.ghost { background: transparent; border: 1px solid var(--wf-line); color: var(--wf-ink); }
+.wf-btn.sm { height: 38px; padding: 0 16px; font-size: 13px; }
+.wf-btn.lg { height: 54px; padding: 0 28px; font-size: 15px; }
+
+/* chips / pills */
+.wf-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 30px; padding: 0 13px;
+  border-radius: var(--wf-pill);
+  border: 1px solid var(--wf-line);
+  background: var(--wf-card);
+  font-size: 12.5px; font-weight: 500; color: var(--wf-ink-2);
+  white-space: nowrap;
+}
+.wf-chip.teal { background: var(--wf-teal-soft); border-color: transparent; color: var(--wf-teal-deep); }
+:root[data-theme="dark"] .wf-chip.teal { color: var(--wf-teal); }
+
+/* real text helpers */
+.wf-h {
+  font-family: 'Inter', sans-serif;
+  color: var(--wf-ink);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  margin: 0;
+  text-wrap: balance;
+}
+.wf-sub {
+  font-family: 'Inter', sans-serif;
+  color: var(--wf-ink-2);
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0;
+  text-wrap: pretty;
+}
+.wf-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--wf-teal-deep);
+}
+:root[data-theme="dark"] .wf-eyebrow { color: var(--wf-teal); }
+.teal { color: var(--wf-teal); }
+
+/* logo */
+.wf-logo { display: inline-flex; align-items: center; gap: 11px; }
+.wf-logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(150deg, var(--wf-teal), var(--wf-teal-deep));
+  position: relative; flex: 0 0 auto;
+  box-shadow: 0 4px 12px rgba(15,110,86,.35);
+}
+.wf-logo-mark::before {
+  content: ""; position: absolute; inset: 9px 10px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.92);
+}
+.wf-logo-mark::after {
+  content: ""; position: absolute; left: 13px; top: 13px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--wf-teal-deep);
+}
+.wf-logo-word {
+  font-family: 'Inter', sans-serif; font-weight: 800;
+  font-size: 19px; letter-spacing: -0.02em; color: var(--wf-ink);
+}
+.wf-logo-word .ai { color: var(--wf-teal); }
+
+/* ============================================================
+   Page toolbar (title + theme toggle), lives outside canvas world
+   ============================================================ */
+.pa-toolbar {
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+  z-index: 90;
+  display: flex; align-items: center; gap: 14px;
+  padding: 9px 10px 9px 16px;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(11,22,40,.08);
+  border-radius: var(--wf-pill);
+  box-shadow: 0 8px 30px rgba(11,22,40,.12);
+  font-family: 'Inter', sans-serif;
+}
+:root[data-theme="dark"] .pa-toolbar {
+  background: rgba(13,26,46,.8);
+  border-color: rgba(255,255,255,.1);
+  box-shadow: 0 8px 30px rgba(0,0,0,.5);
+}
+.pa-toolbar .pa-title {
+  font-size: 13px; font-weight: 700; color: var(--wf-ink);
+  letter-spacing: -0.01em; white-space: nowrap;
+}
+.pa-toolbar .pa-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; color: var(--wf-ink-2);
+  padding-left: 14px; border-left: 1px solid var(--wf-line);
+  white-space: nowrap;
+}
+.pa-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 34px; padding: 0 4px 0 12px;
+  border-radius: var(--wf-pill);
+  background: var(--wf-page-2);
+  border: 1px solid var(--wf-line);
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: var(--wf-ink-2);
+}
+.pa-toggle .sw {
+  width: 38px; height: 22px; border-radius: var(--wf-pill);
+  background: var(--wf-box-2); position: relative; transition: background .2s;
+}
+.pa-toggle .sw::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  transition: transform .2s;
+}
+:root[data-theme="dark"] .pa-toggle .sw { background: var(--wf-teal-deep); }
+:root[data-theme="dark"] .pa-toggle .sw::after { transform: translateX(16px); }
+
+@media (max-width: 720px) {
+  .pa-toolbar .pa-meta { display: none; }
+}
+
+/* ---- dark-mode overrides for the canvas chrome ---- */
+:root[data-theme="dark"] .design-canvas { background: #070d18 !important; }
+:root[data-theme="dark"] .dc-sectionhead .dc-editable { color: #E9EEF4 !important; }
+:root[data-theme="dark"] .dc-sectionhead div { color: #8597AC !important; }
+:root[data-theme="dark"] .dc-header,
+:root[data-theme="dark"] .dc-header * { color: #91A2B6 !important; }
+</style>
+<style>
+  html, body { margin: 0; padding: 0; }
+  #root { width: 100vw; height: 100vh; }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- page toolbar: title + theme toggle (outside the canvas world) -->
+<div class="pa-toolbar">
+  <span class="pa-title">PrintAI — Wireframe Exploration</span>
+  <span class="pa-meta">mid-fi · desktop-first · 10 sections</span>
+  <button class="pa-toggle" id="themeToggle" aria-label="Toggle dark theme">
+    <span id="themeLabel">Light</span>
+    <span class="sw"></span>
+  </button>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    function sync() {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      label.textContent = dark ? 'Dark' : 'Light';
+    }
+    sync();
+    btn.addEventListener('click', function () {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      var next = dark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('printai-wf-theme', next); } catch (e) {}
+      sync();
+    });
+  })();
+</script>
+
+<script src="b8a20f27-8334-4763-8116-4ea9a63f1103" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="6160c967-0022-4b95-a74d-c18b7210eab5" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="207d0852-1d46-4f85-8406-4bb23471bf3a" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="36fc632c-3838-4d32-b922-c44262ea8326"></script>
+<script type="text/babel" src="b27da37c-1372-400d-93ab-db02c51179dc"></script>
+<script type="text/babel" src="d30e8caf-f04c-4552-9824-cf73b3b56c55"></script>
+<script type="text/babel" src="6daf6b00-8527-4e2c-8edd-642f68b125e7"></script>
+<script type="text/babel" src="19462fe5-e173-4f76-9570-5da3d75aa761"></script>
+<script type="text/babel" src="24109ad0-0fb7-4545-a88f-291c73bae813"></script>
+<script type="text/babel" src="7d5749e4-1392-46f1-8e84-3957fdeb515d"></script>
+<script type="text/babel" src="494aed42-0412-4ca8-b0d6-ce8a78a42773"></script>
+<script type="text/babel" src="dd2f55b8-2458-476e-8610-8d9c117cf684"></script>
+<script type="text/babel" src="804c39f9-8c6b-4be2-9fc1-0777f950dced"></script>
+
+
+</body></html>

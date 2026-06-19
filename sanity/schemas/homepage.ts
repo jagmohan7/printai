@@ -32,9 +32,14 @@ export const homepage = defineType({
   // section size at a glance. Counts reflect top-level sub-fields per group.
   groups: [
     { name: "meta",     title: "⚙️ Info" },
-    { name: "hero",     title: "🚀 Hero (9)",     default: true },
+    { name: "hero",     title: "🚀 Hero",          default: true },
+    { name: "stats",    title: "📊 Stats" },
     { name: "about",    title: "🏢 About (7)" },
-    { name: "services", title: "🛠️ Services (5)" },
+    { name: "services", title: "🛠️ Solutions" },
+    { name: "how",      title: "🔧 How It Works" },
+    { name: "blogs",    title: "📰 Blog" },
+    { name: "testimonials", title: "⭐ Testimonials" },
+    { name: "contactCta",   title: "📣 Contact CTA" },
     { name: "why",      title: "💡 Why Us (5)" },
     { name: "contact",  title: "📬 Contact (7)" },
     { name: "seo",      title: "🔍 SEO (2)" },
@@ -90,6 +95,34 @@ export const homepage = defineType({
             ],
           })],
         }),
+        defineField({
+          name: "review", title: "Google Review Card", type: "object",
+          description: "Trust card under the hero buttons — the Google rating.",
+          fields: [
+            defineField({ name: "score", title: "Rating Score", type: "string", description: "E.g. 4.8" }),
+            defineField({ name: "label", title: "Trust Label",  type: "string", description: "E.g. Trusted by 250+ Print Companies" }),
+          ],
+        }),
+      ],
+    }),
+
+    // ── STATS ────────────────────────────────────────────────────────────────
+    defineField({
+      name: "stats", title: "Performance Stats", type: "object", group: "stats",
+      description: "Thin stats band shown directly below the hero. 4 metrics recommended.",
+      fields: [
+        defineField({
+          name: "items", title: "Stats", type: "array",
+          description: "Each stat is a value + a label. 4 recommended.",
+          of: [defineField({
+            name: "stat", title: "Stat", type: "object",
+            preview: { select: { title: "value", subtitle: "label" } },
+            fields: [
+              defineField({ name: "value", title: "Value", type: "string", description: "E.g. 85%, 300%, 120K+, 24/7" }),
+              defineField({ name: "label", title: "Label", type: "string", description: "E.g. Faster Order Processing" }),
+            ],
+          })],
+        }),
       ],
     }),
 
@@ -112,19 +145,31 @@ export const homepage = defineType({
           description: "Wrap any word in <strong>word</strong> to make it appear white and bold." }),
         defineField({
           name: "highlights", title: "Highlight Points", type: "array",
-          description: "Up to 4 bullet points shown on the right cards.",
+          description: "Up to 4 bullet points — render as a 2×2 checklist beside the story.",
           of: [{ type: "string" }],
         }),
+        defineField({
+          name: "statBadge", title: "Floating Stat Card", type: "object",
+          description: "Small card that floats over the About image. E.g. 250+ / print companies onboarded.",
+          fields: [
+            defineField({ name: "value", title: "Value", type: "string", description: "E.g. 250+" }),
+            defineField({ name: "label", title: "Label", type: "string", description: "E.g. print companies onboarded" }),
+          ],
+        }),
+        defineField({ name: "primaryButtonText",   title: "Primary Button Label", type: "string" }),
+        defineField({ name: "primaryButtonHref",   title: "Primary Button Link",  type: "string" }),
+        defineField({ name: "secondaryButtonText", title: "Secondary Button Label", type: "string" }),
+        defineField({ name: "secondaryButtonHref", title: "Secondary Button Link",  type: "string" }),
       ],
     }),
 
     // ── SERVICES ─────────────────────────────────────────────────────────────
     defineField({
-      name: "services", title: "Services Section", type: "object", group: "services",
+      name: "services", title: "Solutions Section", type: "object", group: "services",
       description:
-        "Grid of 6 service cards. Each card needs a title, icon, 1-sentence description, " +
-        "a page link, and up to 3 feature bullets. Card titles must match exactly to keep " +
-        "the icon mapping correct.",
+        "The 3 headline solutions — AI Chatbot, Web-to-Print Platform, Workflow Automation. " +
+        "Each card needs a title, icon, 1-sentence description, a page link, and up to 3 feature " +
+        "bullets. Only the first 3 non-ERPNext cards render.",
       fields: [
         defineField({ name: "badge",            title: "Badge Text",    type: "string",
           validation: (Rule) => Rule.max(60).warning("Keep badges short.") }),
@@ -134,8 +179,8 @@ export const homepage = defineType({
           description: "Must match a word in the heading exactly." }),
         defineField({ name: "subtext",          title: "Subtext",       type: "text", rows: 2 }),
         defineField({
-          name: "cards", title: "Service Cards", type: "array",
-          description: "6 cards. Card title must match exactly: AI Chatbot, Web-to-Print Platform, ERPNext, Print Workflow Automation, DevOps, or Custom AI Development — this controls the icon shown.",
+          name: "cards", title: "Solution Cards", type: "array",
+          description: "3 cards. Use titles 'AI Chatbot', 'Web-to-Print Platform', 'Workflow Automation' — the title controls the icon. ERPNext cards are skipped on the homepage.",
           of: [defineField({
             name: "card", title: "Service Card", type: "object",
             preview: { select: { title: "title", subtitle: "description" } },
@@ -181,6 +226,91 @@ export const homepage = defineType({
             ],
           })],
         }),
+      ],
+    }),
+
+    // ── HOW IT WORKS ───────────────────────────────────────────────────────────
+    defineField({
+      name: "how", title: "How It Works Section", type: "object", group: "how",
+      description: "4-step timeline (Connect → Configure → Automate → Scale).",
+      fields: [
+        defineField({ name: "eyebrow", title: "Eyebrow Label", type: "string", initialValue: "How It Works" }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "From Inquiry to Production",
+          validation: (Rule) => Rule.max(90) }),
+        defineField({
+          name: "steps", title: "Steps", type: "array",
+          description: "4 steps recommended. Title 'Connect', 'Configure', 'Automate', 'Scale' controls the icon.",
+          of: [defineField({
+            name: "step", title: "Step", type: "object",
+            preview: { select: { title: "title", subtitle: "description" } },
+            fields: [
+              defineField({ name: "title",       title: "Title",       type: "string" }),
+              defineField({ name: "description", title: "Description", type: "text", rows: 2 }),
+            ],
+          })],
+        }),
+      ],
+    }),
+
+    // ── BLOG ─────────────────────────────────────────────────────────────────
+    defineField({
+      name: "blogs", title: "Blog Section", type: "object", group: "blogs",
+      description: "Heading + view-all link only. The 3 cards are pulled automatically from the latest Resources → Industry Insights — no double entry.",
+      fields: [
+        defineField({ name: "eyebrow",     title: "Eyebrow Label", type: "string", initialValue: "From the Blog" }),
+        defineField({ name: "heading",     title: "Heading", type: "string", initialValue: "Insights for modern print businesses",
+          validation: (Rule) => Rule.max(90) }),
+        defineField({ name: "viewAllText", title: "View-All Link Text", type: "string", initialValue: "View all articles" }),
+        defineField({ name: "viewAllHref", title: "View-All Link URL",  type: "string", initialValue: "/resources" }),
+      ],
+    }),
+
+    // ── TESTIMONIALS ───────────────────────────────────────────────────────────
+    defineField({
+      name: "testimonials", title: "Testimonials Section", type: "object", group: "testimonials",
+      description: "Aggregate Google score + a grid of review cards. Reviews are entered manually here.",
+      fields: [
+        defineField({ name: "eyebrow", title: "Eyebrow Label", type: "string", initialValue: "Testimonials" }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Loved by print businesses",
+          validation: (Rule) => Rule.max(90) }),
+        defineField({
+          name: "rating", title: "Aggregate Google Rating", type: "object",
+          fields: [
+            defineField({ name: "score", title: "Score", type: "string", description: "E.g. 4.8" }),
+            defineField({ name: "count", title: "Review Count", type: "string", description: "E.g. 320+" }),
+          ],
+        }),
+        defineField({
+          name: "reviews", title: "Reviews", type: "array",
+          description: "Each review: quote + author name + role. 3 or 6 reads best.",
+          of: [defineField({
+            name: "review", title: "Review", type: "object",
+            preview: { select: { title: "authorName", subtitle: "quote" } },
+            fields: [
+              defineField({ name: "quote",      title: "Quote",       type: "text", rows: 3 }),
+              defineField({ name: "authorName", title: "Author Name", type: "string" }),
+              defineField({ name: "authorRole", title: "Author Role", type: "string", description: "E.g. Owner, Apex Press" }),
+            ],
+          })],
+        }),
+      ],
+    }),
+
+    // ── CONTACT CTA (gradient band) ──────────────────────────────────────────
+    defineField({
+      name: "contactCta", title: "Contact CTA Section", type: "object", group: "contactCta",
+      description: "Full-width navy→teal conversion band above the contact form. Two CTAs.",
+      fields: [
+        defineField({ name: "eyebrow", title: "Eyebrow Label", type: "string", initialValue: "Get Started" }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Ready to Automate Your Print Business?",
+          validation: (Rule) => Rule.max(90) }),
+        defineField({ name: "subtext", title: "Subtext", type: "text", rows: 2,
+          validation: (Rule) => Rule.max(220) }),
+        defineField({ name: "primaryButtonText",   title: "Primary Button Label", type: "string", initialValue: "Book Demo" }),
+        defineField({ name: "primaryButtonHref",   title: "Primary Button Link",  type: "string", initialValue: "/#contact" }),
+        defineField({ name: "secondaryButtonText", title: "Secondary Button Label", type: "string", initialValue: "Contact Sales" }),
+        defineField({ name: "secondaryButtonHref", title: "Secondary Button Link",  type: "string", initialValue: "/#contact" }),
+        defineField({ name: "trustLabel", title: "Trust Label", type: "string", description: "Small line under the buttons. E.g. 4.8 · trusted by 250+ print companies" }),
       ],
     }),
 

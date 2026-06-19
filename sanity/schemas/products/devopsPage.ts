@@ -31,6 +31,8 @@ export const devopsPage = defineType({
     { name: "impact",     title: "📈 Impact" },
     { name: "services",   title: "🛠️ Services" },
     { name: "cta",        title: "🎯 CTA" },
+    { name: "faq",        title: "❓ FAQ" },
+    { name: "sharedCta",  title: "📣 CTA Section" },
     { name: "seo",        title: "🔍 SEO" },
   ],
 
@@ -189,6 +191,24 @@ export const devopsPage = defineType({
       ],
     }),
 
+    // ── FAQ ───────────────────────────────────────────────────────────
+    defineField({ name: "faq", title: "FAQ Section", type: "object", group: "faq",
+      description: "Q&A accordion. Leave empty to use the page defaults.",
+      fields: [
+        defineField({ name: "heading",       title: "Heading",        type: "string" }),
+        defineField({ name: "highlightWord", title: "Highlight Word", type: "string" }),
+        defineField({ name: "faqs", title: "Q&A Pairs", type: "array",
+          of: [defineArrayMember({ type: "object", name: "faq",
+            preview: { select: { title: "question", subtitle: "answer" } },
+            fields: [
+              defineField({ name: "question", title: "Question", type: "string", validation: r => r.required() }),
+              defineField({ name: "answer",   title: "Answer",   type: "text", rows: 3, validation: r => r.required() }),
+            ],
+          })],
+        }),
+      ],
+    }),
+
     defineField({ name: "cta", title: "Final CTA Section", type: "object", group: "cta",
       fields: [
         defineField({ name: "heading",       title: "Heading",        type: "string" }),
@@ -201,6 +221,25 @@ export const devopsPage = defineType({
             defineField({ name: "icon",  title: "Lucide Icon", type: "string" }),
             defineField({ name: "label", title: "Label",       type: "string" }),
           ] })],
+        }),
+      ],
+    }),
+
+    // ── SHARED CTA ────────────────────────────────────────────────────
+    defineField({ name: "sharedCta", title: "CTA Section", type: "object", group: "sharedCta",
+      description: "Bottom-of-page CTA. Leave empty to use the page defaults.",
+      fields: [
+        defineField({ name: "badge",         title: "Badge Text",            type: "string" }),
+        defineField({ name: "heading",       title: "Heading",               type: "string" }),
+        defineField({ name: "highlightWord", title: "Highlight Word/Phrase", type: "string", description: "Must appear verbatim in Heading" }),
+        defineField({ name: "description",   title: "Description",           type: "text", rows: 2 }),
+        defineField({ name: "primaryText",   title: "Primary Button Text",   type: "string" }),
+        defineField({ name: "primaryHref",   title: "Primary Button Link",   type: "string" }),
+        defineField({ name: "secondaryText", title: "Secondary Button Text", type: "string" }),
+        defineField({ name: "secondaryHref", title: "Secondary Button Link", type: "string" }),
+        defineField({ name: "trustPoints",   title: "Trust Points",          type: "array",
+          description: "Checkmark items below the buttons.",
+          of: [{ type: "string" }],
         }),
       ],
     }),

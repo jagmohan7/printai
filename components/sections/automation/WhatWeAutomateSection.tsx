@@ -35,11 +35,11 @@ export default function WhatWeAutomateSection({ data }: Props) {
   const items      = pickArray(data?.items, FALLBACK.items);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="relative z-10 max-w-7xl mx-auto">
         <MotionInView className="text-center mb-16">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-extrabold tracking-tight text-white leading-[1.15] max-w-4xl mx-auto">{heading}</h2>
-          <p className="mt-4 text-gray-400 text-[16px] sm:text-[17px]">{subheading}</p>
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.85rem] font-extrabold tracking-tight pa-ink-text leading-[1.15] max-w-4xl mx-auto">{heading}</h2>
+          <p className="mt-4 pa-soft text-[16px] sm:text-[17px]">{subheading}</p>
         </MotionInView>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -48,12 +48,12 @@ export default function WhatWeAutomateSection({ data }: Props) {
             const theme = THEMES[i % THEMES.length];
             return (
               <MotionInView key={i} delay={i * 0.12}>
-                <div className="group relative h-full rounded-2xl border border-[#1E293B] bg-[#0F172A] p-8 sm:p-10 transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)]">
+                <div className="group relative h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] p-8 sm:p-10 transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] pa-card-hover">
                   <div className={`w-14 h-14 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center mb-7 transition-all duration-300 group-hover:scale-110`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>
-                  <h3 className="text-white font-bold text-[1.4rem] mb-4">{it.title}</h3>
-                  <p className="text-gray-400 text-[14.5px] leading-[1.75]">{it.description}</p>
+                  <h3 className="pa-ink-text font-bold text-[1.4rem] mb-4">{it.title}</h3>
+                  <p className="pa-soft text-[14.5px] leading-[1.75]">{it.description}</p>
                 </div>
               </MotionInView>
             );

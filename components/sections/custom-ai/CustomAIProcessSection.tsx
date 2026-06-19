@@ -34,7 +34,7 @@ export default function CustomAIProcessSection({ data }: Props) {
   const cardCols   = steps.length <= 2 ? "sm:grid-cols-2" : steps.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4";
 
   return (
-    <section className="relative overflow-hidden ai-section section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] rounded-full bg-violet-600/8 blur-[140px]" />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] rounded-full bg-cyan-500/6 blur-[120px]" />
@@ -43,7 +43,7 @@ export default function CustomAIProcessSection({ data }: Props) {
       <div className="relative z-10 max-w-5xl mx-auto">
         <MotionInView className="text-center mb-16">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/25 bg-violet-500/8 text-[#c4b5fd] text-[12px] font-semibold tracking-widest uppercase mb-5">{sectionTag}</span>
-          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white">{heading}</h2>
+          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text">{heading}</h2>
         </MotionInView>
 
         <div className="relative flex justify-between items-start px-8 mb-0">
@@ -67,12 +67,12 @@ export default function CustomAIProcessSection({ data }: Props) {
             const t = THEMES[i % THEMES.length];
             return (
               <MotionInView key={i} delay={0.15 + 0.15 * i}>
-                <div className="ai-card group h-full p-7 rounded-2xl border border-[#1E293B] bg-[#0F172A] hover:border-[#06b6d4]/35 hover:-translate-y-1 hover:shadow-[0_8px_36px_rgba(6,182,212,0.1)] transition-all duration-300">
+                <div className="pa-card pa-card-hover group h-full p-7 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/35 hover:-translate-y-1 hover:shadow-[0_8px_36px_rgba(6,182,212,0.1)] transition-all duration-300">
                   <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r ${t.color} bg-opacity-15 mb-4`}>
                     <span className="text-white text-[12px] font-semibold">{s.week}</span>
                   </div>
-                  <h3 className="text-white font-bold text-[18px] mb-2">{s.title}</h3>
-                  <p className="text-[#94A3B8] text-[14px] leading-relaxed">{s.description}</p>
+                  <h3 className="pa-ink-text font-bold text-[18px] mb-2">{s.title}</h3>
+                  <p className="pa-soft text-[14px] leading-relaxed">{s.description}</p>
                 </div>
               </MotionInView>
             );

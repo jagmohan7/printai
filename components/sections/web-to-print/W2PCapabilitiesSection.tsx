@@ -29,20 +29,20 @@ export default function W2PCapabilitiesSection({ data }: Props) {
   const tiles   = pickArray(data?.tiles, FALLBACK.tiles);
 
   return (
-    <section className="relative overflow-hidden bg-[#0B1220] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="pa-band-surface relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .tile-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s; cursor: default; }
-        .tile-card:hover { border-color: rgba(6,182,212,0.3); box-shadow: 0 0 28px rgba(6,182,212,0.1); transform: translateY(-3px); background: #16172a; }
+        .tile-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 28px rgba(6,182,212,0.1); transform: translateY(-3px); background: var(--pa-card); }
         .tile-icon-wrap { transition: background 0.25s, box-shadow 0.25s; }
-        .tile-card:hover .tile-icon-wrap { background: rgba(6,182,212,0.15); box-shadow: 0 0 16px rgba(6,182,212,0.25); }
-        .tile-card:hover .tile-icon { color: #22d3ee; }
+        .tile-card:hover .tile-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 16px rgba(6,182,212,0.25); }
+        .tile-card:hover .tile-icon { color: var(--pa-teal); }
       `}</style>
 
-      <div className="pointer-events-none absolute left-[-4%] top-[30%] w-[450px] h-[450px] rounded-full bg-[#7c3aed]/8 blur-[120px]" />
+      <div className="pointer-events-none absolute left-[-4%] top-[30%] w-[450px] h-[450px] rounded-full blur-[120px]" style={{ background: "color-mix(in srgb, var(--pa-teal) 8%, transparent)" }} />
 
       <div className="relative z-10 max-w-[1200px] mx-auto">
         <MotionInView className="text-center mb-14">
-          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.8rem] font-extrabold tracking-tight text-white leading-[1.15]">
+          <h2 className="text-[2rem] sm:text-[2.5rem] lg:text-[2.8rem] font-extrabold tracking-tight leading-[1.15]" style={{ color: "var(--pa-ink)" }}>
             {heading}
           </h2>
         </MotionInView>
@@ -52,12 +52,12 @@ export default function W2PCapabilitiesSection({ data }: Props) {
             const Icon = getIcon(t.icon);
             return (
               <MotionInView key={i} delay={i * 0.07}>
-                <div className="tile-card h-full rounded-xl border border-[#1E293B] bg-[#0F172A] p-5">
-                  <div className="tile-icon-wrap w-10 h-10 rounded-lg bg-[#06b6d4]/10 border border-[#06b6d4]/15 flex items-center justify-center mb-4">
-                    <Icon className="tile-icon w-4 h-4 text-[#06b6d4]" />
+                <div className="tile-card h-full rounded-xl p-5" style={{ border: "1px solid var(--pa-line)", background: "var(--pa-card)" }}>
+                  <div className="tile-icon-wrap w-10 h-10 rounded-lg flex items-center justify-center mb-4" style={{ background: "color-mix(in srgb, var(--pa-teal) 10%, transparent)", border: "1px solid color-mix(in srgb, var(--pa-teal) 15%, transparent)" }}>
+                    <Icon className="tile-icon w-4 h-4" style={{ color: "var(--pa-teal)" }} />
                   </div>
-                  <p className="text-white font-semibold text-[14px] mb-1.5 leading-tight">{t.title}</p>
-                  <p className="text-[#94A3B8] text-[12.5px] leading-[1.6]">{t.description}</p>
+                  <p className="font-semibold text-[14px] mb-1.5 leading-tight" style={{ color: "var(--pa-ink)" }}>{t.title}</p>
+                  <p className="text-[12.5px] leading-[1.6]" style={{ color: "var(--pa-ink-2)" }}>{t.description}</p>
                 </div>
               </MotionInView>
             );
