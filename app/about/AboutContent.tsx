@@ -342,63 +342,71 @@ export default function AboutContent({ data }: Props) {
         </div>
       </section>
 
-      {/* ═══════════════ S9 · Reviews Header ══════════════════════════════════ */}
-      <section className="reviews-hero">
-        <div className="container">
-          <div className="reviews-hero-inner">
-            <div className="fade-up">
-              <h2 className="reviews-hero-title">
-                {reviews?.heading ?? 'What Print Shop Owners Say About PrintOpsAI'}
-              </h2>
-              <p className="reviews-hero-sub">
-                {reviews?.subtext ?? "What it's like to partner with PrintOpsAI, straight from the clients who did."}
-              </p>
-            </div>
-            <div className="google-rating-card fade-up d1">
-              <span className="google-g">G</span>
-              <span className="google-label">Google Rating</span>
-              <div className="google-score-row">
-                <span className="google-score">{reviews?.googleScore ?? '4.8'}</span>
-                <span className="google-stars">★★★★★</span>
-              </div>
-              <span className="google-count">{reviews?.googleCount ?? '320+ Reviews'}</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════ S9 · Trust Section ═══════════════════════════════════ */}
+      <section className="trust-sec">
+        <div className="trust-glow" aria-hidden="true" />
+        <div className="container trust-container">
 
-      {/* ═══════════════ S9b · Testimonial cards ════════════════════════════ */}
-      <section className="section" style={{ background: 'var(--grey)', paddingTop: 0 }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
-            {testimonials.map((t, i) => (
-              <div key={i} className={`fade-up d${i + 1}`} style={{
-                background: 'var(--white)',
-                border: '1px solid var(--line)',
-                borderRadius: 16,
-                padding: '28px 26px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 16,
-                boxShadow: 'var(--sh-sm)',
-              }}>
-                <div style={{ color: '#FBBC05', fontSize: 15, letterSpacing: 2 }}>
-                  {'★'.repeat(t.rating ?? 5)}
+          {/* Header */}
+          <div className="trust-header fade-up">
+            <p className="eyebrow">{reviews?.eyebrow ?? 'TRUSTED BY PRINT BUSINESSES'}</p>
+            <h2 className="trust-title">
+              {reviews?.heading ?? 'Why Print Businesses Choose PrintOpsAI'}
+            </h2>
+            <p className="trust-sub">
+              {reviews?.subtext ?? 'Specialized AI, automation, and web-to-print solutions built exclusively for the printing industry.'}
+            </p>
+          </div>
+
+          {/* Google Rating Card — center hero */}
+          <div className="google-hero-card fade-up d1">
+            <div className="google-hero-glow" aria-hidden="true" />
+            <div className="google-hero-g">G</div>
+            <div className="google-hero-label">Google Rating</div>
+            <div className="google-hero-score-row">
+              <span className="google-hero-score">{reviews?.googleScore ?? '4.8'}</span>
+              <div className="google-hero-stars-col">
+                <span className="google-hero-stars">★★★★★</span>
+                <span className="google-hero-count">{reviews?.googleCount ?? '320+ verified reviews'}</span>
+              </div>
+            </div>
+            <div className="google-hero-divider" />
+            <p className="google-hero-note">Rated by print businesses across North America</p>
+          </div>
+
+          {/* 4 Trust Pillars */}
+          <div className="trust-pillars fade-up d2">
+            {[
+              { icon: 'fa-print',   title: 'Print Industry Focused',     desc: 'Built specifically for print businesses.' },
+              { icon: 'fa-robot',   title: 'AI & Automation Expertise',  desc: 'Practical solutions that reduce manual work.' },
+              { icon: 'fa-gears',   title: 'Custom Development',         desc: 'Tailored integrations and workflows.' },
+              { icon: 'fa-handshake', title: 'Transparent Partnerships', desc: 'Clear communication and long-term support.' },
+            ].map((p, i) => (
+              <div className="trust-pillar" key={i}>
+                <div className="trust-pillar-icon">
+                  <i className={`fa-solid ${p.icon}`} />
                 </div>
-                <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--ink)', fontStyle: 'italic', flex: 1 }}>
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div style={{ borderTop: '1px solid var(--line)', paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink)' }}>{t.name}</div>
-                  <div style={{ fontSize: 12.5, color: 'var(--ink-2)', marginTop: 2 }}>
-                    {t.role}{t.company ? ` · ${t.company}` : ''}
-                  </div>
+                <div className="trust-pillar-text">
+                  <div className="trust-pillar-title">{p.title}</div>
+                  <div className="trust-pillar-desc">{p.desc}</div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Trust Badges */}
+          <div className="trust-badges fade-up d3">
+            {['AI Automation', 'Web-to-Print', 'ERP Integrations', 'Custom Development', 'Cloud Infrastructure'].map((b) => (
+              <span className="trust-badge" key={b}>
+                <i className="fa-solid fa-check" />
+                {b}
+              </span>
+            ))}
+          </div>
+
         </div>
       </section>
+
 
       {/* ═══════════════ S10 · CTA ════════════════════════════════════════════ */}
       <section className="cta-sec">
