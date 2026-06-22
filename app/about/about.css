@@ -8,17 +8,17 @@
 @keyframes ab-marquee       { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 @keyframes ab-logo-marquee  { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 
-/* ── Design tokens (scoped to wrapper — cascade reaches all children) ── */
+/* ── Design tokens — bridge globals to local names ── */
 .about-page {
-  --navy-deep: #0B1628;
-  --navy:      #1A3C5E;
-  --teal:      #13C07A;
-  --teal-deep: #0F6E56;
-  --grey:      #F5F6F8;
-  --white:     #FFFFFF;
-  --ink:       #0B1628;
-  --ink-2:     #5A6675;
-  --line:      #E3E7EC;
+  --navy-deep: var(--pa-navy);
+  --navy:      var(--pa-navy);
+  --teal:      var(--pa-teal);
+  --teal-deep: var(--pa-teal-deep);
+  --grey:      var(--pa-surface);
+  --white:     var(--pa-card);
+  --ink:       var(--pa-ink);
+  --ink-2:     var(--pa-ink-2);
+  --line:      var(--pa-line);
   --r:         16px;
   --pill:      999px;
   --sh-sm: 0 1px 2px rgba(11,22,40,.05), 0 4px 14px rgba(11,22,40,.06);
@@ -96,11 +96,11 @@
 
 .about-page .btn-primary {
   background: var(--teal);
-  color: #04231A;
+  color: #fff;
   box-shadow: 0 4px 18px rgba(19,192,122,.35);
 }
 .about-page .btn-primary:hover {
-  background: #14d085;
+  background: var(--teal-deep);
   box-shadow: 0 8px 28px rgba(19,192,122,.45);
 }
 .about-page .btn-ghost {
@@ -150,8 +150,8 @@
   height: 52px;
   border-radius: 14px;
   flex: 0 0 auto;
-  background: linear-gradient(135deg, rgba(19,192,122,.18), rgba(15,110,86,.28));
-  border: 1px solid rgba(19,192,122,.22);
+  background: var(--pa-teal-soft);
+  border: 1px solid var(--pa-line);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -413,9 +413,9 @@
   top: 0; left: 0; right: 0;
   height: 3px;
 }
-.about-page .mvv-card:nth-child(1)::before { background: linear-gradient(to right, #13C07A, #0F6E56); }
-.about-page .mvv-card:nth-child(2)::before { background: linear-gradient(to right, #0F6E56, #1A3C5E); }
-.about-page .mvv-card:nth-child(3)::before { background: linear-gradient(to right, #1A3C5E, #13C07A); }
+.about-page .mvv-card:nth-child(1)::before { background: linear-gradient(to right, var(--pa-teal), var(--pa-teal-deep)); }
+.about-page .mvv-card:nth-child(2)::before { background: linear-gradient(to right, var(--pa-teal-deep), var(--pa-navy)); }
+.about-page .mvv-card:nth-child(3)::before { background: linear-gradient(to right, var(--pa-navy), var(--pa-teal)); }
 .about-page .mvv-title { font-size: 22px; font-weight: 700; color: var(--ink); }
 .about-page .mvv-body  { font-size: 15px; line-height: 1.7; color: var(--ink-2); }
 .about-page .mvv-list  { display: flex; flex-direction: column; gap: 11px; list-style: none; padding: 0; margin: 0; }
@@ -657,26 +657,12 @@
 }
 .about-page .cta-stars { color: #F59E0B; }
 
-/* ═══════════════════════════════════════════════════════════
-   DARK MODE — flip local tokens, hero/cta gradients stay dark
-   ═══════════════════════════════════════════════════════════ */
+/* ── Dark mode — tokens auto-flip via globals.css --pa-* vars.
+      Only overrides that can't be handled by token swap go here. ── */
 :root[data-theme="dark"] .about-page {
-  --white: #13243E;
-  --grey:  #0F1F38;
-  --ink:   #EAF1F8;
-  --ink-2: #9FB3C8;
-  --line:  rgba(255,255,255,0.12);
   --sh-sm: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.35);
   --sh:    0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
   --sh-lg: 0 1px 4px rgba(0,0,0,.35), 0 20px 50px rgba(0,0,0,.5);
-}
-:root[data-theme="dark"] .about-page .eyebrow { color: var(--teal); }
-:root[data-theme="dark"] .about-page .pull-quote,
-:root[data-theme="dark"] .about-page .story-callout { color: var(--ink); }
-:root[data-theme="dark"] .about-page .chip {
-  background: rgba(19,192,122,0.1);
-  border-color: rgba(19,192,122,0.25);
-  color: var(--ink-2);
 }
 :root[data-theme="dark"] .about-page .story-watermark { color: rgba(255,255,255,0.04); }
 
@@ -689,6 +675,10 @@
   .about-page .about-grid   { grid-template-columns: 1fr; gap: 36px; }
   .about-page .future-top   { grid-template-columns: 1fr; gap: 32px; }
   .about-page .story-cols   { gap: 28px; }
+}
+
+@media (max-width: 900px) {
+  .about-page .testimonial-grid { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 768px) {

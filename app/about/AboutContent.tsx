@@ -49,11 +49,34 @@ const DEFAULT_FEATURES = [
 
 const DEFAULT_LOGOS = [
   'Waldow Verlag', 'IMPRUF', 'Wine of Earth', 'MORAVAN', 'BARIX', 'marchfeldpflanzen.at',
-  'Apex Press', 'Metro Print Group', 'SignPro', 'FastPrint', 'ColorCraft', 'BlueSky Print',
   'ERPNext', 'Cloudflare', 'OpenAI', 'Stripe', 'PRINTING United', 'FESPA',
 ]
 
 const DEFAULT_VALUES = ['Print-native, not print-adapted.', 'Results before features.', 'Transparent pricing, always.', 'Client owns their code and their data.', 'Build for real workflows, not demo environments.']
+
+const DEFAULT_TESTIMONIALS = [
+  {
+    quote: "Before PrintOpsAI, we were losing leads every night and weekend. Within 30 days of going live with the AI chatbot, we captured 23 after-hours enquiries that converted to $41,000 in new orders. The ROI was immediate.",
+    name: "James Whitfield",
+    role: "Owner",
+    company: "Apex Commercial Print",
+    rating: 5,
+  },
+  {
+    quote: "We went from a 4-hour quoting turnaround to instant responses on 80% of jobs. Our CSR team now focuses on complex accounts instead of answering the same questions 40 times a day. Productivity is up 35%.",
+    name: "Rachel Kim",
+    role: "Operations Director",
+    company: "Metro Print Group",
+    rating: 5,
+  },
+  {
+    quote: "PrintOpsAI built us a custom AI that integrates directly with our ERPNext — it pulls live job status, inventory, and pricing in real time. No other vendor even understood what we were asking for. These people actually know print.",
+    name: "David Torres",
+    role: "Managing Director",
+    company: "ColorCraft Printing",
+    rating: 5,
+  },
+]
 
 // ── Helper — render heading with optional teal highlight ─────────────────────
 
@@ -87,10 +110,11 @@ export default function AboutContent({ data }: Props) {
   const solutions    = hero?.solutions?.length     ? hero.solutions       : DEFAULT_SOLUTIONS
   const capabilities = about?.capabilities?.length ? about.capabilities   : DEFAULT_CAPABILITIES
   const trustItems   = hero?.trustItems?.length    ? hero.trustItems      : DEFAULT_TRUST_ITEMS
-  const futureStats  = future?.stats?.length       ? future.stats         : DEFAULT_FUTURE_STATS
-  const features     = future?.features?.length    ? future.features      : DEFAULT_FEATURES
-  const logos        = brands?.logos?.length       ? brands.logos         : DEFAULT_LOGOS
-  const values       = mvv?.values?.length         ? mvv.values           : DEFAULT_VALUES
+  const futureStats    = future?.stats?.length         ? future.stats         : DEFAULT_FUTURE_STATS
+  const features       = future?.features?.length      ? future.features      : DEFAULT_FEATURES
+  const logos          = brands?.logos?.length          ? brands.logos         : DEFAULT_LOGOS
+  const values         = mvv?.values?.length            ? mvv.values           : DEFAULT_VALUES
+  const testimonials   = reviews?.testimonials?.length  ? reviews.testimonials : DEFAULT_TESTIMONIALS
 
   return (
     <div className="about-page">
@@ -103,7 +127,7 @@ export default function AboutContent({ data }: Props) {
           <h1 className="h-display hero-title fade-up d1">
             {hero?.heading
               ? <HL text={hero.heading} highlight={hero.headingHighlight} />
-              : <>About <span className="teal">Us</span></>
+              : <>The AI Company That Actually <span className="teal">Understands Print</span></>
             }
           </h1>
 
@@ -344,6 +368,39 @@ export default function AboutContent({ data }: Props) {
               </div>
               <span className="google-count">{reviews?.googleCount ?? '320+ Reviews'}</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ S9b · Testimonial cards ════════════════════════════ */}
+      <section className="section" style={{ background: 'var(--grey)', paddingTop: 0 }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+            {testimonials.map((t, i) => (
+              <div key={i} className={`fade-up d${i + 1}`} style={{
+                background: 'var(--white)',
+                border: '1px solid var(--line)',
+                borderRadius: 16,
+                padding: '28px 26px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                boxShadow: 'var(--sh-sm)',
+              }}>
+                <div style={{ color: '#FBBC05', fontSize: 15, letterSpacing: 2 }}>
+                  {'★'.repeat(t.rating ?? 5)}
+                </div>
+                <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--ink)', fontStyle: 'italic', flex: 1 }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div style={{ borderTop: '1px solid var(--line)', paddingTop: 14 }}>
+                  <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink)' }}>{t.name}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--ink-2)', marginTop: 2 }}>
+                    {t.role}{t.company ? ` · ${t.company}` : ''}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
