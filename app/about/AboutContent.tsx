@@ -40,9 +40,17 @@ const DEFAULT_FEATURES = [
   { icon: 'fa-gears',    title: 'Custom-Built Solutions',    desc: 'Purpose-built tools — not generic software adapted for print.' },
 ]
 
-const DEFAULT_LOGOS = [
-  'Waldow Verlag', 'IMPRUF', 'Wine of Earth', 'MORAVAN', 'BARIX', 'marchfeldpflanzen.at',
-  'ERPNext', 'Cloudflare', 'OpenAI', 'Stripe', 'PRINTING United', 'FESPA',
+const DEFAULT_LOGOS: { src: string; name: string }[] = [
+  { src: '/logos/shopify.svg',          name: 'Shopify' },
+  { src: '/logos/woocommerce.svg',       name: 'WooCommerce' },
+  { src: '/logos/wordpress.svg',         name: 'WordPress' },
+  { src: '/logos/openai.svg',            name: 'OpenAI' },
+  { src: '/logos/stripe.svg',            name: 'Stripe' },
+  { src: '/logos/cloudflare.svg',        name: 'Cloudflare' },
+  { src: '/logos/canva.svg',             name: 'Canva' },
+  { src: '/logos/adobe.svg',             name: 'Adobe' },
+  { src: '/logos/frappe.svg',            name: 'ERPNext' },
+  { src: '/logos/fespa.svg',             name: 'FESPA' },
 ]
 
 const DEFAULT_VALUES = [
@@ -112,7 +120,7 @@ export default function AboutContent({ data }: Props) {
   const trustItems   = hero?.trustItems?.length    ? hero.trustItems      : DEFAULT_TRUST_ITEMS
   const futureStats    = future?.stats?.length         ? future.stats         : DEFAULT_FUTURE_STATS
   const features       = future?.features?.length      ? future.features      : DEFAULT_FEATURES
-  const logos          = brands?.logos?.length          ? brands.logos         : DEFAULT_LOGOS
+  const logos          = (brands?.logos?.length ? brands.logos.map((l: string) => ({ src: l, name: l })) : DEFAULT_LOGOS) as { src: string; name: string }[]
   const values         = mvv?.values?.length            ? mvv.values           : DEFAULT_VALUES
   const testimonials   = reviews?.testimonials?.length  ? reviews.testimonials : DEFAULT_TESTIMONIALS
 
@@ -303,22 +311,31 @@ export default function AboutContent({ data }: Props) {
         </div>
       </section>
 
-      {/* ═══════════════ S8 · Brands Logo Slider ══════════════════════════════ */}
+      {/* ═══════════════ S8 · Brands Logo Grid ═══════════════════════════════ */}
       <section className="brands-sec">
         <div className="brands-header">
-          <p className="eyebrow fade-up">{brands?.eyebrow ?? 'Trusted Worldwide'}</p>
+          <p className="eyebrow fade-up">{brands?.eyebrow ?? 'TRUSTED WORLDWIDE'}</p>
           <h2 className="h2 fade-up d1" style={{ color: 'var(--ink)' }}>
             {brands?.heading
               ? <HL text={brands.heading} highlight={brands.headingHighlight} />
               : 'Brands That Trust PrintOpsAI'
             }
           </h2>
+          <p className="brands-sub fade-up d2">
+            {brands?.subtext ?? 'Supporting print businesses, technology partners, and industry organizations worldwide.'}
+          </p>
         </div>
-        <div className="logo-slider">
-          <div className="logo-track">
-            {[...logos, ...logos].map((name, i) => (
-              <div className="logo-card" key={i}>
-                <span className="logo-name">{name}</span>
+        <div className="container">
+          <div className="logo-grid">
+            {logos.map((logo, i) => (
+              <div className={`logo-cell fade-up d${(i % 5) + 1}`} key={i}>
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="logo-img"
+                  loading="lazy"
+                  draggable={false}
+                />
               </div>
             ))}
           </div>

@@ -658,61 +658,74 @@
 /* ═══════════════════════════════════════════════════════════
    S8 · BRANDS — logo slider
    ═══════════════════════════════════════════════════════════ */
-.about-page .brands-sec { background: var(--grey); padding: 80px 0; }
+.about-page .brands-sec {
+  background: var(--white);
+  padding: 80px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
 .about-page .brands-header {
   text-align: center;
-  margin-bottom: 52px;
+  margin-bottom: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  padding: 0 24px;
 }
-.about-page .logo-slider { overflow: hidden; position: relative; width: 100%; }
-.about-page .logo-slider::before,
-.about-page .logo-slider::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 140px;
-  z-index: 2;
-  pointer-events: none;
+.about-page .brands-sub {
+  font-size: 15.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 500px;
 }
-.about-page .logo-slider::before { left: 0;  background: linear-gradient(to right, var(--grey) 0%, transparent 100%); }
-.about-page .logo-slider::after  { right: 0; background: linear-gradient(to left,  var(--grey) 0%, transparent 100%); }
-.about-page .logo-track {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 18px 0;
-  width: max-content;
-  animation: ab-logo-marquee 40s linear infinite;
+/* 5-col logo grid */
+.about-page .logo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
 }
-.about-page .logo-slider:hover .logo-track { animation-play-state: paused; }
-.about-page .logo-card {
-  width: 220px;
-  height: 96px;
-  flex: 0 0 auto;
-  background: var(--white);
-  border-radius: 14px;
+.about-page .logo-cell {
+  background: var(--grey);
   border: 1px solid var(--line);
-  box-shadow: var(--sh-sm);
+  border-radius: 14px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 20px;
-  transition: transform .22s, box-shadow .22s;
+  padding: 16px 20px;
+  transition: transform .24s cubic-bezier(.22,.68,0,1.2), box-shadow .24s ease, border-color .24s ease, background .24s ease;
+  cursor: default;
 }
-.about-page .logo-slider:hover .logo-track .logo-card:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: var(--sh-lg);
+.about-page .logo-cell:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.05);
+  border-color: rgba(103,61,230,.2);
+  background: var(--white);
 }
-.about-page .logo-name {
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--navy);
-  text-align: center;
-  line-height: 1.25;
-  letter-spacing: -.01em;
+/* grayscale by default, full color on hover */
+.about-page .logo-img {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.55);
+  transition: filter .3s ease;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+.about-page .logo-cell:hover .logo-img {
+  filter: grayscale(0) opacity(1);
+}
+/* tablet: 3 col */
+@media (max-width: 900px) {
+  .about-page .logo-grid { grid-template-columns: repeat(3, 1fr); }
+}
+/* mobile: 2 col */
+@media (max-width: 560px) {
+  .about-page .logo-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-page .logo-cell { height: 72px; padding: 12px 16px; }
+  .about-page .logo-img  { height: 32px; }
 }
 
 /* ═══════════════════════════════════════════════════════════

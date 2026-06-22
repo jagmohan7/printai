@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" fill="none">
+  <rect x="2" y="6" width="30" height="30" rx="8" fill="#0089FF"/>
+  <path d="M9 13h16v4H13v3h11v4H13v7H9z" fill="#fff"/>
+  <text x="38" y="27" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0089FF" letter-spacing="-0.2">ERPNext</text>
+</svg>
