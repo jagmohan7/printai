@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About PrintAI — AI & Automation for Print Businesses',
+  title: 'About PrintOpsAI — AI & Automation for Print Businesses',
   description:
-    'PrintAI builds AI-powered automation platforms for print businesses. Learn our story, mission, and the team behind the platform.',
+    'PrintOpsAI builds AI-powered automation platforms for print businesses. Learn our story, mission, and the team behind the platform.',
   alternates: { canonical: '/about' },
 }
 

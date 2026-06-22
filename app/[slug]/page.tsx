@@ -30,8 +30,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return buildProductMetadata({
     cmsTitle:      page?.seo?.title,
     cmsDesc:       page?.seo?.description,
-    fallbackTitle: page?.title || "PrintAI",
-    fallbackDesc:  "PrintAI — AI automation for printing businesses.",
+    fallbackTitle: page?.title || "PrintOpsAI",
+    fallbackDesc:  "PrintOpsAI — AI automation for printing businesses.",
     path:          `/${slug}`,
   });
 }

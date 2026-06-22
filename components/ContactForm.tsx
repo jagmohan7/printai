@@ -40,9 +40,9 @@ const COUNTRY_CODES = [
 ];
 
 const inputBase =
-  "peer w-full px-4 pt-5 pb-2 bg-white border border-[color:var(--pa-line)] rounded-xl " +
-  "text-[color:var(--pa-ink)] text-[14.5px] outline-none transition-colors placeholder-transparent " +
-  "focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(19,192,122,0.12)]";
+  "peer w-full px-4 pt-5 pb-2 bg-[color:var(--pa-card)] border border-[color:var(--pa-line)] rounded-xl " +
+  "text-[color:var(--pa-ink)] text-[14.5px] outline-none transition-all duration-200 placeholder-transparent " +
+  "focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(103,61,230,0.14)] focus:shadow-[0_0_0_3px_rgba(103,61,230,0.08)]";
 
 const labelBase =
   "pointer-events-none absolute left-4 text-[color:var(--pa-ink-2)] text-[14px] transition-all duration-200 " +
@@ -121,10 +121,7 @@ function CountryCodePicker({
       <button
         type="button"
         onClick={() => { setOpen((o) => !o); setQuery(""); }}
-        className="w-full h-[54px] flex items-center justify-between gap-1.5 px-3 bg-white
-                   border border-[color:var(--pa-line)] rounded-xl text-[14px]
-                   text-[color:var(--pa-ink)] transition-colors outline-none
-                   focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(19,192,122,0.12)]"
+        className="w-full h-[54px] flex items-center justify-between gap-1.5 px-3 bg-[color:var(--pa-card)] border border-[color:var(--pa-line)] rounded-xl text-[14px] text-[color:var(--pa-ink)] transition-all outline-none focus:border-[color:var(--pa-teal)] focus:ring-2 focus:ring-[rgba(103,61,230,0.14)]"
         style={{ borderColor: open ? "var(--pa-teal)" : undefined }}
       >
         <span className="flex items-center gap-1.5 truncate">
@@ -142,7 +139,7 @@ function CountryCodePicker({
         <div
           className="absolute z-50 top-[58px] left-0 w-[220px] rounded-xl overflow-hidden"
           style={{
-            background: "#fff",
+            background: "var(--pa-card)",
             border: "1px solid var(--pa-line)",
             boxShadow: "0 12px 32px -8px rgba(11,22,40,0.15)",
           }}
@@ -171,8 +168,7 @@ function CountryCodePicker({
                   <button
                     type="button"
                     onClick={() => { onChange(c.code); setOpen(false); setQuery(""); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13.5px]
-                               transition-colors hover:bg-[rgba(19,192,122,0.07)]"
+                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13.5px] transition-colors hover:bg-[rgba(19,192,122,0.07)]"
                     style={{
                       color: "var(--pa-ink)",
                       background: c.code === value && c.name === selected.name
@@ -245,21 +241,19 @@ export default function ContactForm() {
   if (!mounted) return <div className="space-y-4 animate-pulse">{Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-[54px] rounded-xl bg-[color:var(--pa-line)]" />)}</div>;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3.5">
       {/* Row 1 — First + Last name */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <Field name="firstName" label="First Name" required />
         <Field name="lastName"  label="Last Name"  required />
       </div>
 
       {/* Row 2 — Email */}
-      <Field name="email" label="Email Address" type="email" required />
+      <Field name="email" label="Work Email" type="email" required />
 
       {/* Row 3 — Phone with country code */}
       <div className="flex gap-2">
         <CountryCodePicker value={countryCode} onChange={setCountryCode} />
-
-        {/* Phone number */}
         <div className="relative flex-1">
           <input
             id="phone" name="phone" type="tel"
@@ -276,7 +270,7 @@ export default function ContactForm() {
       <Field name="company" label="Company Name" />
 
       {/* Row 5 — Message */}
-      <Field name="message" label="Your Message" rows={4} />
+      <Field name="message" label="How can we help?" rows={3} />
 
       {/* Status */}
       {state.message && (
@@ -295,13 +289,17 @@ export default function ContactForm() {
       {/* Submit */}
       <button
         type="submit" disabled={isPending}
-        className="pa-btn-pri w-full flex items-center justify-center gap-2 py-4 px-6
-                   rounded-xl font-semibold text-[15px] disabled:opacity-60 transition-all duration-200"
+        className="pa-btn-pri w-full flex items-center justify-center gap-2.5 py-[14px] px-6 rounded-xl font-semibold text-[15px] disabled:opacity-60 transition-all duration-200"
+        style={{ boxShadow: "0 8px 24px rgba(103,61,230,0.30)" }}
       >
         {isPending
-          ? <><Loader2 className="w-5 h-5 animate-spin" /> Booking...</>
-          : <><CalendarCheck className="w-5 h-5" /> Book My Demo</>}
+          ? <><Loader2 className="w-5 h-5 animate-spin" /> Booking your demo…</>
+          : <><CalendarCheck className="w-5 h-5" /> Book My Free Demo</>}
       </button>
+
+      <p className="text-center text-[11.5px] text-[color:var(--pa-ink-2)]">
+        No credit card required · Response within 24 hours
+      </p>
     </form>
   );
 }

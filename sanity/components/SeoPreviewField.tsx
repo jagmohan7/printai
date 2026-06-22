@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useFormValue } from "sanity";
 import type { ReactElement } from "react";
@@ -173,7 +173,7 @@ export default function SeoPreviewField(): ReactElement {
         <div className="seo-preview-header">
           <div className="seo-preview-favicon">P</div>
           <div className="seo-preview-site">
-            <span className="seo-preview-sitename">PrintAI</span>
+            <span className="seo-preview-sitename">PrintOpsAI</span>
             <span className="seo-preview-url">https://printai.cloud{urlPath}</span>
           </div>
         </div>

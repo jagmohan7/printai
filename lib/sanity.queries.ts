@@ -17,7 +17,11 @@ const SITE_SETTINGS_QUERY = defineQuery(`
     brand {
       primaryColor,
       primaryDark,
-      navyColor
+      navyColor,
+      pageColor,
+      cardColor,
+      inkColor,
+      ink2Color
     },
     navbar {
       productLinks[] { label, href },
@@ -27,10 +31,12 @@ const SITE_SETTINGS_QUERY = defineQuery(`
     },
     footer {
       tagline,
-      socials[]      { label, href },
-      quickLinks[]   { label, href },
-      productLinks[] { label, href },
-      serviceLinks[] { label, href },
+      socials[]        { label, href },
+      quickLinks[]     { label, href },
+      productLinks[]   { label, href },
+      serviceLinks[]   { label, href },
+      resourceLinks[]  { label, href },
+      contactDetails[] { icon, value },
       copyright
     }
   }

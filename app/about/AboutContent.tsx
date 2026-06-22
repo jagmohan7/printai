@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect } from 'react'
 import './about.css'
@@ -26,26 +26,25 @@ const DEFAULT_CAPABILITIES = [
 ]
 
 const DEFAULT_TRUST_ITEMS = [
-  { val: '10+',    label: 'Years of Industry Expertise' },
+  { val: '20+',    label: 'Years of Combined Industry Expertise' },
   { val: '250+',   label: 'Print Businesses Served' },
   { val: '2,000+', label: 'Workflows Automated' },
   { val: '96%',    label: 'Client Retention' },
 ]
 
 const DEFAULT_FUTURE_STATS = [
-  { val: '250+', label: 'Print Businesses Served' },
-  { val: '96%',  label: 'Client Retention Rate' },
-  { val: '2K+',  label: 'Workflows Automated' },
-  { val: '10+',  label: 'Years of Expertise' },
+  { val: '250+',  label: 'Print Shops Onboarded' },
+  { val: '6',     label: 'AI Products in the Platform' },
+  { val: '48hrs', label: 'Average AI Chatbot Setup Time' },
 ]
 
 const DEFAULT_FEATURES = [
-  { icon: 'fa-file-invoice-dollar', title: 'AI Quoting',                desc: 'Instant quotes delivered to customers in under 3 minutes, 24 hours a day.' },
-  { icon: 'fa-boxes-stacked',       title: 'Smart Order Processing',     desc: 'Automated order intake, file validation and intelligent job routing.' },
-  { icon: 'fa-headset',             title: 'Automated Customer Support', desc: 'Handle the repetitive 80% without human intervention, at any hour.' },
-  { icon: 'fa-diagram-project',     title: 'Workflow Automation',        desc: 'Eliminate bottlenecks from art approval to dispatch, automatically.' },
-  { icon: 'fa-store',               title: 'Online Print Storefronts',   desc: 'Branded e-commerce with live proofing and one-click reorder built in.' },
-  { icon: 'fa-chart-line',          title: 'Operational Intelligence',   desc: 'Dashboards that surface the metrics that matter to print operators.' },
+  { icon: 'fa-print',         title: 'Print-Only Expertise',       desc: 'Every engineer, every product manager, every support person at PrintOpsAI works exclusively with print businesses. We understand prepress, press, and post-press — not just software.' },
+  { icon: 'fa-key',           title: 'You Own Everything',         desc: "We don't lock you in. Your web store runs on Shopify or WooCommerce — platforms you own. Your custom AI code is delivered to you with full source access. No dependency on us." },
+  { icon: 'fa-bullseye',      title: 'Built for Your ICP',         desc: "Whether you run a 10-person commercial print shop in Ohio or a 5-location franchise in Canada, PrintOpsAI's products are sized and priced for mid-market print businesses — not enterprises." },
+  { icon: 'fa-chart-line',    title: 'Real Results, Not Demos',    desc: 'Our case studies show real numbers from real clients: $120K annual savings, 300% revenue growth, 80% of enquiries auto-resolved. These are not projections. They are outcomes.' },
+  { icon: 'fa-tag',           title: 'Fixed-Price Custom AI',      desc: 'Our custom AI development is priced at a fixed fee ($15K–$75K). You know the cost before we start. No hourly billing, no scope creep, no surprises at invoice time.' },
+  { icon: 'fa-bolt',          title: '48-Hour AI Chatbot Setup',   desc: 'Most clients have a live, trained AI chatbot on their website within 48 hours of providing their pricing sheet and product catalogue. No months-long implementations.' },
 ]
 
 const DEFAULT_LOGOS = [
@@ -54,7 +53,7 @@ const DEFAULT_LOGOS = [
   'ERPNext', 'Cloudflare', 'OpenAI', 'Stripe', 'PRINTING United', 'FESPA',
 ]
 
-const DEFAULT_VALUES = ['Innovation', 'Reliability', 'Transparency', 'Customer Success', 'Industry Expertise']
+const DEFAULT_VALUES = ['Print-native, not print-adapted.', 'Results before features.', 'Transparent pricing, always.', 'Client owns their code and their data.', 'Build for real workflows, not demo environments.']
 
 // ── Helper — render heading with optional teal highlight ─────────────────────
 
@@ -99,17 +98,17 @@ export default function AboutContent({ data }: Props) {
       {/* ═══════════════ S1 · Hero ═══════════════════════════════════════════ */}
       <section className="hero">
         <div className="hero-body">
-          <span className="chip chip-glow fade-up">{hero?.chip ?? 'About PrintAI'}</span>
+          <span className="chip chip-glow fade-up">{hero?.chip ?? 'DRIVING PRINT GROWTH WITH PURPOSE'}</span>
 
           <h1 className="h-display hero-title fade-up d1">
             {hero?.heading
               ? <HL text={hero.heading} highlight={hero.headingHighlight} />
-              : <>Transform Your Print Business with{' '}<span className="teal">AI &amp; Automation</span></>
+              : <>About <span className="teal">Us</span></>
             }
           </h1>
 
           <p className="hero-sub fade-up d2">
-            {hero?.subtext ?? 'We build AI-powered systems that help print businesses automate customer support, streamline operations, and scale without proportionally growing headcount.'}
+            {hero?.subtext ?? 'PrintOpsAI is a USA and Canada-focused AI automation platform built exclusively for print businesses — combining chatbots, web-to-print storefronts, workflow automation, and custom AI into one connected platform.'}
           </p>
 
           <div className="hero-ctas fade-up d3">
@@ -147,7 +146,7 @@ export default function AboutContent({ data }: Props) {
         <div className="container">
           <div className="about-grid">
             <div className="about-left">
-              <p className="eyebrow fade-up">{about?.eyebrow ?? 'About PrintAI'}</p>
+              <p className="eyebrow fade-up">{about?.eyebrow ?? 'About PrintOpsAI'}</p>
               <h2 className="h2 fade-up d1">
                 {about?.heading
                   ? <HL text={about.heading} highlight={about.headingHighlight} />
@@ -158,13 +157,13 @@ export default function AboutContent({ data }: Props) {
                 &ldquo;{about?.pullQuote ?? "We don't just automate processes. We automate competitive advantages."}&rdquo;
               </blockquote>
               <p className="body fade-up d3">
-                {about?.paragraph1 ?? 'PrintAI was founded by a team obsessed with two things: the craft of printing and the transformative potential of artificial intelligence. We saw an industry full of talented businesses held back by manual, repetitive processes — and decided to do something about it.'}
+                {about?.paragraph1 ?? "PrintOpsAI is a USA and Canada-focused AI automation platform and print technology specialist, built from the ground up for the printing industry. We are not a generic software company that added a print module. We are a team of print industry specialists, AI engineers, and workflow architects who have spent years inside commercial print operations — learning every bottleneck, every manual process, and every missed lead that costs print businesses revenue. We don't make promises. We deliver performance."}
               </p>
               <p className="body fade-up d4">
-                {about?.paragraph2 ?? 'We build AI-powered platforms, chatbots, and automation systems specifically designed for print shops, sign companies, and wide-format businesses. Our solutions integrate with your existing workflows and grow with your business.'}
+                {about?.paragraph2 ?? "As a leading print automation software company and AI development partner for print shops, we build the tools that let print businesses stop managing spreadsheets and start growing their revenue. Our platform combines AI-powered chatbots, web-to-print storefronts, workflow automation, custom AI development, and managed DevOps infrastructure — all connected, all built for print, and all designed to run without a dedicated IT team."}
               </p>
               <p className="body fade-up d5">
-                {about?.paragraph3 ?? 'Every product we ship is built on deep industry experience, close customer collaboration, and a relentless focus on measurable outcomes.'}
+                {about?.paragraph3 ?? "We work with commercial printers, web-to-print businesses, multi-location print chains, packaging printers, and in-plant operations across the United States and Canada. If your print shop is still running on spreadsheets, disconnected tools, and manual quoting — PrintOpsAI was built for you."}
               </p>
             </div>
 
@@ -192,13 +191,13 @@ export default function AboutContent({ data }: Props) {
               <h2 className="h2">
                 {story?.heading
                   ? <HL text={story.heading} highlight={story.headingHighlight} />
-                  : <>Helping Print Businesses{' '}<span className="teal">Scale Through AI</span></>
+                  : <>Built by Print People,{' '}<span className="teal">for Print People.</span></>
                 }
               </h2>
             </div>
 
             <p className="story-intro fade-up d1">
-              {story?.intro ?? "We started PrintAI because we kept watching the same problem play out across print businesses of every size: talented teams drowning in emails, re-keying orders, chasing approvals, and answering the same customer questions over and over. The technology to fix all of that already existed — it just hadn't been built for print."}
+              {story?.intro ?? "PrintOpsAI was founded by a team who had spent years working with print businesses across the USA and Canada — watching shops lose leads after 5pm because no one answered the phone, watching CSR teams spend four hours a day re-entering the same order data into three different systems, and watching ambitious print shop owners hit a ceiling they couldn't break through without technology. The problem wasn't that print businesses lacked ambition. The problem was that every software company serving them was building generic tools and calling them 'print solutions.'"}
             </p>
 
             <p className="story-pull fade-up d2">
@@ -208,15 +207,15 @@ export default function AboutContent({ data }: Props) {
             <div className="story-cols fade-up d3">
               <div className="story-col">
                 <p className="body">
-                  {story?.col1Para1 ?? "We spent our first two years embedded with print businesses — learning their workflows, their pain points, their seasonal rushes and their customer expectations. That field experience is baked into every product we build."}
+                  {story?.col1Para1 ?? "Today, PrintOpsAI is an AI automation platform serving print businesses across North America — combining AI chatbots that answer quotes 24/7, web-to-print storefronts built on Shopify and WooCommerce, intelligent workflow automation from order intake to delivery, custom AI development where the client owns the source code, and managed DevOps infrastructure built specifically for file-heavy print environments. Every product we build has one goal: to give print businesses the same technology advantages that large print corporations have — without the enterprise price tag."}
                 </p>
                 <p className="body">
-                  {story?.col1Para2 ?? "Today we serve businesses ranging from three-person trade printers to regional print chains with 12 locations. Some came to us for a chatbot. Others for a full web-to-print platform. Most ended up with both — and more — once they saw what was possible."}
+                  {story?.col1Para2 ?? "We believe print is not a declining industry. It is an industry waiting for the right technology. Print businesses that adopt AI automation are not just surviving — they are growing faster, capturing more leads, and serving more customers with the same team they already have. We are here to make that happen for every print shop that is ready. That is PrintOpsAI."}
                 </p>
               </div>
               <div className="story-col">
                 <p className="body">
-                  {story?.col2Para1 ?? "We're proud to be a business that actually ships. Not decks, not pilots, not six-month discovery phases — real software, in production, running the quote desks and order flows of print shops across the world."}
+                  {story?.col2Para1 ?? "We decided to do something different. Instead of adapting existing SaaS products for print, we built from scratch — starting with a deep understanding of how print businesses actually operate. What does a pressman care about at 6am? What does a CSR spend 70% of their day on? What does a print shop owner lie awake worrying about at midnight? Those questions became the product. PrintOpsAI is the answer to all of them."}
                 </p>
                 <blockquote className="story-callout">
                   &ldquo;{story?.col2Callout ?? "The businesses that will win the next decade in print are the ones automating today. We're here to make sure more of them make that leap."}&rdquo;
@@ -238,14 +237,14 @@ export default function AboutContent({ data }: Props) {
               <div className="icon-box"><i className="fa-solid fa-bullseye" /></div>
               <div className="mvv-title">{mvv?.missionTitle ?? 'Our Mission'}</div>
               <p className="mvv-body">
-                {mvv?.missionBody ?? "To make AI-powered automation accessible to every print business — not just the ones with enterprise budgets. We believe automation should be a competitive equalizer, giving smaller shops the same operational leverage as the largest operators in the industry."}
+                {mvv?.missionBody ?? "Build AI automation tools that give every print business — regardless of size — the operational efficiency and technology advantage previously available only to large print corporations."}
               </p>
             </div>
             <div className="mvv-card fade-up d2">
               <div className="icon-box"><i className="fa-solid fa-eye" /></div>
               <div className="mvv-title">{mvv?.visionTitle ?? 'Our Vision'}</div>
               <p className="mvv-body">
-                {mvv?.visionBody ?? "A world where every print business, regardless of size or technical sophistication, has AI systems that understand their workflows, serve their customers, and grow their revenue — running quietly in the background while their teams focus on craft."}
+                {mvv?.visionBody ?? "A world where no print shop loses a lead because they were closed, misses a deadline because of manual scheduling, or reprints a job because of a file error that software could have caught."}
               </p>
             </div>
             <div className="mvv-card fade-up d3">
@@ -264,15 +263,15 @@ export default function AboutContent({ data }: Props) {
         <div className="container">
           <div className="future-top">
             <div className="future-left fade-up">
-              <p className="eyebrow">{future?.eyebrow ?? "What's Coming"}</p>
+              <p className="eyebrow">{future?.eyebrow ?? "MORE THAN AN AGENCY: YOUR STRATEGIC PRINT GROWTH PARTNER"}</p>
               <h2 className="h2" style={{ color: 'var(--ink)' }}>
                 {future?.heading
                   ? <HL text={future.heading} highlight={future.headingHighlight} />
-                  : <>The Future of{' '}<span className="teal">Print Automation</span></>
+                  : <>Print Automation Expertise That{' '}<span className="teal">No Generic Software Company Can Match.</span></>
                 }
               </h2>
               <p className="future-sub">
-                {future?.subtext ?? "The printing industry is undergoing its biggest transformation in decades. AI isn't coming to print — it's already here. The question is who adapts first."}
+                {future?.subtext ?? "Most software companies serve print as one of 40+ industries. Their support team doesn't know what bleed is. Their developers have never seen a press floor. Their chatbot cannot give an accurate quote for 500 business cards with gloss lamination at a 3-day turnaround. PrintOpsAI is different — we are the only AI automation company built exclusively for print businesses, and that specificity changes everything."}
               </p>
               <a href={future?.primaryButtonHref ?? '/#services'} className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
                 <i className="fa-solid fa-rocket" />
@@ -309,7 +308,7 @@ export default function AboutContent({ data }: Props) {
           <h2 className="h2 fade-up d1" style={{ color: 'var(--ink)' }}>
             {brands?.heading
               ? <HL text={brands.heading} highlight={brands.headingHighlight} />
-              : 'Brands That Trust PrintAI'
+              : 'Brands That Trust PrintOpsAI'
             }
           </h2>
         </div>
@@ -330,10 +329,10 @@ export default function AboutContent({ data }: Props) {
           <div className="reviews-hero-inner">
             <div className="fade-up">
               <h2 className="reviews-hero-title">
-                {reviews?.heading ?? 'What People Say About PrintAI'}
+                {reviews?.heading ?? 'What Print Shop Owners Say About PrintOpsAI'}
               </h2>
               <p className="reviews-hero-sub">
-                {reviews?.subtext ?? "What it's like to partner with PrintAI, straight from the clients who did."}
+                {reviews?.subtext ?? "What it's like to partner with PrintOpsAI, straight from the clients who did."}
               </p>
             </div>
             <div className="google-rating-card fade-up d1">
@@ -359,7 +358,7 @@ export default function AboutContent({ data }: Props) {
           </h2>
 
           <p className="cta-sub fade-up d2">
-            {cta?.subtext ?? 'Book a personalized demo and discover how PrintAI can automate customer support, online ordering, quote generation, and print workflows.'}
+            {cta?.subtext ?? "Book a personalised 30-minute demo and see how PrintOpsAI can transform your print operations. We'll walk through your current workflow, identify your biggest bottlenecks, and show you exactly what results are achievable for your specific type of print shop. No sales pressure. No commitments. Just a clear picture of what is possible."}
           </p>
 
           <div className="cta-btns fade-up d3">

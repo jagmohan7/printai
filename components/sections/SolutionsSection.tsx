@@ -73,7 +73,8 @@ const SPRING = { type: "spring", stiffness: 300, damping: 28, mass: 0.9 } as con
 export default function SolutionsSection({ data }: { data?: SanityServices }) {
   const heading = data?.heading ?? DEFAULTS.heading;
   const subtext = data?.subtext ?? DEFAULTS.subtext;
-  const cards   = data?.cards?.length ? data.cards : DEFAULTS.cards;
+  const cards   = (data?.cards?.length ? data.cards : DEFAULTS.cards)
+    .filter((c) => !/erpnext/i.test(c.title));
 
   const [activeIdx, setActiveIdx] = useState(0);
   const [swiper, setSwiper]       = useState<SwiperType | null>(null);
@@ -84,8 +85,7 @@ export default function SolutionsSection({ data }: { data?: SanityServices }) {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
           <span className="pa-eyebrow">Our Solutions</span>
-          <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.1]
-                         text-[2rem] sm:text-[2.4rem] lg:text-[2.6rem]">
+          <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.1] text-[2rem] sm:text-[2.4rem] lg:text-[2.6rem]">
             {heading}
           </h2>
           <p className="pa-soft mt-4 text-[16px] leading-[1.7]">{subtext}</p>

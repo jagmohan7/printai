@@ -78,8 +78,7 @@ export default function TestimonialsSection({ data }: { data?: SanityTestimonial
         <MotionInView className="flex items-center justify-between gap-6 flex-wrap mb-10 lg:mb-12">
           <div>
             <span className="pa-eyebrow">{eyebrow}</span>
-            <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.12]
-                           text-[1.9rem] sm:text-[2.3rem] lg:text-[2.4rem]">
+            <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.12] text-[1.9rem] sm:text-[2.3rem] lg:text-[2.4rem]">
               {heading}
             </h2>
           </div>

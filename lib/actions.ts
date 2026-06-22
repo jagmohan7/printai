@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 import nodemailer from "nodemailer";
 
 export type ContactFormState = {
@@ -33,7 +33,7 @@ export async function submitContact(
     });
 
     await transporter.sendMail({
-      from: `"PrintAI Contact" <${process.env.SMTP_USER}>`,
+      from: `"PrintOpsAI Contact" <${process.env.SMTP_USER}>`,
       to: process.env.SMTP_USER,
       replyTo: email,
       subject: `New Inquiry from ${name} – ${service || "General"}`,

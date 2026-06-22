@@ -1,12 +1,12 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import { getAboutPage } from "@/lib/sanity.queries"
 import { buildProductMetadata } from "@/lib/page-metadata"
 import AboutContent from "./AboutContent"
 
 export const revalidate = 5
 
-const TITLE       = "About PrintAI — AI & Automation for the Print Industry"
-const DESCRIPTION = "Learn how PrintAI helps print businesses automate customer support, streamline operations, and grow with AI-powered systems built specifically for print."
+const TITLE       = "About PrintOpsAI — AI Print Automation Company | USA & Canada"
+const DESCRIPTION = "PrintOpsAI is a USA and Canada-based AI automation platform built exclusively for print businesses. Learn about our team, our story, and why 250+ print shops trust us to automate their operations."
 const PATH        = "/about"
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -1,24 +1,33 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { SanityNavbar } from "@/lib/sanity.types";
+import { usePathname, useRouter } from "next/navigation";
+import type { SanityNavbar, MainNavLink } from "@/lib/sanity.types";
+import { useLeadModal } from "@/components/modals/LeadModalContext";
+
+// Maps current route to the right modal + entity name
+const ROUTE_MODAL_MAP: Record<string, { type: "product" | "service"; name: string }> = {
+  "/products/chatbots":      { type: "product",  name: "AI Chatbot" },
+  "/products/web-to-print":  { type: "product",  name: "Web-to-Print Platform" },
+  "/services/automation":    { type: "service",  name: "Workflow Automation" },
+  "/services/custom-ai":     { type: "service",  name: "Custom AI Development" },
+  "/services/devops":        { type: "service",  name: "DevOps & Infrastructure" },
+};
 
 type DropdownKey = "products" | "services" | "resources";
 
-// ── Top-level nav (labels hardcoded; dropdown items below are CMS-driven) ─────
-const navLinks: { label: string; href: string; dropdown?: DropdownKey }[] = [
+// ── Default nav (used when Sanity has no data) ──────────────────────────────────
+const DEFAULT_MAIN_NAV = [
   { label: "Home",      href: "/#home" },
   { label: "About",     href: "/about" },
-  { label: "Products",  href: "/products/chatbots",   dropdown: "products" },
-  { label: "Services",  href: "/services/automation", dropdown: "services" },
-  { label: "Resources", href: "/resources",           dropdown: "resources" },
+  { label: "Products",  href: "/products/chatbots",   hasDropdown: true },
+  { label: "Services",  href: "/services/automation", hasDropdown: true },
+  { label: "Resources", href: "/resources",           hasDropdown: true },
 ];
 
-// ── Dropdown fallbacks (used when Sanity has no data) ─────────────────────────
 const DEFAULT_PRODUCT_LINKS = [
   { label: "AI Chatbot",   href: "/products/chatbots" },
-  { label: "Web To Print", href: "/products/web-to-print" },
+  { label: "Web-to-Print", href: "/products/web-to-print" },
 ];
 
 const DEFAULT_SERVICE_LINKS = [
@@ -27,25 +36,53 @@ const DEFAULT_SERVICE_LINKS = [
   { label: "Custom AI Development",     href: "/services/custom-ai" },
 ];
 
-// Resources dropdown is not yet CMS-backed — hardcoded for now.
-const RESOURCE_LINKS = [
+const DEFAULT_RESOURCE_LINKS = [
   { label: "Blogs",        href: "/resources" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "FAQs",         href: "/#faq" },
+  { label: "FAQs",         href: "/faqs" },
 ];
 
 const DEFAULT_CTA = { text: "Book Demo", href: "/#contact" };
 
 export default function Navbar({ data }: { data?: SanityNavbar }) {
-  const productLinks = data?.productLinks?.length ? data.productLinks : DEFAULT_PRODUCT_LINKS;
-  const serviceLinks = data?.serviceLinks?.length ? data.serviceLinks : DEFAULT_SERVICE_LINKS;
-  const ctaText      = data?.ctaText || DEFAULT_CTA.text;
-  const ctaHref      = data?.ctaHref || DEFAULT_CTA.href;
+  const { openProductDemo, openServiceConsultation } = useLeadModal();
+  const router = useRouter();
+  const mainNav       = data?.mainNavLinks?.length ? data.mainNavLinks : DEFAULT_MAIN_NAV;
+  const productLinks  = data?.productLinks?.length ? data.productLinks : DEFAULT_PRODUCT_LINKS;
+  const serviceLinks  = data?.serviceLinks?.length ? data.serviceLinks : DEFAULT_SERVICE_LINKS;
+  const resourceLinks = data?.resourceLinks?.length ? data.resourceLinks : DEFAULT_RESOURCE_LINKS;
+  const ctaText       = data?.ctaText || DEFAULT_CTA.text;
+  const ctaHref       = data?.ctaHref || DEFAULT_CTA.href;
+
+  // Convert mainNav hasDropdown to dropdown key for rendering
+  const navLinks: { label: string; href: string; dropdown?: DropdownKey }[] = mainNav.map((link: MainNavLink) => {
+    const dropdownMap: Record<string, DropdownKey> = {
+      "Products":  "products",
+      "Services":  "services",
+      "Resources": "resources",
+    };
+    return {
+      label: link.label,
+      href: link.href,
+      dropdown: link.hasDropdown ? dropdownMap[link.label] : undefined,
+    };
+  });
 
   const dropdownLinks: Record<DropdownKey, { label: string; href: string }[]> = {
     products:  productLinks,
     services:  serviceLinks,
-    resources: RESOURCE_LINKS,
+    resources: resourceLinks,
+  };
+
+  const handleCtaClick = () => {
+    const match = pathname ? ROUTE_MODAL_MAP[pathname] : undefined;
+    if (match?.type === "product") {
+      openProductDemo(match.name);
+    } else if (match?.type === "service") {
+      openServiceConsultation(match.name);
+    } else {
+      router.push("/#contact");
+    }
   };
 
   const [mounted,      setMounted]      = useState(false);
@@ -146,13 +183,13 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
     <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
       <span
         className="relative w-[34px] h-[34px] rounded-[9px] flex-shrink-0"
-        style={{ background: "linear-gradient(150deg,#13C07A,#0F6E56)", boxShadow: "0 4px 12px rgba(15,110,86,.35)" }}
+        style={{ background: "linear-gradient(150deg,var(--pa-teal),var(--pa-teal-deep))", boxShadow: "0 4px 12px rgba(15,110,86,.35)" }}
       >
         <span className="absolute rounded-[3px]" style={{ inset: "9px 10px", background: "rgba(255,255,255,.92)" }} />
-        <span className="absolute rounded-full" style={{ left: 13, top: 13, width: 8, height: 8, background: "#0F6E56" }} />
+        <span className="absolute rounded-full" style={{ left: 13, top: 13, width: 8, height: 8, background: "var(--pa-teal-deep)" }} />
       </span>
       <span className="pa-word font-extrabold text-[20px] tracking-tight">
-        Print<span style={{ color: "#13C07A" }}>AI</span>
+        Print<span style={{ color: "var(--pa-teal)" }}>AI</span>
       </span>
     </Link>
   );
@@ -162,21 +199,16 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
       <style>{`
         :root {
           --pa-ink:#0B1628; --pa-ink2:#5A6675; --pa-line:#E3E7EC; --pa-card:#ffffff;
-          /* Solid bar — pages behind are still dark, so translucent glass reads
-             as muddy grey. Reintroduce glass once the light homepage lands. */
           --pa-bar:#ffffff; --pa-bar-scroll:#ffffff;
         }
         :root[data-theme="dark"] {
           --pa-ink:#EAF1F8; --pa-ink2:#9FB3C8; --pa-line:rgba(255,255,255,.12); --pa-card:#13243E;
-          --pa-bar:#0B1628; --pa-bar-scroll:#0B1628;
+          --pa-bar:var(--pa-navy); --pa-bar-scroll:var(--pa-navy);
         }
 
         .pa-bar {
           background: var(--pa-bar);
           border-bottom: 1px solid var(--pa-line);
-          /* No backdrop-filter while pages behind are dark — a blur layer samples
-             the dark page and tints the solid bar grey. Add it back with the
-             light homepage if a frosted-glass look is wanted. */
           transition: background .3s, box-shadow .3s, border-color .3s;
         }
         .pa-bar.is-scrolled { background: var(--pa-bar-scroll); box-shadow: 0 2px 24px rgba(11,22,40,.10); }
@@ -186,24 +218,24 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
 
         .pa-link { position: relative; color: var(--pa-ink2); transition: color .2s; background: transparent; border: 0; cursor: pointer; }
         .pa-link:hover, .pa-link.is-active { color: var(--pa-ink); }
-        .pa-link::after { content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:#13C07A; border-radius:2px; transition:width .25s ease; }
+        .pa-link::after { content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background:var(--pa-teal); border-radius:2px; transition:width .25s ease; }
         .pa-link:hover::after, .pa-link.is-active::after { width:100%; }
 
         .pa-toggle { color: var(--pa-ink2); border:1px solid var(--pa-line); background:transparent; transition: color .2s, border-color .2s; }
-        .pa-toggle:hover { color: var(--pa-ink); border-color:#13C07A; }
+        .pa-toggle:hover { color: var(--pa-ink); border-color:var(--pa-teal); }
 
         .pa-ghost { color: var(--pa-ink); border:1px solid var(--pa-line); background:transparent; transition: border-color .2s, color .2s; }
-        .pa-ghost:hover { border-color:#13C07A; color:#0F6E56; }
-        :root[data-theme="dark"] .pa-ghost:hover { color:#13C07A; }
+        .pa-ghost:hover { border-color:var(--pa-teal); color:var(--pa-teal-deep); }
+        :root[data-theme="dark"] .pa-ghost:hover { color:var(--pa-teal); }
 
-        .pa-cta { color:#062A1E; background:#13C07A; box-shadow:0 6px 18px rgba(19,192,122,.30); transition: background .2s, color .2s, transform .2s; }
-        .pa-cta:hover { background:#0F6E56; color:#fff; transform:translateY(-1px); }
+        .pa-cta { color:#fff; background:var(--pa-teal); box-shadow:0 6px 18px rgba(19,192,122,.30); transition: background .2s, color .2s, transform .2s; }
+        .pa-cta:hover { background:var(--pa-teal-deep); color:#fff; transform:translateY(-1px); }
 
         .pa-drop { background: var(--pa-card); border:1px solid var(--pa-line); box-shadow:0 16px 40px rgba(11,22,40,.14); }
         :root[data-theme="dark"] .pa-drop { box-shadow:0 16px 40px rgba(0,0,0,.5); }
         .pa-drop-item { color: var(--pa-ink2); transition: color .15s, background .15s; }
-        .pa-drop-item:hover { color:#0F6E56; background: rgba(19,192,122,.10); }
-        :root[data-theme="dark"] .pa-drop-item:hover { color:#13C07A; }
+        .pa-drop-item:hover { color:var(--pa-teal-deep); background: rgba(19,192,122,.10); }
+        :root[data-theme="dark"] .pa-drop-item:hover { color:var(--pa-teal); }
 
         .pa-mobile { background: var(--pa-card); border-top:1px solid var(--pa-line); box-shadow:0 8px 24px rgba(11,22,40,.12); }
         .pa-mlink { color: var(--pa-ink2); }
@@ -211,7 +243,7 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
         .pa-mhead { color: var(--pa-ink); background: transparent; border: 0; cursor: pointer; }
         .pa-burger { color: var(--pa-ink); }
         .pa-switch { background: var(--pa-line); }
-        .pa-switch.on { background:#13C07A; }
+        .pa-switch.on { background:var(--pa-teal); }
         .pa-switch-knob { background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.3); }
       `}</style>
 
@@ -285,9 +317,12 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
             <Link href="/#contact" className="pa-ghost inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-[14px] font-semibold">
               Contact
             </Link>
-            <Link href={ctaHref} className="pa-cta inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-[14px] font-semibold">
+            <button
+              onClick={handleCtaClick}
+              className="pa-cta inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-[14px] font-semibold cursor-pointer"
+            >
               {ctaText}
-            </Link>
+            </button>
           </div>
 
           {/* Mobile hamburger */}
@@ -367,13 +402,12 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
           </button>
 
           {/* CTAs — mobile */}
-          <Link
-            href={ctaHref}
-            onClick={() => setMobileOpen(false)}
-            className="pa-cta block mt-3 text-center px-5 py-3 text-[14px] font-semibold rounded-xl"
+          <button
+            onClick={() => { setMobileOpen(false); handleCtaClick(); }}
+            className="pa-cta block mt-3 text-center px-5 py-3 text-[14px] font-semibold rounded-xl w-full cursor-pointer"
           >
             {ctaText}
-          </Link>
+          </button>
           <Link
             href="/#contact"
             onClick={() => setMobileOpen(false)}

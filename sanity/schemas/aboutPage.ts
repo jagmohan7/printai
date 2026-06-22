@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+﻿import { defineType, defineField } from "sanity";
 import { UsersIcon } from "@sanity/icons";
 
 export const aboutPage = defineType({
@@ -29,7 +29,7 @@ export const aboutPage = defineType({
     defineField({
       name: "hero", title: "Hero Section", type: "object", group: "hero",
       fields: [
-        defineField({ name: "chip",                title: "Badge Text",           type: "string", placeholder: "About PrintAI" }),
+        defineField({ name: "chip",                title: "Badge Text",           type: "string", placeholder: "About PrintOpsAI" }),
         defineField({ name: "heading",             title: "Heading",              type: "string", placeholder: "Transform Your Print Business with AI & Automation" }),
         defineField({ name: "headingHighlight",    title: "Highlight Phrase",     type: "string", placeholder: "AI & Automation", description: "Must appear verbatim in Heading" }),
         defineField({ name: "subtext",             title: "Subtext",              type: "text", rows: 3 }),
@@ -59,7 +59,7 @@ export const aboutPage = defineType({
     defineField({
       name: "about", title: "About + Capabilities", type: "object", group: "about",
       fields: [
-        defineField({ name: "eyebrow",          title: "Eyebrow",          type: "string", placeholder: "About PrintAI" }),
+        defineField({ name: "eyebrow",          title: "Eyebrow",          type: "string", placeholder: "About PrintOpsAI" }),
         defineField({ name: "heading",           title: "Heading",          type: "string" }),
         defineField({ name: "headingHighlight",  title: "Highlight Phrase", type: "string" }),
         defineField({ name: "pullQuote",         title: "Pull Quote",       type: "text", rows: 2 }),

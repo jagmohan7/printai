@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+﻿import { defineType, defineField } from "sanity";
 import { DocumentTextIcon } from "@sanity/icons";
 import SeoPreviewField from "../components/SeoPreviewField";
 
@@ -169,7 +169,7 @@ export const homepage = defineType({
       description:
         "The 3 headline solutions — AI Chatbot, Web-to-Print Platform, Workflow Automation. " +
         "Each card needs a title, icon, 1-sentence description, a page link, and up to 3 feature " +
-        "bullets. Only the first 3 non-ERPNext cards render.",
+        "bullets.",
       fields: [
         defineField({ name: "badge",            title: "Badge Text",    type: "string",
           validation: (Rule) => Rule.max(60).warning("Keep badges short.") }),
@@ -180,7 +180,7 @@ export const homepage = defineType({
         defineField({ name: "subtext",          title: "Subtext",       type: "text", rows: 2 }),
         defineField({
           name: "cards", title: "Solution Cards", type: "array",
-          description: "3 cards. Use titles 'AI Chatbot', 'Web-to-Print Platform', 'Workflow Automation' — the title controls the icon. ERPNext cards are skipped on the homepage.",
+          description: "3 cards. Use titles 'AI Chatbot', 'Web-to-Print Platform', 'Workflow Automation' — the title controls the icon.",
           of: [defineField({
             name: "card", title: "Service Card", type: "object",
             preview: { select: { title: "title", subtitle: "description" } },
@@ -193,7 +193,6 @@ export const homepage = defineType({
                   list: [
                     { title: "💬  Chat / Chatbot",          value: "MessagesSquare" },
                     { title: "🌐  Globe / Web",              value: "Globe" },
-                    { title: "🗄️  Database / ERP",           value: "Database" },
                     { title: "⚙️  Settings / Automation",    value: "Settings" },
                     { title: "🖥️  Server / DevOps",          value: "Server" },
                     { title: "🧠  Brain / AI",               value: "Brain" },
@@ -316,7 +315,7 @@ export const homepage = defineType({
 
     // ── WHY PRINTAI ──────────────────────────────────────────────────────────
     defineField({
-      name: "why", title: "Why PrintAI Section", type: "object", group: "why",
+      name: "why", title: "Why PrintOpsAI Section", type: "object", group: "why",
       description:
         "Differentiator section — 4 feature cards explaining the unique value props. " +
         "Card titles must match exactly: 'Reduce Time Wastage', 'Optimize Decision Making', " +

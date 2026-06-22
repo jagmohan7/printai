@@ -1,5 +1,6 @@
 // ─── Shared ───────────────────────────────────────────────────────────────────
 export interface NavLink { label: string; href: string; }
+export interface MainNavLink { label: string; href: string; hasDropdown?: boolean; }
 
 // ─── Site Settings Types ──────────────────────────────────────────────────────
 export interface SanityBrandColors {
@@ -9,10 +10,12 @@ export interface SanityBrandColors {
 }
 
 export interface SanityNavbar {
-  productLinks: NavLink[];
-  serviceLinks: NavLink[];
-  ctaText:      string;
-  ctaHref:      string;
+  mainNavLinks?:   MainNavLink[];
+  productLinks:    NavLink[];
+  serviceLinks:    NavLink[];
+  resourceLinks?:  NavLink[];
+  ctaText:         string;
+  ctaHref:         string;
 }
 
 export interface SanityFooter {

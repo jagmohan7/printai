@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Shared mapping between Sanity document IDs and the live routes / labels /
  * emoji icons / schema types used to represent them across the studio.
  *
@@ -34,7 +34,7 @@ export const DOC_ID_TO_EMOJI: Record<string, string> = {
 };
 
 export const DOC_ID_TO_LABEL: Record<string, string> = {
-  homepage:            "PrintAI Homepage",
+  homepage:            "PrintOpsAI Homepage",
   "chatbots-page":     "AI Chatbot",
   "web-to-print-page": "Web-to-Print Platform",
   "automation-page":   "Print Workflow Automation",

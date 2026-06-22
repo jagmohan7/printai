@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { LeadModalProvider } from "@/components/modals/LeadModalContext";
 import type { SanityNavbar, SanityFooter } from "@/lib/sanity.types";
 
 export default function SiteShell({
@@ -17,10 +18,10 @@ export default function SiteShell({
   const isAdmin  = pathname?.startsWith("/admin");
 
   return (
-    <>
+    <LeadModalProvider>
       {!isAdmin && <Navbar data={navData} />}
       <main className="flex-1">{children}</main>
       {!isAdmin && <Footer data={footerData} />}
-    </>
+    </LeadModalProvider>
   );
 }

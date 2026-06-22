@@ -398,8 +398,7 @@ export default function HeroSection({ data }: { data?: SanityHero }) {
       <div className="pointer-events-none absolute -top-24 -right-24 w-[480px] h-[480px] rounded-full"
         style={{ background: "radial-gradient(circle, rgba(19,192,122,0.10) 0%, transparent 70%)" }} />
 
-      <div className="relative max-w-[1200px] mx-auto px-6 pt-[120px] pb-16 lg:pt-[140px] lg:pb-24
-                      grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
+      <div className="relative max-w-[1200px] mx-auto px-6 pt-[120px] pb-16 lg:pt-[140px] lg:pb-24 grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
         {/* LEFT */}
         <div className="max-w-[560px]">
           <span className="pa-hero-eyebrow text-[12px] font-semibold tracking-[0.14em] uppercase">{badge}</span>
@@ -417,13 +416,11 @@ export default function HeroSection({ data }: { data?: SanityHero }) {
 
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
             <Link href={primaryHref}
-              className="pa-hero-pri inline-flex items-center justify-center px-7 h-[52px] rounded-xl
-                         font-semibold text-[15px] transition-all duration-200 shadow-[0_8px_22px_rgba(19,192,122,0.28)]">
+              className="pa-hero-pri inline-flex items-center justify-center px-7 h-[52px] rounded-xl font-semibold text-[15px] transition-all duration-200 shadow-[0_8px_22px_rgba(19,192,122,0.28)]">
               {primaryText}
             </Link>
             <Link href={secondaryHref}
-              className="pa-hero-ghost inline-flex items-center justify-center px-7 h-[52px] rounded-xl
-                         font-semibold text-[15px] transition-colors duration-200">
+              className="pa-hero-ghost inline-flex items-center justify-center px-7 h-[52px] rounded-xl font-semibold text-[15px] transition-colors duration-200">
               {secondaryText}
             </Link>
           </div>

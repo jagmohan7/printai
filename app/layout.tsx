@@ -26,17 +26,17 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const SITE_URL = "https://printai.cloud";
-const SITE_NAME = "PrintAI";
-const SITE_TITLE = "PrintAI – AI-Powered Automation for Printing Businesses";
+const SITE_NAME = "PrintOpsAI";
+const SITE_TITLE = "PrintOpsAI – AI-Powered Automation for Printing Businesses";
 const SITE_DESCRIPTION =
-  "PrintAI delivers intelligent chatbots and end-to-end print workflow automation that captures more leads, reduces touch-time, and scales operations.";
+  "PrintOpsAI delivers intelligent chatbots and end-to-end print workflow automation that captures more leads, reduces touch-time, and scales operations.";
 const OG_IMAGE = "/logo.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: "%s | PrintAI",
+    template: "%s | PrintOpsAI",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "PrintAI – AI Automation for Print Shops" }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "PrintOpsAI – AI Automation for Print Shops" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -107,7 +107,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE_NAME,
-  legalName: "PrintAI",
+  legalName: "PrintOpsAI",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   description: SITE_DESCRIPTION,
@@ -146,15 +146,25 @@ function sanitizeHex(v: unknown): string | null {
   if (typeof v !== "string") return null;
   return /^#[0-9a-fA-F]{3,8}$/.test(v.trim()) ? v.trim() : null;
 }
-function buildBrandStyle(brand?: { primaryColor?: string; primaryDark?: string; navyColor?: string } | null): string {
+function buildBrandStyle(brand?: {
+  primaryColor?: string; primaryDark?: string; navyColor?: string;
+  pageColor?: string; cardColor?: string; inkColor?: string; ink2Color?: string;
+} | null): string {
   if (!brand) return "";
   const vars: string[] = [];
-  const t  = sanitizeHex(brand.primaryColor);
-  const td = sanitizeHex(brand.primaryDark);
-  const n  = sanitizeHex(brand.navyColor);
-  if (t)  vars.push(`--pa-teal:${t}`);
-  if (td) vars.push(`--pa-teal-deep:${td}`);
-  if (n)  vars.push(`--pa-navy:${n}`);
+  const map: [string | undefined, string][] = [
+    [brand.primaryColor, "--pa-teal"],
+    [brand.primaryDark,  "--pa-teal-deep"],
+    [brand.navyColor,    "--pa-navy"],
+    [brand.pageColor,    "--pa-page"],
+    [brand.cardColor,    "--pa-card"],
+    [brand.inkColor,     "--pa-ink"],
+    [brand.ink2Color,    "--pa-ink-2"],
+  ];
+  for (const [val, prop] of map) {
+    const hex = sanitizeHex(val);
+    if (hex) vars.push(`${prop}:${hex}`);
+  }
   return vars.length ? `:root{${vars.join(";")}}` : "";
 }
 
@@ -182,7 +192,7 @@ export default async function RootLayout({
 
         {/* Dynamic brand colors from Sanity — overrides :root defaults in globals.css.
             Sanitised server-side (hex-only regex) before injection. */}
-        {brandStyle && <style dangerouslySetInnerHTML={{ __html: brandStyle }} />}
+        {brandStyle && <style id="pa-brand" suppressHydrationWarning dangerouslySetInnerHTML={{ __html: brandStyle }} />}
 
         {/* Organization + WebSite JSON-LD (global) */}
         <Script

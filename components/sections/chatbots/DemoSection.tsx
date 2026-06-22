@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import MotionInView from "@/components/MotionInView";
-import Link from "next/link";
+import { useLeadModal } from "@/components/modals/LeadModalContext";
 
 export interface DemoSectionData {
   heading?: string;
@@ -18,7 +18,7 @@ interface Props { data?: DemoSectionData | null }
 const FALLBACK = {
   heading:       "See a Real Chatbot in Action",
   highlightWord: "in Action",
-  description:   "Watch PrintAI handle a real customer conversation — pricing, file specs, and a smooth human handoff. This is what your customers experience from the first message.",
+  description:   "Watch PrintOpsAI handle a real customer conversation — pricing, file specs, and a smooth human handoff. This is what your customers experience from the first message.",
   ctaText:       "Book 20-Min Demo",
   ctaHref:       "/#contact",
   demoMessages: [
@@ -39,11 +39,11 @@ function splitHeading(heading: string, highlight?: string): [string, string, str
 }
 
 export default function DemoSection({ data }: Props) {
+  const { openProductDemo } = useLeadModal();
   const heading       = data?.heading       ?? FALLBACK.heading;
   const highlightWord = data?.highlightWord ?? FALLBACK.highlightWord;
   const description   = data?.description   ?? FALLBACK.description;
   const ctaText       = data?.ctaText       ?? FALLBACK.ctaText;
-  const ctaHref       = data?.ctaHref       ?? FALLBACK.ctaHref;
   const messages      = (data?.demoMessages && data.demoMessages.length > 0) ? data.demoMessages : FALLBACK.demoMessages;
   const buttons       = (data?.quickReplyButtons && data.quickReplyButtons.length > 0) ? data.quickReplyButtons : FALLBACK.quickReplyButtons;
 
@@ -74,12 +74,12 @@ export default function DemoSection({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.2}>
-            <Link
-              href={ctaHref}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white font-semibold text-base shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_45px_rgba(59,130,246,0.6)] hover:-translate-y-0.5 transition-all duration-300"
+            <button
+              onClick={() => openProductDemo("AI Chatbot")}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] text-white font-semibold text-base shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_45px_rgba(59,130,246,0.6)] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
             >
               {ctaText}
-            </Link>
+            </button>
           </MotionInView>
         </div>
 
@@ -89,7 +89,7 @@ export default function DemoSection({ data }: Props) {
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white text-sm font-bold">P</div>
                 <div>
-                  <p className="pa-ink-text text-sm font-semibold leading-none">PrintAI Assistant</p>
+                  <p className="pa-ink-text text-sm font-semibold leading-none">PrintOpsAI Assistant</p>
                   <p className="pa-soft text-[11px] mt-0.5">Print Specialist</p>
                 </div>
               </div>

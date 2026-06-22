@@ -72,8 +72,7 @@ export default function HowItWorksSection({ data }: { data?: SanityHowItWorks })
           className="text-center mb-16 lg:mb-20"
         >
           <span className="pa-eyebrow">{eyebrow}</span>
-          <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.12]
-                         text-[2rem] sm:text-[2.4rem] lg:text-[2.6rem]">
+          <h2 className="pa-ink-text mt-4 font-extrabold tracking-tight leading-[1.12] text-[2rem] sm:text-[2.4rem] lg:text-[2.6rem]">
             {heading}
           </h2>
           <p className="pa-soft mt-3 text-[16px]">{DEFAULTS.subtext}</p>
@@ -117,8 +116,7 @@ export default function HowItWorksSection({ data }: { data?: SanityHowItWorks })
                       initial={{ scale: 0 }}
                       animate={inView ? { scale: 1 } : {}}
                       transition={{ type: "spring", stiffness: 400, damping: 16, delay: stepDelay + 0.22 }}
-                      className="absolute -top-1.5 -right-1.5 w-[26px] h-[26px] rounded-full
-                                 flex items-center justify-center text-[11px] font-bold"
+                      className="absolute -top-1.5 -right-1.5 w-[26px] h-[26px] rounded-full flex items-center justify-center text-[11px] font-bold"
                       style={{
                         background: "#FFFFFF",
                         color: "#0B1628",

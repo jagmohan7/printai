@@ -17,7 +17,7 @@ export default function StatsSection({ data }: { data?: SanityStats }) {
   const items = data?.items?.length ? data.items : DEFAULT_ITEMS;
 
   return (
-    <section className="bg-[#0B1628]">
+    <section className="bg-[var(--pa-navy)]">
       <div className="max-w-[1200px] mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
           {items.map((s, i) => (
@@ -25,10 +25,10 @@ export default function StatsSection({ data }: { data?: SanityStats }) {
               key={i}
               className="h-[80px] md:h-[100px] flex items-center justify-center md:justify-start gap-3 px-6"
             >
-              <span className="font-extrabold text-[#13C07A] leading-none tracking-tight text-[20px] md:text-[22px] whitespace-nowrap">
+              <span className="font-extrabold text-[var(--pa-teal)] leading-none tracking-tight text-[30px] whitespace-nowrap">
                 {s.value}
               </span>
-              <span className="text-[12px] text-[#9FB3C8] leading-tight">{s.label}</span>
+              <span className="text-[16px] text-[#9FB3C8] leading-tight">{s.label}</span>
             </div>
           ))}
         </div>

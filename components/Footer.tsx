@@ -19,31 +19,32 @@ const DEFAULTS = {
     { label: "Instagram", href: "https://www.instagram.com/printai" },
   ],
   quickLinks: [
-    { label: "About Us",     href: "/#about" },
-    { label: "Case Studies", href: "/case-studies" },
-    { label: "Resources",    href: "/resources" },
-    { label: "Contact",      href: "/#contact" },
+    { label: "Home",     href: "/#home" },
+    { label: "About Us", href: "/#about" },
+    { label: "Contact",  href: "/#contact" },
   ],
   productLinks: [
-    { label: "AI Chatbot",            href: "/products/chatbots" },
-    { label: "Web-to-Print",          href: "/products/web-to-print" },
-    { label: "Workflow Automation",   href: "/services/automation" },
+    { label: "AI Chatbot",                href: "/products/chatbots" },
+    { label: "Web-to-Print",              href: "/products/web-to-print" },
+    { label: "Print Workflow Automation", href: "/services/automation" },
+    { label: "DevOps",                    href: "/services/devops" },
+    { label: "Custom AI Systems",         href: "/services/custom-ai" },
   ],
   serviceLinks: [
-    { label: "Blog",         href: "/resources" },
+    { label: "Blogs",        href: "/resources" },
     { label: "Case Studies", href: "/case-studies" },
-    { label: "FAQs",         href: "/#faq" },
+    { label: "FAQs",         href: "/faqs" },
   ],
 };
 
 function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
   return (
     <div>
-      <h3 className="text-white font-bold text-[14px] mb-4">{title}</h3>
+      <h3 className="pa-footer-heading font-bold text-[14px] mb-4">{title}</h3>
       <ul className="space-y-3">
         {links.map(({ label, href }) => (
           <li key={`${label}-${href}`}>
-            <Link href={href} className="text-[#9FB3C8] text-[13.5px] hover:text-[#13C07A] transition-colors">
+            <Link href={href} className="pa-footer-link text-[13.5px] transition-colors">
               {label}
             </Link>
           </li>
@@ -56,35 +57,36 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
 export default function Footer({ data }: { data?: SanityFooter }) {
   const tagline      = data?.tagline      || DEFAULTS.tagline;
   const copyright    = data?.copyright    || DEFAULTS.copyright;
-  const socials      = data?.socials?.length      ? data.socials      : DEFAULTS.socials;
-  const quickLinks   = data?.quickLinks?.length   ? data.quickLinks   : DEFAULTS.quickLinks;
-  const productLinks = data?.productLinks?.length ? data.productLinks : DEFAULTS.productLinks;
-  const serviceLinks = data?.serviceLinks?.length ? data.serviceLinks : DEFAULTS.serviceLinks;
+  const socials      = data?.socials?.length    ? data.socials    : DEFAULTS.socials;
+  const quickLinks   = DEFAULTS.quickLinks;
+  // Always use hardcoded links for Solutions + Resources (Sanity data is stale)
+  const productLinks = DEFAULTS.productLinks;
+  const serviceLinks = DEFAULTS.serviceLinks;
 
   return (
-    <footer className="bg-[#0B1628] border-t border-white/[0.08]">
+    <footer className="pa-footer border-t" style={{ borderColor: "var(--pa-line)" }}>
       <div className="max-w-[1200px] mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-10 md:gap-8">
 
           {/* Brand */}
           <div className="col-span-2 md:col-span-4">
             <Link href="/" className="flex items-center gap-2.5 mb-5">
-              <span className="relative w-[34px] h-[34px] rounded-[9px] flex-shrink-0" style={{ background: "linear-gradient(150deg,#13C07A,#0F6E56)", boxShadow: "0 4px 12px rgba(15,110,86,.35)" }}>
+              <span className="relative w-[34px] h-[34px] rounded-[9px] flex-shrink-0" style={{ background: "linear-gradient(150deg,#673DE6,#5025D1)", boxShadow: "0 4px 12px rgba(103,61,230,.35)" }}>
                 <span className="absolute rounded-[3px]" style={{ inset: "9px 10px", background: "rgba(255,255,255,.92)" }} />
-                <span className="absolute rounded-full" style={{ left: 13, top: 13, width: 8, height: 8, background: "#0F6E56" }} />
+                <span className="absolute rounded-full" style={{ left: 13, top: 13, width: 8, height: 8, background: "#5025D1" }} />
               </span>
-              <span className="font-extrabold text-[20px] tracking-tight text-white">
-                Print<span style={{ color: "#13C07A" }}>AI</span>
+              <span className="font-extrabold text-[20px] tracking-tight pa-ink-text">
+                Print<span style={{ color: "var(--pa-teal)" }}>AI</span>
               </span>
             </Link>
-            <p className="text-[#9FB3C8] text-[13.5px] leading-[1.7] max-w-xs mb-6">{tagline}</p>
+            <p className="pa-soft text-[13.5px] leading-[1.7] max-w-xs mb-6">{tagline}</p>
             <div className="flex items-center gap-3">
               {socials.map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 rounded-full border border-white/[0.12] flex items-center justify-center text-[#9FB3C8] hover:text-white hover:border-[#13C07A] transition-colors"
+                  className="pa-footer-social w-10 h-10 rounded-full border flex items-center justify-center transition-colors"
                 >
                   {SOCIAL_ICONS[label] ?? SOCIAL_ICONS["LinkedIn"]}
                 </a>
@@ -93,16 +95,12 @@ export default function Footer({ data }: { data?: SanityFooter }) {
           </div>
 
           <div className="md:col-span-2"><FooterColumn title="Company"   links={quickLinks} /></div>
-          <div className="md:col-span-3"><FooterColumn title="Products"  links={productLinks} /></div>
+          <div className="md:col-span-3"><FooterColumn title="Solutions" links={productLinks} /></div>
           <div className="md:col-span-3"><FooterColumn title="Resources" links={serviceLinks} /></div>
         </div>
 
-        <div className="mt-14 pt-7 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="pa-mono text-[11.5px] text-[#64748B]">© {new Date().getFullYear()} {copyright}</p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-[12.5px] text-[#9FB3C8] hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-[12.5px] text-[#9FB3C8] hover:text-white transition-colors">Terms</Link>
-          </div>
+        <div className="mt-14 pt-7 border-t" style={{ borderColor: "var(--pa-line)" }}>
+          <p className="pa-mono text-[11.5px] pa-soft text-center">© {new Date().getFullYear()} {copyright}</p>
         </div>
       </div>
     </footer>

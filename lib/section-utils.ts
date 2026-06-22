@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Shared helpers used by every CMS-driven section component.
  *
  * Keeps the per-component code small and consistent.
@@ -9,8 +9,8 @@
  * with the highlight word styled differently (gradient text).
  *
  * @example
- *   splitHeading("How PrintAI Chatbots Work", "Chatbots Work")
- *   // → ["How PrintAI ", "Chatbots Work", ""]
+ *   splitHeading("How PrintOpsAI Chatbots Work", "Chatbots Work")
+ *   // → ["How PrintOpsAI ", "Chatbots Work", ""]
  *
  *   splitHeading("Hello world", "missing")
  *   // → ["Hello world", "", ""]

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import HeroSection         from "@/components/sections/HeroSection";
 import StatsSection        from "@/components/sections/StatsSection";
 import AboutSection        from "@/components/sections/AboutSection";
@@ -15,7 +15,7 @@ export const revalidate = 5;
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getHomepage();
-  const title       = data?.seo?.title       ?? "PrintAI – AI-Powered Automation for Printing Businesses";
+  const title       = data?.seo?.title       ?? "PrintOpsAI – AI-Powered Automation for Printing Businesses";
   const description = data?.seo?.description ?? "AI chatbots and end-to-end print workflow automation built for print shops.";
 
   return {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 /**
  * Build product/landing page metadata with CMS overrides + fallbacks.
@@ -50,13 +50,13 @@ export function buildProductMetadata({
     openGraph: {
       type:        "website",
       url,
-      title:       `${title} | PrintAI`,
+      title:       `${title} | PrintOpsAI`,
       description,
       images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card:        "summary_large_image",
-      title:       `${title} | PrintAI`,
+      title:       `${title} | PrintOpsAI`,
       description,
       images:      [ogImage],
     },
