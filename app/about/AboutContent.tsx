@@ -120,39 +120,24 @@ export default function AboutContent({ data }: Props) {
     <div className="about-page">
 
       {/* ═══════════════ S1 · Hero ═══════════════════════════════════════════ */}
-      <section className="hero">
+      <section className="hero hero-simple">
         <div className="hero-body">
-          <span className="chip chip-glow fade-up">{hero?.chip ?? 'DRIVING PRINT GROWTH WITH PURPOSE'}</span>
+          <span className="chip chip-glow fade-up">
+            {hero?.chip ?? 'DRIVING PRINT GROWTH WITH PURPOSE'}
+          </span>
 
           <h1 className="h-display hero-title fade-up d1">
             {hero?.heading
               ? <HL text={hero.heading} highlight={hero.headingHighlight} />
-              : <>The AI Company That Actually <span className="teal">Understands Print</span></>
+              : <>About <span className="teal">Us</span></>
             }
           </h1>
 
-          <p className="hero-sub fade-up d2">
-            {hero?.subtext ?? 'PrintOpsAI is a USA and Canada-focused AI automation platform built exclusively for print businesses — combining chatbots, web-to-print storefronts, workflow automation, and custom AI into one connected platform.'}
-          </p>
-
-          <div className="hero-ctas fade-up d3">
-            <a href={hero?.primaryButtonHref ?? '/#contact'} className="btn btn-primary">
-              <i className="fa-solid fa-calendar-days" />
-              {hero?.primaryButtonText ?? 'Book a Demo'}
-            </a>
-            <a href={hero?.secondaryButtonHref ?? '/#services'} className="btn btn-ghost">
-              {hero?.secondaryButtonText ?? 'Explore Solutions'}
-            </a>
-          </div>
-
-          <div className="trust-bar fade-up d4">
-            {trustItems.map((item, i) => (
-              <div className="trust-item" key={i}>
-                <span className="trust-val">{item.val}</span>
-                <span className="trust-label">{item.label}</span>
-              </div>
-            ))}
-          </div>
+          <nav className="hero-breadcrumb fade-up d2" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true"> › </span>
+            <span>About Us</span>
+          </nav>
         </div>
       </section>
 
