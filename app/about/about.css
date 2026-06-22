@@ -505,51 +505,100 @@
 /* ═══════════════════════════════════════════════════════════
    S5 · MISSION / VISION / VALUES
    ═══════════════════════════════════════════════════════════ */
-.about-page .mvv-sec { background: var(--grey); }
+.about-page .mvv-sec {
+  background: var(--grey);
+  position: relative;
+  overflow: hidden;
+}
+/* ambient background glow */
+.about-page .mvv-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 50%, rgba(19,192,122,.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 50%, rgba(103,61,230,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
 .about-page .mvv-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
-.about-page .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.about-page .mvv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
 .about-page .mvv-card {
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: var(--r);
+  border-radius: 20px;
   box-shadow: var(--sh-sm);
-  padding: 32px 28px;
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
   position: relative;
   overflow: hidden;
-  transition: transform .24s, box-shadow .24s;
+  transition: transform .28s cubic-bezier(.22,.68,0,1.2), box-shadow .28s ease, border-color .28s ease;
 }
-.about-page .mvv-card:hover { transform: translateY(-5px); box-shadow: var(--sh-lg); }
-.about-page .mvv-card:hover .icon-box { transform: scale(1.1) rotate(-4deg); }
-.about-page .mvv-card::before {
-  content: '';
+.about-page .mvv-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 16px 48px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06);
+  border-color: rgba(19,192,122,.35);
+}
+.about-page .mvv-card:hover .icon-box { transform: scale(1.1) rotate(-5deg); }
+/* gradient top bar — now 4px and via child element so it sits above overflow:hidden */
+.about-page .mvv-card-accent {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 4px;
+  border-radius: 20px 20px 0 0;
 }
-.about-page .mvv-card:nth-child(1)::before { background: linear-gradient(to right, var(--pa-teal), var(--pa-teal-deep)); }
-.about-page .mvv-card:nth-child(2)::before { background: linear-gradient(to right, var(--pa-teal-deep), var(--pa-navy)); }
-.about-page .mvv-card:nth-child(3)::before { background: linear-gradient(to right, var(--pa-navy), var(--pa-teal)); }
-.about-page .mvv-title { font-size: 22px; font-weight: 700; color: var(--ink); }
-.about-page .mvv-body  { font-size: 15px; line-height: 1.7; color: var(--ink-2); }
-.about-page .mvv-list  { display: flex; flex-direction: column; gap: 11px; list-style: none; padding: 0; margin: 0; }
+.about-page .mvv-card-accent--1 { background: linear-gradient(to right, var(--pa-teal), var(--pa-teal-deep)); }
+.about-page .mvv-card-accent--2 { background: linear-gradient(to right, var(--pa-teal-deep), var(--pa-navy)); }
+.about-page .mvv-card-accent--3 { background: linear-gradient(to right, var(--pa-navy), var(--pa-teal)); }
+/* larger icons inside mvv cards */
+.about-page .mvv-icon {
+  width: 54px;
+  height: 54px;
+  font-size: 22px;
+}
+.about-page .mvv-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.about-page .mvv-body  { font-size: 15.5px; line-height: 1.75; color: var(--ink-2); }
+.about-page .mvv-list  {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 .about-page .mvv-list li {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 11px;
   font-size: 14.5px;
+  line-height: 1.5;
   color: var(--ink-2);
 }
-.about-page .mvv-list li::before { content: '✓'; color: var(--teal-deep); font-weight: 800; font-size: 12.5px; flex: 0 0 auto; }
+.about-page .mvv-list li::before {
+  content: '✓';
+  color: var(--teal);
+  font-weight: 900;
+  font-size: 13px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
 
 /* ═══════════════════════════════════════════════════════════
    S7 · FUTURE OF PRINT

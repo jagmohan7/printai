@@ -45,7 +45,14 @@ const DEFAULT_LOGOS = [
   'ERPNext', 'Cloudflare', 'OpenAI', 'Stripe', 'PRINTING United', 'FESPA',
 ]
 
-const DEFAULT_VALUES = ['Print-native, not print-adapted.', 'Results before features.', 'Transparent pricing, always.', 'Client owns their code and their data.', 'Build for real workflows, not demo environments.']
+const DEFAULT_VALUES = [
+  'Print-first thinking.',
+  'Build for real-world workflows.',
+  'Results before complexity.',
+  'Long-term partnerships over short-term projects.',
+  'Transparency in communication, pricing, and delivery.',
+  'Clients own their systems, data, and future.',
+]
 
 const DEFAULT_TESTIMONIALS = [
   {
@@ -230,28 +237,32 @@ export default function AboutContent({ data }: Props) {
 
       {/* ═══════════════ S5 · Mission / Vision / Values ══════════════════════ */}
       <section className="section mvv-sec">
-        <div className="container">
+        <div className="mvv-glow" aria-hidden="true" />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="mvv-header fade-up">
-            <p className="eyebrow">HOW WE THINK. HOW WE BUILD. HOW WE WIN.</p>
+            <p className="eyebrow">{mvv?.eyebrow ?? 'THE PRINCIPLES BEHIND PRINTOPSAI'}</p>
           </div>
           <div className="mvv-grid">
             <div className="mvv-card fade-up d1">
-              <div className="icon-box"><i className="fa-solid fa-bullseye" /></div>
+              <div className="mvv-card-accent mvv-card-accent--1" aria-hidden="true" />
+              <div className="icon-box mvv-icon"><i className="fa-solid fa-bullseye" /></div>
               <div className="mvv-title">{mvv?.missionTitle ?? 'Our Mission'}</div>
               <p className="mvv-body">
-                {mvv?.missionBody ?? "Build AI automation tools that give every print business — regardless of size — the operational efficiency and technology advantage previously available only to large print corporations."}
+                {mvv?.missionBody ?? "To help print businesses eliminate repetitive work, modernize operations, and compete with the efficiency of much larger organizations through practical AI, automation, and web-to-print technology."}
               </p>
             </div>
             <div className="mvv-card fade-up d2">
-              <div className="icon-box"><i className="fa-solid fa-eye" /></div>
+              <div className="mvv-card-accent mvv-card-accent--2" aria-hidden="true" />
+              <div className="icon-box mvv-icon"><i className="fa-solid fa-eye" /></div>
               <div className="mvv-title">{mvv?.visionTitle ?? 'Our Vision'}</div>
               <p className="mvv-body">
-                {mvv?.visionBody ?? "A world where no print shop loses a lead because they were closed, misses a deadline because of manual scheduling, or reprints a job because of a file error that software could have caught."}
+                {mvv?.visionBody ?? "We envision a future where every print business — regardless of size — has access to intelligent technology that simplifies operations, improves customer experiences, and unlocks sustainable growth."}
               </p>
             </div>
             <div className="mvv-card fade-up d3">
-              <div className="icon-box"><i className="fa-solid fa-star" /></div>
-              <div className="mvv-title">{mvv?.valuesTitle ?? 'Core Values'}</div>
+              <div className="mvv-card-accent mvv-card-accent--3" aria-hidden="true" />
+              <div className="icon-box mvv-icon"><i className="fa-solid fa-gem" /></div>
+              <div className="mvv-title">{mvv?.valuesTitle ?? 'Our Core Values'}</div>
               <ul className="mvv-list">
                 {values.map((v, i) => <li key={i}>{v}</li>)}
               </ul>
