@@ -872,6 +872,29 @@
 
 /* ── Dark mode — tokens auto-flip via globals.css --pa-* vars.
       Only overrides that can't be handled by token swap go here. ── */
+/* ── Dark mode brands section ────────────────────────────────────────────── */
+:root[data-theme="dark"] .about-page .brands-sec {
+  background: rgba(255,255,255,.03);
+  border-color: rgba(255,255,255,.08);
+}
+:root[data-theme="dark"] .about-page .logo-cell {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.1);
+}
+:root[data-theme="dark"] .about-page .logo-cell:hover {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(103,61,230,.45);
+  box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 1px rgba(103,61,230,.2);
+}
+/* invert dark SVG elements so logos read on dark bg, then desaturate */
+:root[data-theme="dark"] .about-page .logo-img {
+  filter: invert(1) grayscale(1) opacity(0.6);
+}
+:root[data-theme="dark"] .about-page .logo-cell:hover .logo-img {
+  filter: invert(0) grayscale(0) opacity(1);
+}
+
+/* ── Dark mode shadows / story-watermark ─────────────────────────────────── */
 :root[data-theme="dark"] .about-page {
   --sh-sm: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.35);
   --sh:    0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.4);
