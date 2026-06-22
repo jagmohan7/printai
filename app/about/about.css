@@ -355,13 +355,18 @@
 .about-page .about-left {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 28px;
+}
+.about-page .about-left .body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-2);
 }
 .about-page .pull-quote {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--ink);
   padding: 20px 24px;
   border-left: 3px solid var(--teal);
@@ -371,24 +376,33 @@
 .about-page .cap-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
+  align-items: stretch;
 }
 .about-page .cap-card {
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: var(--r);
+  border-radius: 18px;
   box-shadow: var(--sh-sm);
-  padding: 20px 22px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: transform .24s, box-shadow .24s;
+  gap: 14px;
+  transition: transform .26s cubic-bezier(.22,.68,0,1.2), box-shadow .26s ease;
 }
-.about-page .cap-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); }
-.about-page .cap-card:hover .icon-box { transform: scale(1.1) rotate(-4deg); }
-.about-page .cap-metric { font-size: 22px; font-weight: 800; color: var(--teal); letter-spacing: -.02em; line-height: 1; }
-.about-page .cap-title  { font-size: 14.5px; font-weight: 700; color: var(--ink); }
-.about-page .cap-desc   { font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+.about-page .cap-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.1), 0 2px 8px rgba(0,0,0,.06);
+}
+.about-page .cap-card:hover .icon-box { transform: scale(1.12) rotate(-5deg); }
+.about-page .cap-card .icon-box {
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+}
+.about-page .cap-metric { font-size: 26px; font-weight: 900; color: var(--teal); letter-spacing: -.03em; line-height: 1; }
+.about-page .cap-title  { font-size: 15.5px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+.about-page .cap-desc   { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); margin-top: auto; }
 
 /* ═══════════════════════════════════════════════════════════
    S4 · OUR STORY
@@ -791,7 +805,8 @@
   .about-page .hero-ctas    { flex-direction: column; width: 100%; }
   .about-page .hero-ctas .btn { width: 100%; justify-content: center; }
   .about-page .about-grid   { grid-template-columns: 1fr; }
-  .about-page .cap-grid     { grid-template-columns: 1fr; }
+  .about-page .cap-grid     { grid-template-columns: 1fr 1fr; }
+  .about-page .cap-card     { padding: 24px 20px; }
   .about-page .story-cols   { grid-template-columns: 1fr; }
   .about-page .mvv-grid     { grid-template-columns: 1fr; }
   .about-page .future-top   { grid-template-columns: 1fr; }
@@ -806,4 +821,5 @@
 
 @media (max-width: 480px) {
   .about-page .future-feats { grid-template-columns: 1fr; }
+  .about-page .cap-grid     { grid-template-columns: 1fr; }
 }

@@ -17,12 +17,10 @@ const DEFAULT_SOLUTIONS = [
 ]
 
 const DEFAULT_CAPABILITIES = [
-  { icon: 'fa-robot',       metric: '24/7',   title: 'AI Chatbot',               desc: 'Automated quoting, lead capture and support around the clock.' },
-  { icon: 'fa-print',       metric: '48hr',   title: 'Web-to-Print Platform',    desc: 'Branded storefront with live proofing and one-click reorder.' },
-  { icon: 'fa-gears',       metric: '0',      title: 'Workflow Automation',      desc: 'Jobs routed inquiry-to-production with zero re-keying.' },
-  { icon: 'fa-microchip',   metric: 'Custom', title: 'Custom AI Solutions',      desc: 'Bespoke AI trained on your catalogue, pricing and brand.' },
-  { icon: 'fa-cloud',       metric: '99.9%',  title: 'DevOps & Infrastructure',  desc: 'Reliable, scalable cloud infra for print operations.' },
-  { icon: 'fa-layer-group', metric: '250+',   title: 'Print Industry Expertise', desc: 'Deep domain knowledge from 250+ print shops served.' },
+  { icon: 'fa-robot',       metric: '24/7',  title: 'AI Customer Support',        desc: 'Automated quoting, lead capture, and customer assistance — around the clock.' },
+  { icon: 'fa-print',       metric: '48hr',  title: 'Web-to-Print Storefronts',   desc: 'Branded online stores with live proofing and ordering — live in 48 hours.' },
+  { icon: 'fa-gears',       metric: '',      title: 'Quote-to-Production',        desc: 'Eliminate manual data entry and repetitive tasks across your entire workflow.' },
+  { icon: 'fa-layer-group', metric: '250+',  title: 'Print Industry Expertise',   desc: 'Built exclusively for print businesses across North America.' },
 ]
 
 const DEFAULT_TRUST_ITEMS = [
@@ -162,21 +160,18 @@ export default function AboutContent({ data }: Props) {
                 &ldquo;{about?.pullQuote ?? "We don't just automate processes. We automate competitive advantages."}&rdquo;
               </blockquote>
               <p className="body fade-up d3">
-                {about?.paragraph1 ?? "PrintOpsAI is a USA and Canada-focused AI automation platform and print technology specialist, built from the ground up for the printing industry. We are not a generic software company that added a print module. We are a team of print industry specialists, AI engineers, and workflow architects who have spent years inside commercial print operations — learning every bottleneck, every manual process, and every missed lead that costs print businesses revenue. We don't make promises. We deliver performance."}
+                {about?.paragraph1 ?? "PrintOpsAI is an AI automation platform built exclusively for the printing industry. We're not a generic software company with a print module — we're a team of print specialists, AI engineers, and workflow architects who've spent years inside commercial print operations, eliminating every bottleneck that costs shops revenue."}
               </p>
               <p className="body fade-up d4">
-                {about?.paragraph2 ?? "As a leading print automation software company and AI development partner for print shops, we build the tools that let print businesses stop managing spreadsheets and start growing their revenue. Our platform combines AI-powered chatbots, web-to-print storefronts, workflow automation, custom AI development, and managed DevOps infrastructure — all connected, all built for print, and all designed to run without a dedicated IT team."}
-              </p>
-              <p className="body fade-up d5">
-                {about?.paragraph3 ?? "We work with commercial printers, web-to-print businesses, multi-location print chains, packaging printers, and in-plant operations across the United States and Canada. If your print shop is still running on spreadsheets, disconnected tools, and manual quoting — PrintOpsAI was built for you."}
+                {about?.paragraph2 ?? "Our platform combines AI chatbots, web-to-print storefronts, workflow automation, and custom AI — all connected, all print-native, and all designed to run without a dedicated IT team. We work with commercial printers, multi-location chains, and packaging operations across the USA and Canada."}
               </p>
             </div>
 
             <div className="cap-grid">
               {capabilities.map((cap, i) => (
-                <div className={`cap-card fade-up d${(i % 3) + 1}`} key={i}>
+                <div className={`cap-card fade-up d${(i % 2) + 1}`} key={i}>
                   {cap.icon && <div className="icon-box"><i className={`fa-solid ${cap.icon}`} /></div>}
-                  <div className="cap-metric">{cap.metric}</div>
+                  {cap.metric && <div className="cap-metric">{cap.metric}</div>}
                   <div className="cap-title">{cap.title}</div>
                   <p className="cap-desc">{cap.desc}</p>
                 </div>
