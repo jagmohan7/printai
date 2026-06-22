@@ -31,18 +31,13 @@ const DEFAULT_TRUST_ITEMS = [
 ]
 
 const DEFAULT_FUTURE_STATS = [
-  { val: '250+',  label: 'Print Shops Onboarded' },
-  { val: '6',     label: 'AI Products in the Platform' },
-  { val: '48hrs', label: 'Average AI Chatbot Setup Time' },
+  { val: '',  label: '' },
 ]
 
 const DEFAULT_FEATURES = [
-  { icon: 'fa-print',         title: 'Print-Only Expertise',       desc: 'Every engineer, every product manager, every support person at PrintOpsAI works exclusively with print businesses. We understand prepress, press, and post-press — not just software.' },
-  { icon: 'fa-key',           title: 'You Own Everything',         desc: "We don't lock you in. Your web store runs on Shopify or WooCommerce — platforms you own. Your custom AI code is delivered to you with full source access. No dependency on us." },
-  { icon: 'fa-bullseye',      title: 'Built for Your ICP',         desc: "Whether you run a 10-person commercial print shop in Ohio or a 5-location franchise in Canada, PrintOpsAI's products are sized and priced for mid-market print businesses — not enterprises." },
-  { icon: 'fa-chart-line',    title: 'Real Results, Not Demos',    desc: 'Our case studies show real numbers from real clients: $120K annual savings, 300% revenue growth, 80% of enquiries auto-resolved. These are not projections. They are outcomes.' },
-  { icon: 'fa-tag',           title: 'Fixed-Price Custom AI',      desc: 'Our custom AI development is priced at a fixed fee ($15K–$75K). You know the cost before we start. No hourly billing, no scope creep, no surprises at invoice time.' },
-  { icon: 'fa-bolt',          title: '48-Hour AI Chatbot Setup',   desc: 'Most clients have a live, trained AI chatbot on their website within 48 hours of providing their pricing sheet and product catalogue. No months-long implementations.' },
+  { icon: 'fa-print',    title: 'Print Industry Focus',      desc: 'Specialists in commercial print, web-to-print, and packaging operations.' },
+  { icon: 'fa-robot',    title: 'AI + Print Expertise',      desc: 'AI systems designed around how print businesses actually work.' },
+  { icon: 'fa-gears',    title: 'Custom-Built Solutions',    desc: 'Purpose-built tools — not generic software adapted for print.' },
 ]
 
 const DEFAULT_LOGOS = [
@@ -265,40 +260,29 @@ export default function AboutContent({ data }: Props) {
         </div>
       </section>
 
-      {/* ═══════════════ S7 · Future of Print Automation ══════════════════════ */}
+      {/* ═══════════════ S7 · What Makes Us Different ════════════════════════ */}
       <section className="section future-sec">
         <div className="container">
-          <div className="future-top">
-            <div className="future-left fade-up">
-              <p className="eyebrow">{future?.eyebrow ?? "MORE THAN AN AGENCY: YOUR STRATEGIC PRINT GROWTH PARTNER"}</p>
-              <h2 className="h2" style={{ color: 'var(--ink)' }}>
-                {future?.heading
-                  ? <HL text={future.heading} highlight={future.headingHighlight} />
-                  : <>Print Automation Expertise That{' '}<span className="teal">No Generic Software Company Can Match.</span></>
-                }
-              </h2>
-              <p className="future-sub">
-                {future?.subtext ?? "Most software companies serve print as one of 40+ industries. Their support team doesn't know what bleed is. Their developers have never seen a press floor. Their chatbot cannot give an accurate quote for 500 business cards with gloss lamination at a 3-day turnaround. PrintOpsAI is different — we are the only AI automation company built exclusively for print businesses, and that specificity changes everything."}
-              </p>
-              <a href={future?.primaryButtonHref ?? '/#services'} className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-                <i className="fa-solid fa-rocket" />
-                {future?.primaryButtonText ?? 'Explore Solutions'}
-              </a>
-            </div>
-
-            <div className="future-stats">
-              {futureStats.map((s, i) => (
-                <div className={`stat-card fade-up d${i + 1}`} key={i}>
-                  <div className="stat-val">{s.val}</div>
-                  <div className="stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
+          <div className="future-top future-top--single fade-up">
+            <p className="eyebrow">{future?.eyebrow ?? "WHAT MAKES US DIFFERENT"}</p>
+            <h2 className="h2" style={{ color: 'var(--ink)' }}>
+              {future?.heading
+                ? <HL text={future.heading} highlight={future.headingHighlight} />
+                : <>Print Technology Specialists,{' '}<span className="teal">Not Generic Software Vendors.</span></>
+              }
+            </h2>
+            <p className="future-sub">
+              {future?.subtext ?? "Most software companies treat print as one of dozens of industries. We don't. PrintOpsAI is built exclusively for print — combining AI automation, web-to-print, workflow tools, and cloud infrastructure into a platform that fits how print operations actually work."}
+            </p>
+            <a href={future?.primaryButtonHref ?? '/#services'} className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
+              <i className="fa-solid fa-arrow-right" />
+              {future?.primaryButtonText ?? 'Explore Solutions'}
+            </a>
           </div>
 
-          <div className="future-feats">
+          <div className="future-feats future-feats--3">
             {features.map((f, i) => (
-              <div className={`feat-card fade-up d${(i % 3) + 1}`} key={i}>
+              <div className={`feat-card feat-card--large fade-up d${i + 1}`} key={i}>
                 {f.icon && <div className="icon-box"><i className={`fa-solid ${f.icon}`} /></div>}
                 <div className="feat-title">{f.title}</div>
                 <p className="feat-desc">{f.desc}</p>
