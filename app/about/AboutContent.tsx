@@ -123,6 +123,7 @@ export default function AboutContent({ data }: Props) {
       <section className="hero hero-simple">
         <div className="hero-body">
           <span className="chip chip-glow fade-up">
+            <span className="hero-chip-icon" aria-hidden="true">✳</span>
             {hero?.chip ?? 'DRIVING PRINT GROWTH WITH PURPOSE'}
           </span>
 
