@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
@@ -255,7 +256,7 @@ export default async function RootLayout({
             uses sanityFetch() auto-revalidates the moment a document changes
             in the studio. Works in published mode too — published pages
             still revalidate, just without the editing overlay.              */}
-        <SanityLive />
+        <Suspense fallback={null}><SanityLive /></Suspense>
 
         {/* ── Chatwoot live chat widget (chat.printai.cloud) ───────────────
             Loads after the page is interactive so it never blocks rendering.
