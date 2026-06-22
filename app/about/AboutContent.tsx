@@ -358,44 +358,44 @@ export default function AboutContent({ data }: Props) {
             </p>
           </div>
 
-          {/* Google Rating Card — center hero */}
-          <div className="google-hero-card fade-up d1">
-            <div className="google-hero-glow" aria-hidden="true" />
-            <div className="google-hero-g">G</div>
-            <div className="google-hero-label">Google Rating</div>
-            <div className="google-hero-score-row">
-              <span className="google-hero-score">{reviews?.googleScore ?? '4.8'}</span>
-              <div className="google-hero-stars-col">
-                <span className="google-hero-stars">★★★★★</span>
-                <span className="google-hero-count">{reviews?.googleCount ?? '320+ verified reviews'}</span>
-              </div>
-            </div>
-            <div className="google-hero-divider" />
-            <p className="google-hero-note">Rated by print businesses across North America</p>
-          </div>
+          {/* 5-col grid: Google card + 4 pillars */}
+          <div className="trust-grid fade-up d1">
 
-          {/* 4 Trust Pillars */}
-          <div className="trust-pillars fade-up d2">
+            {/* Google Rating — clickable */}
+            <a
+              className="google-hero-card"
+              href="https://www.google.com/search?q=PrintOpsAI+reviews"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View PrintOpsAI Google reviews"
+            >
+              <div className="google-hero-glow" aria-hidden="true" />
+              <div className="google-hero-g">G</div>
+              <div className="google-hero-label">Google Rating</div>
+              <div className="google-hero-score">{reviews?.googleScore ?? '4.8'}</div>
+              <div className="google-hero-stars">★★★★★</div>
+              <div className="google-hero-count">{reviews?.googleCount ?? '320+ reviews'}</div>
+            </a>
+
+            {/* 4 Trust Pillars */}
             {[
-              { icon: 'fa-print',   title: 'Print Industry Focused',     desc: 'Built specifically for print businesses.' },
-              { icon: 'fa-robot',   title: 'AI & Automation Expertise',  desc: 'Practical solutions that reduce manual work.' },
-              { icon: 'fa-gears',   title: 'Custom Development',         desc: 'Tailored integrations and workflows.' },
-              { icon: 'fa-handshake', title: 'Transparent Partnerships', desc: 'Clear communication and long-term support.' },
+              { icon: 'fa-print',     title: 'Print Industry Focused',    desc: 'Built specifically for print businesses.' },
+              { icon: 'fa-robot',     title: 'AI & Automation',           desc: 'Practical solutions that reduce manual work.' },
+              { icon: 'fa-gears',     title: 'Custom Development',        desc: 'Tailored integrations and workflows.' },
+              { icon: 'fa-handshake', title: 'Transparent Partnerships',  desc: 'Clear communication and long-term support.' },
             ].map((p, i) => (
               <div className="trust-pillar" key={i}>
                 <div className="trust-pillar-icon">
                   <i className={`fa-solid ${p.icon}`} />
                 </div>
-                <div className="trust-pillar-text">
-                  <div className="trust-pillar-title">{p.title}</div>
-                  <div className="trust-pillar-desc">{p.desc}</div>
-                </div>
+                <div className="trust-pillar-title">{p.title}</div>
+                <div className="trust-pillar-desc">{p.desc}</div>
               </div>
             ))}
           </div>
 
           {/* Trust Badges */}
-          <div className="trust-badges fade-up d3">
+          <div className="trust-badges fade-up d2">
             {['AI Automation', 'Web-to-Print', 'ERP Integrations', 'Custom Development', 'Cloud Infrastructure'].map((b) => (
               <span className="trust-badge" key={b}>
                 <i className="fa-solid fa-check" />
