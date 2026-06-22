@@ -745,9 +745,10 @@
 :root[data-theme="light"] .about-page .hero-strip::before { background: linear-gradient(to right, var(--pa-card), transparent); }
 :root[data-theme="light"] .about-page .hero-strip::after  { background: linear-gradient(to left,  var(--pa-card), transparent); }
 :root[data-theme="light"] .about-page .hero-strip .chip {
-  background: rgba(103,61,230,.06);
-  border-color: rgba(103,61,230,.15);
-  color: var(--ink-2);
+  background: rgba(103,61,230,.1);
+  border-color: rgba(103,61,230,.28);
+  color: var(--ink);
+  font-weight: 500;
 }
 :root[data-theme="light"] .about-page .hero-strip .chip:hover {
   background: rgba(19,192,122,.1);
