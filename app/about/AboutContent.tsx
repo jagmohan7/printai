@@ -119,7 +119,7 @@ export default function AboutContent({ data }: Props) {
   return (
     <div className="about-page">
 
-      {/* ═══════════════ S1 · Hero ═══════════════════════════════════════════ */}
+      {/* ═══════════════ S1 · Hero + S2 Strip (pinned to bottom of viewport) ══ */}
       <section className="hero hero-simple">
         <div className="hero-body">
           <span className="chip chip-glow fade-up">
@@ -140,16 +140,16 @@ export default function AboutContent({ data }: Props) {
             <span>About Us</span>
           </nav>
         </div>
-      </section>
 
-      {/* ═══════════════ S2 · Solutions Strip ═══════════════════════════════ */}
-      <div className="strip">
-        <div className="strip-track">
-          {[...solutions, ...solutions].map((s, i) => (
-            <span className="chip" key={i}>{s}</span>
-          ))}
+        {/* Strip pinned to the bottom of the hero viewport */}
+        <div className="strip hero-strip">
+          <div className="strip-track">
+            {[...solutions, ...solutions].map((s, i) => (
+              <span className="chip" key={i}>{s}</span>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* ═══════════════ S3 · About + Capabilities ═══════════════════════════ */}
       <section className="section about-sec">

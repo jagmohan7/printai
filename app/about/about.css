@@ -286,6 +286,18 @@
   position: relative;
   background: var(--white);
 }
+/* Hero strip: pinned to bottom of the hero section */
+.about-page .hero-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-bottom: none;
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
 .about-page .strip::before,
 .about-page .strip::after {
   content: '';
@@ -297,6 +309,9 @@
 }
 .about-page .strip::before { left: 0;  background: linear-gradient(to right, var(--white), transparent); }
 .about-page .strip::after  { right: 0; background: linear-gradient(to left,  var(--white), transparent); }
+/* Hero strip fades use the hero dark bg color */
+.about-page .hero-strip::before { background: linear-gradient(to right, var(--pa-navy), transparent); }
+.about-page .hero-strip::after  { background: linear-gradient(to left,  var(--pa-navy), transparent); }
 .about-page .strip-track {
   display: flex;
   align-items: center;
@@ -310,6 +325,16 @@
   height: 38px;
   flex: 0 0 auto;
   transition: background .2s, border-color .2s, color .2s;
+}
+.about-page .hero-strip .chip {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.75);
+}
+.about-page .hero-strip .chip:hover {
+  background: rgba(19,192,122,.15);
+  border-color: rgba(19,192,122,.35);
+  color: var(--teal);
 }
 .about-page .strip .chip:hover {
   background: rgba(19,192,122,.1);
