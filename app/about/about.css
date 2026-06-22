@@ -164,30 +164,38 @@
    S1 · HERO
    ═══════════════════════════════════════════════════════════ */
 .about-page .hero {
-  min-height: 480px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 140px 64px 80px;
-  background:
-    radial-gradient(ellipse at 65% 25%, color-mix(in srgb, var(--pa-teal-deep) 85%, transparent) 0%, color-mix(in srgb, var(--pa-navy) 75%, transparent) 38%, var(--pa-navy) 68%),
-    linear-gradient(165deg, var(--pa-navy) 0%, color-mix(in srgb, var(--pa-navy) 55%, var(--pa-teal-deep)) 55%, var(--pa-navy) 100%);
+  padding: 100px 64px 80px;
+  background-color: var(--pa-card);
   position: relative;
   overflow: hidden;
 }
-.about-page .hero.hero-simple {
-  min-height: 320px;
-  padding: 120px 64px 60px;
-}
+/* dot-grid pattern */
 .about-page .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,.055) 1px, transparent 1px);
-  background-size: 36px 36px;
+  background-image: radial-gradient(circle, rgba(103,61,230,.13) 1.5px, transparent 1.5px);
+  background-size: 30px 30px;
   pointer-events: none;
+}
+/* soft radial glow — teal top-left, violet bottom-right */
+.about-page .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 55% at 15% 20%, color-mix(in srgb, var(--pa-teal) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 50% at 85% 80%, color-mix(in srgb, var(--pa-navy) 10%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+.about-page .hero.hero-simple {
+  min-height: 100vh;
 }
 .about-page .hero-body {
   position: relative;
@@ -198,22 +206,22 @@
   align-items: center;
   gap: 22px;
 }
-.about-page .hero-title { color: #fff; }
+.about-page .hero-title { color: var(--ink); }
 .about-page .hero-breadcrumb {
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 14px;
-  color: rgba(255,255,255,.55);
+  color: var(--ink-2);
   margin-top: 4px;
 }
 .about-page .hero-breadcrumb a {
-  color: rgba(255,255,255,.55);
+  color: var(--ink-2);
   text-decoration: none;
   transition: color .2s;
 }
 .about-page .hero-breadcrumb a:hover { color: var(--teal); }
-.about-page .hero-breadcrumb span:last-child { color: rgba(255,255,255,.85); }
+.about-page .hero-breadcrumb span:last-child { color: var(--ink); font-weight: 600; }
 .about-page .hero-sub {
   max-width: 660px;
   color: rgba(255,255,255,.7);
