@@ -721,6 +721,40 @@
 }
 .about-page .cta-stars { color: #F59E0B; }
 
+/* ── Light theme hero overrides ── */
+:root[data-theme="light"] .about-page .hero {
+  background-color: var(--pa-card);
+}
+:root[data-theme="light"] .about-page .hero::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92'%3E%3Cpolygon points='40,2 78,22 78,70 40,90 2,70 2,22' fill='none' stroke='rgba(103,61,230,0.09)' stroke-width='1'/%3E%3C/svg%3E");
+}
+:root[data-theme="light"] .about-page .hero::after {
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, var(--pa-card) 100%);
+}
+:root[data-theme="light"] .about-page .hero-title { color: var(--ink); }
+:root[data-theme="light"] .about-page .hero .chip-glow {
+  color: var(--teal-deep);
+}
+:root[data-theme="light"] .about-page .hero .hero-chip-icon { color: var(--teal-deep); }
+:root[data-theme="light"] .about-page .hero-strip {
+  border-top: 1px solid rgba(103,61,230,.1);
+  background: rgba(103,61,230,.03);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+:root[data-theme="light"] .about-page .hero-strip::before { background: linear-gradient(to right, var(--pa-card), transparent); }
+:root[data-theme="light"] .about-page .hero-strip::after  { background: linear-gradient(to left,  var(--pa-card), transparent); }
+:root[data-theme="light"] .about-page .hero-strip .chip {
+  background: rgba(103,61,230,.06);
+  border-color: rgba(103,61,230,.15);
+  color: var(--ink-2);
+}
+:root[data-theme="light"] .about-page .hero-strip .chip:hover {
+  background: rgba(19,192,122,.1);
+  border-color: rgba(19,192,122,.3);
+  color: var(--teal-deep);
+}
+
 /* ── Dark mode — tokens auto-flip via globals.css --pa-* vars.
       Only overrides that can't be handled by token swap go here. ── */
 :root[data-theme="dark"] .about-page {
