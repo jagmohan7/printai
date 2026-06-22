@@ -186,6 +186,7 @@ export default function AboutContent({ data }: Props) {
         <div className="container">
           <div aria-hidden="true" className="story-watermark">OUR STORY</div>
           <div className="story-inner">
+
             <div className="fade-up">
               <p className="eyebrow" style={{ marginBottom: 12 }}>Our Story</p>
               <h2 className="h2">
@@ -197,31 +198,37 @@ export default function AboutContent({ data }: Props) {
             </div>
 
             <p className="story-intro fade-up d1">
-              {story?.intro ?? "PrintOpsAI was founded by a team who had spent years working with print businesses across the USA and Canada — watching shops lose leads after 5pm because no one answered the phone, watching CSR teams spend four hours a day re-entering the same order data into three different systems, and watching ambitious print shop owners hit a ceiling they couldn't break through without technology. The problem wasn't that print businesses lacked ambition. The problem was that every software company serving them was building generic tools and calling them 'print solutions.'"}
+              {story?.intro ?? "PrintOpsAI was created after years of working alongside print businesses across North America. We saw the same challenges everywhere — manual quoting, disconnected systems, repetitive admin work, and missed opportunities caused by outdated processes."}
             </p>
 
             <p className="story-pull fade-up d2">
-              &ldquo;{story?.pullQuote ?? "Our long-term vision: every print business in the world — regardless of size — has access to AI that actually understands their work."}&rdquo;
+              &ldquo;{story?.pullQuote ?? "Our mission is simple: help print businesses spend less time managing operations and more time growing."}&rdquo;
             </p>
 
             <div className="story-cols fade-up d3">
               <div className="story-col">
                 <p className="body">
-                  {story?.col1Para1 ?? "Today, PrintOpsAI is an AI automation platform serving print businesses across North America — combining AI chatbots that answer quotes 24/7, web-to-print storefronts built on Shopify and WooCommerce, intelligent workflow automation from order intake to delivery, custom AI development where the client owns the source code, and managed DevOps infrastructure built specifically for file-heavy print environments. Every product we build has one goal: to give print businesses the same technology advantages that large print corporations have — without the enterprise price tag."}
+                  {story?.col1Para1 ?? "Most software serving the print industry was built as generic tools with print features added later. We took a different approach."}
                 </p>
                 <p className="body">
-                  {story?.col1Para2 ?? "We believe print is not a declining industry. It is an industry waiting for the right technology. Print businesses that adopt AI automation are not just surviving — they are growing faster, capturing more leads, and serving more customers with the same team they already have. We are here to make that happen for every print shop that is ready. That is PrintOpsAI."}
+                  {story?.col1Para2 ?? "PrintOpsAI is built specifically for print businesses, combining AI, web-to-print, workflow automation, and cloud infrastructure into solutions that fit how print operations actually work."}
                 </p>
               </div>
               <div className="story-col">
                 <p className="body">
-                  {story?.col2Para1 ?? "We decided to do something different. Instead of adapting existing SaaS products for print, we built from scratch — starting with a deep understanding of how print businesses actually operate. What does a pressman care about at 6am? What does a CSR spend 70% of their day on? What does a print shop owner lie awake worrying about at midnight? Those questions became the product. PrintOpsAI is the answer to all of them."}
+                  {story?.col2Para1 ?? "As a startup, we're focused on solving real problems — not adding unnecessary complexity. Every feature we build starts with a simple question:"}
                 </p>
                 <blockquote className="story-callout">
-                  &ldquo;{story?.col2Callout ?? "The businesses that will win the next decade in print are the ones automating today. We're here to make sure more of them make that leap."}&rdquo;
+                  &ldquo;{story?.col2Callout ?? "Will this save time, reduce manual work, or help print businesses grow?"}&rdquo;
+                  {!story?.col2Callout && <span className="story-callout-footer">That&rsquo;s the standard we use for everything we create.</span>}
                 </blockquote>
               </div>
             </div>
+
+            <div className="story-highlight fade-up d4">
+              &ldquo;The future of print belongs to businesses that embrace automation. We&rsquo;re building the tools to help them get there.&rdquo;
+            </div>
+
           </div>
         </div>
       </section>
