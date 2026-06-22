@@ -134,11 +134,6 @@ export default function AboutContent({ data }: Props) {
             }
           </h1>
 
-          <nav className="hero-breadcrumb fade-up d2" aria-label="Breadcrumb">
-            <a href="/">Home</a>
-            <span aria-hidden="true"> › </span>
-            <span>About Us</span>
-          </nav>
         </div>
 
         {/* Strip pinned to the bottom of the hero viewport */}
