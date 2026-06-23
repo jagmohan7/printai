@@ -55,12 +55,12 @@ export default function W2PProblemSection({ data }: Props) {
     <section className="pa-band-surface relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .prob-card { transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s, background 0.3s; }
-        .prob-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 32px rgba(6,182,212,0.12); transform: translateY(-4px); background: var(--pa-card); }
+        .prob-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 32px rgba(103,61,230,0.12); transform: translateY(-4px); background: var(--pa-card); }
         .prob-icon-wrap { transition: background 0.3s, box-shadow 0.3s; }
-        .prob-card:hover .prob-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 20px rgba(6,182,212,0.25); }
+        .prob-card:hover .prob-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 20px rgba(103,61,230,0.25); }
         .prob-card:hover .prob-icon { color: var(--pa-teal); }
         .cost-card { transition: border-color 0.3s, box-shadow 0.3s; }
-        .cost-card:hover { border-color: color-mix(in srgb, var(--pa-teal) 40%, transparent); box-shadow: 0 0 40px rgba(6,182,212,0.15); }
+        .cost-card:hover { border-color: color-mix(in srgb, var(--pa-teal) 40%, transparent); box-shadow: 0 0 40px rgba(103,61,230,0.15); }
       `}</style>
 
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[120px]" style={{ background: "color-mix(in srgb, var(--pa-teal) 6%, transparent)" }} />

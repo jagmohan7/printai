@@ -48,7 +48,7 @@ export default function WhatWeAutomateSection({ data }: Props) {
             const theme = THEMES[i % THEMES.length];
             return (
               <MotionInView key={i} delay={i * 0.12}>
-                <div className="group relative h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] p-8 sm:p-10 transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] pa-card-hover">
+                <div className="group relative h-full rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] p-8 sm:p-10 transition-all duration-300 hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(103,61,230,0.15)] pa-card-hover">
                   <div className={`w-14 h-14 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center mb-7 transition-all duration-300 group-hover:scale-110`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>

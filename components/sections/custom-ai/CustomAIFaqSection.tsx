@@ -31,13 +31,13 @@ export default function CustomAIFaqSection({ data }: Props) {
   const faqs       = pickArray(data?.faqs, FALLBACK.faqs);
 
   return (
-    <section className="relative overflow-hidden ai-section section-pad px-4 border-t border-[#1E293B]/50">
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full bg-cyan-500/5 blur-[140px]" />
+    <section className="relative overflow-hidden ai-section section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-[140px]" style={{ background: "rgba(103,61,230,0.05)" }} />
 
       <div className="relative z-10 max-w-3xl mx-auto">
         <MotionInView className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-[#22d3ee] text-[12px] font-semibold tracking-widest uppercase mb-5">{sectionTag}</span>
-          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight text-white">{heading}</h2>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-5" style={{ border: "1px solid rgba(103,61,230,0.25)", background: "rgba(103,61,230,0.08)", color: "var(--pa-teal)" }}>{sectionTag}</span>
+          <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight" style={{ color: "var(--pa-ink)" }}>{heading}</h2>
         </MotionInView>
 
         <div className="space-y-3">
@@ -45,13 +45,13 @@ export default function CustomAIFaqSection({ data }: Props) {
             const isOpen = open === i;
             return (
               <MotionInView key={i} delay={0.08 * i}>
-                <div className={`ai-card rounded-2xl border transition-all duration-300 overflow-hidden ${isOpen ? "border-[#06b6d4]/40 bg-[#0F172A] shadow-[0_0_28px_rgba(6,182,212,0.1)]" : "border-[#1E293B] bg-[#0F172A] hover:border-white/[0.13]"}`}>
+                <div className="ai-card rounded-2xl border transition-all duration-300 overflow-hidden" style={{ border: isOpen ? "1px solid rgba(103,61,230,0.4)" : "1px solid var(--pa-line)", background: "var(--pa-card)", boxShadow: isOpen ? "0 0 28px rgba(103,61,230,0.1)" : undefined }}>
                   <button onClick={() => setOpen(isOpen ? null : i)} className="w-full flex items-center justify-between px-7 py-5 text-left">
-                    <span className="text-white font-semibold text-[15px] pr-4">{f.question}</span>
-                    <ChevronDown size={18} className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-[#22d3ee]" : "text-[#94A3B8]"}`} />
+                    <span className="font-semibold text-[15px] pr-4" style={{ color: "var(--pa-ink)" }}>{f.question}</span>
+                    <ChevronDown size={18} className="shrink-0 transition-transform duration-300" style={{ transform: isOpen ? "rotate(180deg)" : undefined, color: isOpen ? "var(--pa-teal)" : "var(--pa-ink-2)" }} />
                   </button>
                   <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: isOpen ? "500px" : "0" }}>
-                    <p className="px-7 pb-6 text-[#94A3B8] text-[14px] leading-[1.85] whitespace-pre-line">{f.answer}</p>
+                    <p className="px-7 pb-6 text-[14px] leading-[1.85] whitespace-pre-line" style={{ color: "var(--pa-ink-2)" }}>{f.answer}</p>
                   </div>
                 </div>
               </MotionInView>

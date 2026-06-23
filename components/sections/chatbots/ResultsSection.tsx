@@ -44,7 +44,7 @@ export default function ResultsSection({ data }: Props) {
   return (
     <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px]" style={{ background: "rgba(103,61,230,0.05)" }} />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -52,7 +52,7 @@ export default function ResultsSection({ data }: Props) {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black pa-ink-text tracking-tight leading-tight">
             {headBefore}
             {headHighlight && (
-              <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+              <span style={{ color: "var(--pa-teal)" }}>
                 {headHighlight}
               </span>
             )}
@@ -64,8 +64,8 @@ export default function ResultsSection({ data }: Props) {
         <div className={`grid grid-cols-2 ${colsClass} gap-5`}>
           {stats.map((s, i) => (
             <MotionInView key={i} delay={i * 0.1}>
-              <div className="group h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 pa-card-hover">
-                <p className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent mb-3">
+              <div className="group h-full flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:shadow-[0_0_30px_rgba(103,61,230,0.15)] hover:-translate-y-1 transition-all duration-300 pa-card-hover">
+                <p className="text-4xl sm:text-5xl font-black mb-3" style={{ color: "var(--pa-teal)" }}>
                   {s.value}
                 </p>
                 <p className="pa-soft text-[14px] font-medium leading-snug">{s.label}</p>

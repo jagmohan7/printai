@@ -41,9 +41,9 @@ export default function W2PFeaturesSection({ data }: Props) {
         .feat-card { transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; position: relative; overflow: hidden; }
         .feat-card::before { content: ''; position: absolute; inset: 0; background: color-mix(in srgb, var(--pa-teal) 4%, transparent); opacity: 0; transition: opacity 0.3s; }
         .feat-card:hover::before { opacity: 1; }
-        .feat-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 40px rgba(6,182,212,0.1); transform: translateY(-4px); }
+        .feat-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 40px rgba(103,61,230,0.1); transform: translateY(-4px); }
         .feat-icon-wrap { transition: background 0.3s, box-shadow 0.3s; }
-        .feat-card:hover .feat-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 20px rgba(6,182,212,0.3); }
+        .feat-card:hover .feat-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 20px rgba(103,61,230,0.3); }
         .feat-card:hover .feat-icon { color: var(--pa-teal); }
         .bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--pa-teal); flex-shrink: 0; margin-top: 7px; }
       `}</style>

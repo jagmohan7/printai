@@ -33,7 +33,7 @@ function renderHeadingLine(line: string, key: number, total: number) {
     <span key={key}>
       {parts.map((p, i) =>
         p.startsWith("**") && p.endsWith("**") ? (
-          <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
+          <span key={i} style={{ color: "var(--pa-teal)" }}>{p.slice(2, -2)}</span>
         ) : (
           <span key={i} className="pa-ink-text">{p}</span>
         )
@@ -65,8 +65,8 @@ export default function CustomAIProblemsSection({ data }: Props) {
               const Icon = getIcon(p.icon);
               return (
                 <MotionInView key={i} delay={0.08 * i}>
-                  <div className="pa-card pa-card-hover group h-full p-6 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/40 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(6,182,212,0.12)] transition-all duration-300">
-                    <Icon size={22} className="text-[#06b6d4] mb-4" strokeWidth={1.5} />
+                  <div className="pa-card pa-card-hover group h-full p-6 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(103,61,230,0.12)] transition-all duration-300">
+                    <Icon size={22} className="mb-4" strokeWidth={1.5} style={{ color: "var(--pa-teal)" }} />
                     <p className="pa-ink-text font-bold text-[14px] leading-snug mb-1">{p.title}</p>
                     <p className="pa-soft text-[12px]">{p.sub}</p>
                   </div>
@@ -87,7 +87,7 @@ export default function CustomAIProblemsSection({ data }: Props) {
 
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <MotionInView>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-[#c4b5fd] text-[12px] font-semibold tracking-widest uppercase mb-7">{approachBadge}</span>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-7" style={{ border: "1px solid rgba(103,61,230,0.3)", background: "rgba(103,61,230,0.1)", color: "var(--pa-teal)" }}>{approachBadge}</span>
           </MotionInView>
           <MotionInView delay={0.1}>
             <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight leading-[1.1]">

@@ -28,9 +28,9 @@ function renderLine(line: string, key: number, total: number) {
     <span key={key}>
       {parts.map((p, i) =>
         p.startsWith("**") && p.endsWith("**") ? (
-          <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
+          <span key={i} style={{ color: "var(--pa-teal)" }}>{p.slice(2, -2)}</span>
         ) : (
-          <span key={i} className="text-white">{p}</span>
+          <span key={i} style={{ color: "var(--pa-ink)" }}>{p}</span>
         )
       )}
       {key < total - 1 && <br />}
@@ -57,7 +57,7 @@ export default function CustomAICtaSection({ data }: Props) {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <MotionInView>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-[#c4b5fd] text-[12px] font-semibold tracking-widest uppercase mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-8" style={{ border: "1px solid rgba(103,61,230,0.3)", background: "rgba(103,61,230,0.1)", color: "var(--pa-teal)" }}>
             <Zap size={12} />
             {badge}
           </div>
@@ -70,11 +70,11 @@ export default function CustomAICtaSection({ data }: Props) {
         </MotionInView>
 
         <MotionInView delay={0.2}>
-          <p className="mt-6 text-[#9ca3af] text-[16px] sm:text-[18px] leading-[1.85] max-w-2xl mx-auto">{description}</p>
+          <p className="mt-6 text-[16px] sm:text-[18px] leading-[1.85] max-w-2xl mx-auto" style={{ color: "var(--pa-ink-2)" }}>{description}</p>
         </MotionInView>
 
         <MotionInView delay={0.35}>
-          <Link href={ctaHref} className="mt-10 inline-flex items-center gap-2.5 px-12 py-[18px] rounded-xl font-semibold text-[16px] text-white bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891b2] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_40px_rgba(59,130,246,0.5)]">
+          <Link href={ctaHref} className="pa-btn-pri mt-10 inline-flex items-center gap-2.5 px-12 py-[18px] rounded-xl font-semibold text-[16px] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
             {ctaText} <ArrowRight className="w-5 h-5" />
           </Link>
         </MotionInView>

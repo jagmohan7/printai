@@ -45,9 +45,9 @@ export default function W2PIntegrationsSection({ data }: Props) {
     <section className="pa-band-page relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .int-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s; }
-        .int-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 24px rgba(6,182,212,0.12); transform: translateY(-3px); background: var(--pa-card); }
+        .int-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 24px rgba(103,61,230,0.12); transform: translateY(-3px); background: var(--pa-card); }
         .int-icon-wrap { transition: background 0.25s, box-shadow 0.25s; }
-        .int-card:hover .int-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 14px rgba(6,182,212,0.25); }
+        .int-card:hover .int-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 14px rgba(103,61,230,0.25); }
         .int-card:hover .int-icon { color: var(--pa-teal); }
         .int-card:hover .int-name { color: var(--pa-ink); }
       `}</style>

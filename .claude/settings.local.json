@@ -27,7 +27,12 @@
       "PowerShell(netstat -ano)",
       "Bash(ls \"C:/Users/lenov/.claude/\" 2>/dev/null)",
       "Bash(git -C D:/printai config user.email)",
-      "Bash(git -C D:/printai config user.name)"
+      "Bash(git -C D:/printai config user.name)",
+      "PowerShell(cd D:\\\\printai; npx tsc --noEmit 2>&1 | Where-Object { $_ -notmatch \"AboutContent\" } | Select-Object -First 15)",
+      "Bash(curl -L \"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=900&q=85&fm=jpg&fit=crop\" -o D:/printai/public/images/chatbot-hero.jpg --max-time 30 -s -w \"%{http_code}\")",
+      "Bash(curl -L \"https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=900&q=85&fm=jpg&fit=crop\" -o D:/printai/public/images/chatbot-demo.jpg --max-time 30 -s -w \"%{http_code}\")",
+      "Bash(ls \"D:/\" | grep -i printai)",
+      "Bash(git add *)"
     ]
   }
 }

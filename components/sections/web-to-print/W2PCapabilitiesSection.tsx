@@ -32,9 +32,9 @@ export default function W2PCapabilitiesSection({ data }: Props) {
     <section className="pa-band-surface relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .tile-card { transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s; cursor: default; }
-        .tile-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 28px rgba(6,182,212,0.1); transform: translateY(-3px); background: var(--pa-card); }
+        .tile-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 28px rgba(103,61,230,0.1); transform: translateY(-3px); background: var(--pa-card); }
         .tile-icon-wrap { transition: background 0.25s, box-shadow 0.25s; }
-        .tile-card:hover .tile-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 16px rgba(6,182,212,0.25); }
+        .tile-card:hover .tile-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 15%, transparent); box-shadow: 0 0 16px rgba(103,61,230,0.25); }
         .tile-card:hover .tile-icon { color: var(--pa-teal); }
       `}</style>
 

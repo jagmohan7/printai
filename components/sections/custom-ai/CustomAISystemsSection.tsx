@@ -37,7 +37,7 @@ export default function CustomAISystemsSection({ data }: Props) {
 
       <div className="relative z-10 max-w-6xl mx-auto">
         <MotionInView className="text-center mb-14">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/25 bg-cyan-500/8 text-[#22d3ee] text-[12px] font-semibold tracking-widest uppercase mb-5">{sectionTag}</span>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-5" style={{ border: "1px solid rgba(103,61,230,0.25)", background: "rgba(103,61,230,0.08)", color: "var(--pa-teal)" }}>{sectionTag}</span>
           <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text">{heading}</h2>
         </MotionInView>
 
@@ -47,9 +47,9 @@ export default function CustomAISystemsSection({ data }: Props) {
             const color = s.color || (i % 2 === 0 ? "cyan" : "violet");
             return (
               <MotionInView key={i} delay={0.09 * i}>
-                <div className="pa-card pa-card-hover group h-full p-7 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/40 hover:-translate-y-1 hover:shadow-[0_8px_36px_rgba(6,182,212,0.12)] transition-all duration-300">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-colors duration-300 ${color === "violet" ? "bg-violet-500/15 border border-violet-500/25 group-hover:bg-violet-500/25" : "bg-cyan-500/15 border border-cyan-400/25 group-hover:bg-cyan-500/25"}`}>
-                    <Icon size={22} className={color === "violet" ? "text-[#a78bfa]" : "text-[#22d3ee]"} strokeWidth={1.5} />
+                <div className="pa-card pa-card-hover group h-full p-7 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_8px_36px_rgba(103,61,230,0.12)] transition-all duration-300">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-5" style={{ background: "var(--pa-teal-soft)", border: "1px solid rgba(103,61,230,0.2)", transition: "background 0.3s" }}>
+                    <Icon size={22} strokeWidth={1.5} style={{ color: "var(--pa-teal)" }} />
                   </div>
                   <h3 className="pa-ink-text font-bold text-[17px] mb-2.5">{s.title}</h3>
                   <p className="pa-soft text-[14px] leading-relaxed">{s.description}</p>

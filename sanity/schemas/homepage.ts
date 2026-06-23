@@ -39,8 +39,6 @@ export const homepage = defineType({
     { name: "how",      title: "🔧 How It Works" },
     { name: "blogs",    title: "📰 Blog" },
     { name: "testimonials", title: "⭐ Testimonials" },
-    { name: "contactCta",   title: "📣 Contact CTA" },
-    { name: "why",      title: "💡 Why Us (5)" },
     { name: "contact",  title: "📬 Contact (7)" },
     { name: "seo",      title: "🔍 SEO (2)" },
   ],
@@ -84,17 +82,6 @@ export const homepage = defineType({
           description: "Use /#contact for the contact section, or a full URL." }),
         defineField({ name: "secondaryButtonText", title: "Secondary Button Label", type: "string" }),
         defineField({ name: "secondaryButtonHref", title: "Secondary Button Link", type: "string" }),
-        defineField({
-          name: "socials", title: "Social Links", type: "array",
-          description: "Labels must be exactly: LinkedIn, Twitter, Facebook, or Instagram.",
-          of: [defineField({
-            name: "social", title: "Social", type: "object",
-            fields: [
-              defineField({ name: "label", title: "Platform", type: "string" }),
-              defineField({ name: "href",  title: "URL",      type: "url" }),
-            ],
-          })],
-        }),
         defineField({
           name: "review", title: "Google Review Card", type: "object",
           description: "Trust card under the hero buttons — the Google rating.",
@@ -175,8 +162,6 @@ export const homepage = defineType({
           validation: (Rule) => Rule.max(60).warning("Keep badges short.") }),
         defineField({ name: "heading",          title: "Heading",       type: "string",
           validation: (Rule) => Rule.required().max(90) }),
-        defineField({ name: "headingHighlight", title: "Highlight Word", type: "string",
-          description: "Must match a word in the heading exactly." }),
         defineField({ name: "subtext",          title: "Subtext",       type: "text", rows: 2 }),
         defineField({
           name: "cards", title: "Solution Cards", type: "array",
@@ -289,54 +274,6 @@ export const homepage = defineType({
               defineField({ name: "quote",      title: "Quote",       type: "text", rows: 3 }),
               defineField({ name: "authorName", title: "Author Name", type: "string" }),
               defineField({ name: "authorRole", title: "Author Role", type: "string", description: "E.g. Owner, Apex Press" }),
-            ],
-          })],
-        }),
-      ],
-    }),
-
-    // ── CONTACT CTA (gradient band) ──────────────────────────────────────────
-    defineField({
-      name: "contactCta", title: "Contact CTA Section", type: "object", group: "contactCta",
-      description: "Full-width navy→teal conversion band above the contact form. Two CTAs.",
-      fields: [
-        defineField({ name: "eyebrow", title: "Eyebrow Label", type: "string", initialValue: "Get Started" }),
-        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Ready to Automate Your Print Business?",
-          validation: (Rule) => Rule.max(90) }),
-        defineField({ name: "subtext", title: "Subtext", type: "text", rows: 2,
-          validation: (Rule) => Rule.max(220) }),
-        defineField({ name: "primaryButtonText",   title: "Primary Button Label", type: "string", initialValue: "Book Demo" }),
-        defineField({ name: "primaryButtonHref",   title: "Primary Button Link",  type: "string", initialValue: "/#contact" }),
-        defineField({ name: "secondaryButtonText", title: "Secondary Button Label", type: "string", initialValue: "Contact Sales" }),
-        defineField({ name: "secondaryButtonHref", title: "Secondary Button Link",  type: "string", initialValue: "/#contact" }),
-        defineField({ name: "trustLabel", title: "Trust Label", type: "string", description: "Small line under the buttons. E.g. 4.8 · trusted by 250+ print companies" }),
-      ],
-    }),
-
-    // ── WHY PRINTAI ──────────────────────────────────────────────────────────
-    defineField({
-      name: "why", title: "Why PrintOpsAI Section", type: "object", group: "why",
-      description:
-        "Differentiator section — 4 feature cards explaining the unique value props. " +
-        "Card titles must match exactly: 'Reduce Time Wastage', 'Optimize Decision Making', " +
-        "'Unified Platform', '24/7 AI Support' (controls the icon).",
-      fields: [
-        defineField({ name: "badge",            title: "Badge Text",    type: "string",
-          validation: (Rule) => Rule.max(60).warning("Keep badges short.") }),
-        defineField({ name: "heading",          title: "Heading",       type: "string",
-          validation: (Rule) => Rule.required().max(90) }),
-        defineField({ name: "headingHighlight", title: "Highlight Word", type: "string",
-          description: "Must match a word in the heading exactly." }),
-        defineField({ name: "subtext",          title: "Subtext",       type: "text", rows: 2 }),
-        defineField({
-          name: "features", title: "Feature Cards (4 items)", type: "array",
-          description: "Titles must match exactly to show the correct icon: 'Reduce Time Wastage', 'Optimize Decision Making', 'Unified Platform', '24/7 AI Support'.",
-          of: [defineField({
-            name: "feature", title: "Feature", type: "object",
-            preview: { select: { title: "title", subtitle: "desc" } },
-            fields: [
-              defineField({ name: "title", title: "Title",       type: "string" }),
-              defineField({ name: "desc",  title: "Description", type: "text", rows: 2 }),
             ],
           })],
         }),

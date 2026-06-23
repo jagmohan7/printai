@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/services/devops`,       lastModified: now, changeFrequency: "monthly", priority: 0.9  },
     { url: `${BASE}/services/custom-ai`,    lastModified: now, changeFrequency: "monthly", priority: 0.9  },
     { url: `${BASE}/case-studies`,          lastModified: now, changeFrequency: "weekly",  priority: 0.8  },
-    { url: `${BASE}/resources`,             lastModified: now, changeFrequency: "weekly",  priority: 0.7  },
+    { url: `${BASE}/blog`,                  lastModified: now, changeFrequency: "weekly",  priority: 0.7  },
   ];
 
   // Auto-include every published Flexible Page (terms, pricing, etc.)

@@ -20,10 +20,10 @@ const FALLBACK = {
 };
 
 const THEMES = [
-  { badgeBg: "bg-gradient-to-br from-blue-500 to-blue-600",      glow: "shadow-[0_0_40px_rgba(59,130,246,0.45)]" },
-  { badgeBg: "bg-gradient-to-br from-cyan-400 to-teal-500",      glow: "shadow-[0_0_40px_rgba(34,211,238,0.5)]" },
-  { badgeBg: "bg-gradient-to-br from-violet-500 to-purple-600",  glow: "shadow-[0_0_40px_rgba(139,92,246,0.45)]" },
-  { badgeBg: "bg-gradient-to-br from-indigo-500 to-blue-600",    glow: "shadow-[0_0_40px_rgba(99,102,241,0.45)]" },
+  { badgeBg: "",  glow: "shadow-[0_0_40px_rgba(103,61,230,0.45)]", tokenBg: "var(--pa-teal)" },
+  { badgeBg: "",  glow: "shadow-[0_0_40px_rgba(103,61,230,0.45)]", tokenBg: "var(--pa-teal-deep)" },
+  { badgeBg: "bg-gradient-to-br from-violet-500 to-purple-600",  glow: "shadow-[0_0_40px_rgba(139,92,246,0.45)]", tokenBg: "" },
+  { badgeBg: "",  glow: "shadow-[0_0_40px_rgba(103,61,230,0.45)]", tokenBg: "var(--pa-teal)" },
 ];
 
 export default function HowWeImplementSection({ data }: Props) {
@@ -41,7 +41,7 @@ export default function HowWeImplementSection({ data }: Props) {
 
         <div className={`relative grid grid-cols-1 ${colsClass} gap-7 lg:gap-10 pt-12`}>
           {steps.length >= 2 && (
-            <div className="pointer-events-none hidden md:block absolute top-12 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
+            <div className="pointer-events-none hidden md:block absolute top-12 left-[16%] right-[16%] h-px" style={{ background: "linear-gradient(to right, transparent, rgba(103,61,230,0.3), transparent)" }} />
           )}
 
           {steps.map((s, i) => {
@@ -51,11 +51,11 @@ export default function HowWeImplementSection({ data }: Props) {
               <MotionInView key={i} delay={i * 0.18} distance={50}>
                 <div className="relative h-full">
                   <div className="absolute left-1/2 -top-12 -translate-x-1/2 z-10">
-                    <div className={`w-24 h-24 rounded-full ${theme.badgeBg} ${theme.glow} flex items-center justify-center transition-transform duration-300 hover:scale-105`}>
+                    <div className={`w-24 h-24 rounded-full ${theme.badgeBg} ${theme.glow} flex items-center justify-center transition-transform duration-300 hover:scale-105`} style={theme.tokenBg ? { background: theme.tokenBg } : undefined}>
                       <Icon className="w-9 h-9 text-white" strokeWidth={1.75} />
                     </div>
                   </div>
-                  <div className="group h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] pt-20 pb-10 px-7 text-center transition-all duration-300 hover:border-[#06B6D4]/40 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] pa-card-hover">
+                  <div className="group h-full rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] pt-20 pb-10 px-7 text-center transition-all duration-300 hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(103,61,230,0.15)] pa-card-hover">
                     <h3 className="pa-ink-text font-bold text-[1.2rem] mb-3.5">{s.title}</h3>
                     <p className="pa-soft text-[14px] leading-[1.7] max-w-[260px] mx-auto">{s.description}</p>
                   </div>

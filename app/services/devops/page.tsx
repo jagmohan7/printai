@@ -11,8 +11,6 @@ import DevOpsBenefitsSection    from "@/components/sections/devops/DevOpsBenefit
 import DevOpsImpactSection      from "@/components/sections/devops/DevOpsImpactSection";
 import DevOpsProcessSection     from "@/components/sections/devops/DevOpsProcessSection";
 import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
-import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
-import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
 import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
 
 const DEVOPS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
@@ -46,17 +44,6 @@ const DEVOPS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = 
   ],
 };
 
-const DEVOPS_CTA: SolutionCtaDefaults = {
-  badge:         "GET STARTED",
-  heading:       "Is Your Infrastructure Ready for Real Demand?",
-  highlightWord: "Ready for Real Demand?",
-  description:   "We'll review your systems and show you how to improve performance, stability, and security — without disrupting your operations. Book a free 30-minute infrastructure audit. Our DevOps team will review your current setup, identify your highest-risk gaps, and give you a clear action plan.",
-  primaryText:   "Get Free Infrastructure Audit",
-  primaryHref:   "/#contact",
-  secondaryText: "Talk to Sales",
-  secondaryHref: "/#contact",
-  trustPoints:   ["Free 30-min session", "Written audit report", "No commitment required"],
-};
 import { getDevopsPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -78,6 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
     fallbackTitle: TITLE,
     fallbackDesc:  DESCRIPTION,
     path:          PATH,
+    canonicalUrl:  cms?.seo?.canonicalUrl,
   });
 }
 
@@ -159,7 +147,6 @@ export default async function DevOpsPage() {
         <DevOpsBenefitsSection   data={cms?.benefits} />
         <DevOpsImpactSection     data={cms?.impact} />
         <DevOpsProcessSection    data={cms?.process} />
-        <SolutionCtaSection defaults={DEVOPS_CTA} data={cms?.sharedCta} modalType="service" entityName="DevOps & Infrastructure" />
         <SolutionFaqSection      data={cms?.faq} defaults={DEVOPS_FAQ} />
       </>
     </>

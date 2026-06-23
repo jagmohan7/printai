@@ -29,8 +29,8 @@ const FALLBACK = {
 // Stat color rotation — last stat gets teal-secondary, others teal
 function statColor(i: number, total: number) {
   return i === total - 1
-    ? { color: "var(--pa-teal)", glow: "rgba(6,182,212,0.2)" }
-    : { color: "var(--pa-teal)", glow: "rgba(6,182,212,0.2)" };
+    ? { color: "var(--pa-teal)", glow: "rgba(103,61,230,0.2)" }
+    : { color: "var(--pa-teal)", glow: "rgba(103,61,230,0.2)" };
 }
 
 export default function W2PResultsSection({ data }: Props) {

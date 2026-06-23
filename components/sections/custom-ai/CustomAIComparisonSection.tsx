@@ -36,7 +36,7 @@ export default function CustomAIComparisonSection({ data }: Props) {
 
       <div className="relative z-10 max-w-5xl mx-auto">
         <MotionInView className="text-center mb-14">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-violet-500/25 bg-violet-500/8 text-[#c4b5fd] text-[12px] font-semibold tracking-widest uppercase mb-5">{sectionTag}</span>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-5" style={{ border: "1px solid rgba(103,61,230,0.25)", background: "rgba(103,61,230,0.08)", color: "var(--pa-teal)" }}>{sectionTag}</span>
           <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text">{heading}</h2>
         </MotionInView>
 
@@ -66,21 +66,21 @@ export default function CustomAIComparisonSection({ data }: Props) {
           </MotionInView>
 
           <MotionInView delay={0.15}>
-            <div className="pa-card h-full rounded-2xl border border-[#06b6d4]/40 bg-[var(--pa-card)] shadow-[0_0_50px_rgba(6,182,212,0.14)] p-8">
+            <div className="pa-card h-full rounded-2xl bg-[var(--pa-card)] p-8" style={{ border: "1px solid rgba(103,61,230,0.4)", boxShadow: "0 0 50px rgba(103,61,230,0.14)" }}>
               <div className="flex items-center gap-3 mb-7">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] flex items-center justify-center shadow-[0_0_16px_rgba(6,182,212,0.4)]">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(to bottom right, var(--pa-teal), var(--pa-teal-deep))", boxShadow: "0 0 16px rgba(103,61,230,0.4)" }}>
                   <CheckCircle2 size={16} className="text-white" strokeWidth={2.5} />
                 </div>
-                <h3 className="font-extrabold text-[1.25rem] bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">PrintAI Custom AI</h3>
+                <h3 className="font-extrabold text-[1.25rem]" style={{ color: "var(--pa-teal)" }}>PrintAI Custom AI</h3>
               </div>
               <div className="space-y-4">
                 {rows.map((r, i) => (
                   <div key={i} className="flex items-start gap-3 pb-4 border-b border-[var(--pa-line)] last:border-0 last:pb-0">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] flex items-center justify-center shrink-0 mt-0.5 shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: "linear-gradient(to bottom right, var(--pa-teal), var(--pa-teal-deep))", boxShadow: "0 0 10px rgba(103,61,230,0.3)" }}>
                       <CheckCircle2 size={11} className="text-white" strokeWidth={2.5} />
                     </div>
                     <div>
-                      <p className="text-[#22d3ee] text-[11px] font-semibold uppercase tracking-wider mb-0.5">{r.aspect}</p>
+                      <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: "var(--pa-teal)" }}>{r.aspect}</p>
                       <p className="pa-ink-text text-[14.5px] font-bold">{r.custom}</p>
                     </div>
                   </div>

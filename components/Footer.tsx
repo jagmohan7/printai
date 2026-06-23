@@ -31,7 +31,7 @@ const DEFAULTS = {
     { label: "Custom AI Systems",         href: "/services/custom-ai" },
   ],
   serviceLinks: [
-    { label: "Blogs",        href: "/resources" },
+    { label: "Blog",         href: "/blog" },
     { label: "Case Studies", href: "/case-studies" },
     { label: "FAQs",         href: "/faqs" },
   ],

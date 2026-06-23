@@ -22,7 +22,7 @@ const DEFAULT_MAIN_NAV = [
   { label: "About",     href: "/about" },
   { label: "Products",  href: "/products/chatbots",   hasDropdown: true },
   { label: "Services",  href: "/services/automation", hasDropdown: true },
-  { label: "Resources", href: "/resources",           hasDropdown: true },
+  { label: "Blog",      href: "/blog",                hasDropdown: true },
 ];
 
 const DEFAULT_PRODUCT_LINKS = [
@@ -37,7 +37,7 @@ const DEFAULT_SERVICE_LINKS = [
 ];
 
 const DEFAULT_RESOURCE_LINKS = [
-  { label: "Blogs",        href: "/resources" },
+  { label: "Blog",         href: "/blog" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "FAQs",         href: "/faqs" },
 ];
@@ -60,6 +60,7 @@ export default function Navbar({ data }: { data?: SanityNavbar }) {
       "Products":  "products",
       "Services":  "services",
       "Resources": "resources",
+      "Blog":      "resources",
     };
     return {
       label: link.label,

@@ -44,7 +44,7 @@ export default function HowItWorksSection({ data }: Props) {
   return (
     <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px]" style={{ background: "rgba(103,61,230,0.05)" }} />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -52,7 +52,7 @@ export default function HowItWorksSection({ data }: Props) {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black pa-ink-text tracking-tight leading-tight">
             {headBefore}
             {headHighlight && (
-              <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+              <span style={{ color: "var(--pa-teal)" }}>
                 {headHighlight}
               </span>
             )}
@@ -71,12 +71,12 @@ export default function HowItWorksSection({ data }: Props) {
             const Icon = getIcon(s.icon);
             return (
               <MotionInView key={i} delay={i * 0.15}>
-                <div className="group relative h-full p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300 pa-card-hover">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3B82F6] to-[#06B6D4] flex items-center justify-center text-white font-black text-lg mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)] relative z-10">
+                <div className="group relative h-full p-8 rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:shadow-[0_0_25px_rgba(103,61,230,0.15)] transition-all duration-300 pa-card-hover">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-black text-lg mb-6 relative z-10" style={{ background: "var(--pa-teal)", boxShadow: "0 0 20px rgba(103,61,230,0.4)" }}>
                     {s.stepNumber || String(i + 1).padStart(2, "0")}
                   </div>
-                  <div className="w-11 h-11 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center mb-5">
-                    <Icon size={22} className="text-[#3B82F6]" strokeWidth={1.75} />
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style={{ background: "var(--pa-teal-soft)", border: "1px solid rgba(103,61,230,0.2)", color: "var(--pa-teal)" }}>
+                    <Icon size={22} strokeWidth={1.75} />
                   </div>
                   <h3 className="pa-ink-text font-bold text-[17px] mb-3">{s.title}</h3>
                   <p className="pa-soft text-[14px] leading-relaxed">{s.description}</p>

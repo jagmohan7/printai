@@ -35,18 +35,18 @@ export default function DevOpsProcessSection({ data }: Props) {
       <div className="relative z-10 max-w-3xl mx-auto">
         <MotionInView className="text-center mb-16">
           <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text leading-[1.15]">
-            {hb}{hh && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{hh}</span>}{ha}
+            {hb}{hh && <span style={{ color: "var(--pa-teal)" }}>{hh}</span>}{ha}
           </h2>
         </MotionInView>
 
         <div className="relative">
-          <div className="absolute left-[26px] top-8 bottom-8 w-[2px] bg-gradient-to-b from-[#7c3aed]/60 via-[#06b6d4]/40 to-transparent" />
+          <div className="absolute left-[26px] top-8 bottom-8 w-[2px]" style={{ background: "linear-gradient(to bottom, rgba(103,61,230,0.6), rgba(80,37,209,0.4), transparent)" }} />
 
           <div className="space-y-10">
             {steps.map((s, i) => (
               <MotionInView key={i} delay={0.15 * i}>
                 <div className="flex items-start gap-6 group">
-                  <div className="relative shrink-0 w-[54px] h-[54px] rounded-full bg-gradient-to-br from-[#7c3aed] to-[#06b6d4] flex items-center justify-center shadow-[0_0_24px_rgba(124,58,237,0.4)] group-hover:shadow-[0_0_36px_rgba(124,58,237,0.6)] transition-shadow duration-300 z-10">
+                  <div className="relative shrink-0 w-[54px] h-[54px] rounded-full flex items-center justify-center transition-shadow duration-300 z-10" style={{ background: "linear-gradient(to bottom right, var(--pa-teal), var(--pa-teal-deep))", boxShadow: "0 0 24px rgba(103,61,230,0.4)" }}>
                     <span className="text-white font-bold text-[14px]">{s.stepNumber || String(i + 1).padStart(2, "0")}</span>
                   </div>
                   <div className="pt-2">

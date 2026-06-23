@@ -25,7 +25,7 @@ function renderHeading(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((p, i) =>
     p.startsWith("**") && p.endsWith("**") ? (
-      <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
+      <span key={i} style={{ color: "var(--pa-teal)" }}>{p.slice(2, -2)}</span>
     ) : (
       <span key={i} className="pa-ink-text">{p}</span>
     )
@@ -55,8 +55,8 @@ export default function DevOpsStatsSection({ data }: Props) {
         <div className={`grid grid-cols-1 sm:grid-cols-2 ${colsClass} gap-4 sm:gap-5`}>
           {stats.map((s, i) => (
             <MotionInView key={i} delay={0.1 * i}>
-              <div className="group h-full flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/35 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(6,182,212,0.1)] transition-all duration-300 min-h-[130px] sm:min-h-[160px]">
-                <span className="text-[2rem] sm:text-[2.4rem] font-extrabold tracking-tight bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent leading-none whitespace-nowrap">{s.value}</span>
+              <div className="group h-full flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(103,61,230,0.1)] transition-all duration-300 min-h-[130px] sm:min-h-[160px]">
+                <span className="text-[2rem] sm:text-[2.4rem] font-extrabold tracking-tight leading-none whitespace-nowrap" style={{ color: "var(--pa-teal)" }}>{s.value}</span>
                 <span className="mt-2.5 pa-soft text-[13px] font-medium leading-snug">{s.label}</span>
               </div>
             </MotionInView>

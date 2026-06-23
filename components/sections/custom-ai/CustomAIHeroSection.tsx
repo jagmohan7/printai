@@ -45,7 +45,7 @@ function renderHeadingLine(line: string, key: number, total: number) {
     <span key={key}>
       {parts.map((p, i) =>
         p.startsWith("**") && p.endsWith("**") ? (
-          <span key={i} className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{p.slice(2, -2)}</span>
+          <span key={i} style={{ color: "var(--pa-teal)" }}>{p.slice(2, -2)}</span>
         ) : (
           <span key={i}>{p}</span>
         )
@@ -95,16 +95,16 @@ export default function CustomAIHeroSection({ data }: Props) {
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <svg className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-full h-full" xmlns="http://www.w3.org/2000/svg">
           {EDGES.map(([x1, y1, x2, y2], i) => (
-            <line key={i} className="net-edge" x1={`${x1}%`} y1={`${y1}%`} x2={`${x2}%`} y2={`${y2}%`} stroke="#22d3ee" strokeWidth="1.6" strokeOpacity="0.5" style={{ animationDelay: `${i * 0.4}s` }} />
+            <line key={i} className="net-edge" x1={`${x1}%`} y1={`${y1}%`} x2={`${x2}%`} y2={`${y2}%`} stroke="var(--pa-teal)" strokeWidth="1.6" strokeOpacity="0.5" style={{ animationDelay: `${i * 0.4}s` }} />
           ))}
           {NODES.map((n, i) => {
             const fc = ["nf-a","nf-b","nf-c","nf-d","nf-e"][i];
             return (
               <g key={i} className={fc}>
-                <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="#22d3ee" strokeWidth="1.2" strokeOpacity="0.5" style={{ animationDelay: n.pulseDelay }} />
-                <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="#22d3ee" strokeWidth="1" strokeOpacity="0.3" style={{ animationDelay: `calc(${n.pulseDelay} + 1.2s)` }} />
-                <circle cx={`${n.cx}%`} cy={`${n.cy}%`} r={n.r} fill="var(--pa-page)" stroke="#22d3ee" strokeWidth="2" strokeOpacity="0.7" />
-                <circle className="net-dot" cx={`${n.cx}%`} cy={`${n.cy}%`} r={Math.round(n.r * 0.42)} fill="#22d3ee" style={{ animationDelay: n.pulseDelay }} />
+                <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="var(--pa-teal)" strokeWidth="1.2" strokeOpacity="0.5" style={{ animationDelay: n.pulseDelay }} />
+                <circle className="net-ripple" cx={`${n.cx}%`} cy={`${n.cy}%`} r="0" fill="none" stroke="var(--pa-teal)" strokeWidth="1" strokeOpacity="0.3" style={{ animationDelay: `calc(${n.pulseDelay} + 1.2s)` }} />
+                <circle cx={`${n.cx}%`} cy={`${n.cy}%`} r={n.r} fill="var(--pa-page)" stroke="var(--pa-teal)" strokeWidth="2" strokeOpacity="0.7" />
+                <circle className="net-dot" cx={`${n.cx}%`} cy={`${n.cy}%`} r={Math.round(n.r * 0.42)} fill="var(--pa-teal)" style={{ animationDelay: n.pulseDelay }} />
               </g>
             );
           })}
@@ -112,7 +112,7 @@ export default function CustomAIHeroSection({ data }: Props) {
 
         <div className="max-w-xl">
           <MotionInView>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-[#22d3ee] text-[12px] font-semibold tracking-widest uppercase mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold tracking-widest uppercase mb-6" style={{ border: "1px solid rgba(103,61,230,0.3)", background: "rgba(103,61,230,0.1)", color: "var(--pa-teal)" }}>
               {badge}
             </span>
           </MotionInView>
@@ -129,10 +129,10 @@ export default function CustomAIHeroSection({ data }: Props) {
 
           <MotionInView delay={0.4}>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href={ctaPrimaryHref} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891b2] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_36px_rgba(6,182,212,.35)]">
+              <Link href={ctaPrimaryHref} className="pa-btn-pri inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 {ctaPrimaryText} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={ctaSecondaryAnchor} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] pa-ink-text border border-[var(--pa-line)] hover:border-cyan-400/40 hover:bg-cyan-500/5 hover:-translate-y-0.5 transition-all duration-200">
+              <Link href={ctaSecondaryAnchor} className="inline-flex items-center gap-2.5 px-8 py-[15px] rounded-xl font-semibold text-[15px] pa-ink-text border border-[color:var(--pa-line)] hover:border-[color:var(--pa-teal)] hover:-translate-y-0.5 transition-all duration-200" style={{ background: "transparent" }}>
                 {ctaSecondaryText}
               </Link>
             </div>

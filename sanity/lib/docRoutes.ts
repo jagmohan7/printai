@@ -19,7 +19,7 @@ export const DOC_ID_TO_URL: Record<string, string> = {
   "custom-ai-page":    "/services/custom-ai",
   // ── Other content pages ──
   "case-studies-page": "/case-studies",
-  "resources-page":    "/resources",
+  "resources-page":    "/blog",
 };
 
 export const DOC_ID_TO_EMOJI: Record<string, string> = {
@@ -41,7 +41,7 @@ export const DOC_ID_TO_LABEL: Record<string, string> = {
   "devops-page":       "DevOps",
   "custom-ai-page":    "Custom AI Development",
   "case-studies-page": "Case Studies",
-  "resources-page":    "Resources",
+  "resources-page":    "Blog",
 };
 
 /**

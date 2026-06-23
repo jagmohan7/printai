@@ -3,6 +3,20 @@
 import { useEffect } from 'react'
 import './about.css'
 import type { AboutPageData } from '@/lib/sanity.types'
+import SolutionCtaSection from '@/components/shared/SolutionCtaSection'
+import type { SolutionCtaDefaults } from '@/components/shared/SolutionCtaSection'
+
+const ABOUT_CTA: SolutionCtaDefaults = {
+  badge:         "GET STARTED TODAY",
+  heading:       "Ready to Automate Your Print Business?",
+  highlightWord: "Automate",
+  description:   "Book a personalised 30-minute demo. We'll walk through your current workflow, identify your biggest bottlenecks, and show you exactly what's achievable for your specific type of print shop. No sales pressure. No commitments.",
+  primaryText:   "Book a Free Demo",
+  primaryHref:   "/#contact",
+  secondaryText: "Explore Solutions",
+  secondaryHref: "/#services",
+  trustPoints:   ["No credit card required", "30-minute session", "Print-specific, not generic"],
+}
 
 interface Props {
   data?: AboutPageData | null
@@ -342,101 +356,46 @@ export default function AboutContent({ data }: Props) {
         </div>
       </section>
 
-      {/* ═══════════════ S9 · Trust Section ═══════════════════════════════════ */}
+      {/* ═══════════════ S9 · Reviews / Trust ══════════════════════════════════ */}
       <section className="trust-sec">
-        <div className="trust-glow" aria-hidden="true" />
-        <div className="container trust-container">
+        <div className="container trust-inner">
 
-          {/* Header */}
-          <div className="trust-header fade-up">
-            <p className="eyebrow">{reviews?.eyebrow ?? 'TRUSTED BY PRINT BUSINESSES'}</p>
+          {/* Left — headline */}
+          <div className="trust-left fade-up">
+            <p className="eyebrow" style={{ marginBottom: 12 }}>CLIENT TRUST</p>
             <h2 className="trust-title">
-              {reviews?.heading ?? 'Why Print Businesses Choose PrintOpsAI'}
+              {reviews?.heading ?? 'What Print Shop Owners Say About PrintOpsAI'}
             </h2>
             <p className="trust-sub">
-              {reviews?.subtext ?? 'Specialized AI, automation, and web-to-print solutions built exclusively for the printing industry.'}
+              {reviews?.subtext ?? "What it's like to partner with PrintOpsAI, straight from the clients who did."}
             </p>
           </div>
 
-          {/* 5-col grid: Google card + 4 pillars */}
-          <div className="trust-grid fade-up d1">
-
-            {/* Google Rating — clickable */}
-            <a
-              className="google-hero-card"
-              href="https://www.google.com/search?q=PrintOpsAI+reviews"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View PrintOpsAI Google reviews"
-            >
-              <div className="google-hero-glow" aria-hidden="true" />
-              <div className="google-hero-g">G</div>
-              <div className="google-hero-label">Google Rating</div>
-              <div className="google-hero-score">{reviews?.googleScore ?? '4.8'}</div>
-              <div className="google-hero-stars">★★★★★</div>
-              <div className="google-hero-count">{reviews?.googleCount ?? '320+ reviews'}</div>
-            </a>
-
-            {/* 4 Trust Pillars */}
-            {[
-              { icon: 'fa-print',     title: 'Print Industry Focused',    desc: 'Built specifically for print businesses.' },
-              { icon: 'fa-robot',     title: 'AI & Automation',           desc: 'Practical solutions that reduce manual work.' },
-              { icon: 'fa-gears',     title: 'Custom Development',        desc: 'Tailored integrations and workflows.' },
-              { icon: 'fa-handshake', title: 'Transparent Partnerships',  desc: 'Clear communication and long-term support.' },
-            ].map((p, i) => (
-              <div className="trust-pillar" key={i}>
-                <div className="trust-pillar-icon">
-                  <i className={`fa-solid ${p.icon}`} />
-                </div>
-                <div className="trust-pillar-title">{p.title}</div>
-                <div className="trust-pillar-desc">{p.desc}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Trust Badges */}
-          <div className="trust-badges fade-up d2">
-            {['AI Automation', 'Web-to-Print', 'ERP Integrations', 'Custom Development', 'Cloud Infrastructure'].map((b) => (
-              <span className="trust-badge" key={b}>
-                <i className="fa-solid fa-check" />
-                {b}
-              </span>
-            ))}
-          </div>
+          {/* Right — Google Rating card */}
+          <a
+            className="google-rating-card fade-up d1"
+            href="https://www.google.com/search?q=PrintOpsAI+reviews"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View PrintOpsAI Google reviews"
+          >
+            <div className="grc-top">
+              <span className="grc-g">G</span>
+              <span className="grc-label">Google Rating</span>
+            </div>
+            <div className="grc-score-row">
+              <span className="grc-score">{reviews?.googleScore ?? '4.8'}</span>
+              <span className="grc-stars">★★★★★</span>
+            </div>
+            <span className="grc-count">{reviews?.googleCount ?? '100+ Reviews'}</span>
+          </a>
 
         </div>
       </section>
 
 
       {/* ═══════════════ S10 · CTA ════════════════════════════════════════════ */}
-      <section className="cta-sec">
-        <div className="cta-body">
-          <span className="chip chip-glow fade-up">{cta?.chip ?? 'Get Started'}</span>
-
-          <h2 className="cta-h fade-up d1">
-            {cta?.heading ?? 'Ready to Automate Your Print Business?'}
-          </h2>
-
-          <p className="cta-sub fade-up d2">
-            {cta?.subtext ?? "Book a personalised 30-minute demo and see how PrintOpsAI can transform your print operations. We'll walk through your current workflow, identify your biggest bottlenecks, and show you exactly what results are achievable for your specific type of print shop. No sales pressure. No commitments. Just a clear picture of what is possible."}
-          </p>
-
-          <div className="cta-btns fade-up d3">
-            <a href={cta?.primaryButtonHref ?? '/#contact'} className="btn btn-primary">
-              <i className="fa-solid fa-calendar-days" />
-              {cta?.primaryButtonText ?? 'Book a Demo'}
-            </a>
-            <a href={cta?.secondaryButtonHref ?? '/#services'} className="btn btn-ghost-navy">
-              {cta?.secondaryButtonText ?? 'Learn More'}
-            </a>
-          </div>
-
-          <p className="cta-trust fade-up d4">
-            <span className="cta-stars">★★★★★</span>
-            {' '}{cta?.trustLine ?? '4.8 Rating · Trusted by 250+ print businesses'}
-          </p>
-        </div>
-      </section>
+      <SolutionCtaSection defaults={ABOUT_CTA} />
 
     </div>
   )

@@ -88,9 +88,9 @@ export default function W2PHeroSection({ data }: Props) {
         .hero-fu-4 { animation: fade-up 0.7s ease both 0.55s; opacity:0; }
         .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
         .config-card { transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s; }
-        .config-card:hover { box-shadow: 0 0 40px rgba(6,182,212,0.18); border-color: var(--pa-teal); transform: translateY(-3px); }
+        .config-card:hover { box-shadow: 0 0 40px rgba(103,61,230,0.18); border-color: var(--pa-teal); transform: translateY(-3px); }
         .qty-btn { transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
-        .qty-btn.active { background: var(--pa-teal); color: var(--pa-ink); box-shadow: 0 0 16px rgba(6,182,212,0.4); }
+        .qty-btn.active { background: var(--pa-teal); color: var(--pa-ink); box-shadow: 0 0 16px rgba(103,61,230,0.4); }
         .qty-btn:not(.active):hover { background: var(--pa-card); color: var(--pa-ink); }
         .finish-btn { transition: background 0.2s, border-color 0.2s, color 0.2s; cursor: pointer; }
         .finish-btn.active { border-color: var(--pa-teal); color: var(--pa-teal); background: color-mix(in srgb, var(--pa-teal) 10%, transparent); }

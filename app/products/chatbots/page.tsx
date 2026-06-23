@@ -7,8 +7,6 @@ import IncludedSection from "@/components/sections/chatbots/IncludedSection";
 import ResultsSection from "@/components/sections/chatbots/ResultsSection";
 import DemoSection from "@/components/sections/chatbots/DemoSection";
 import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
-import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
-import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
 import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
 
 const CHATBOTS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
@@ -42,17 +40,6 @@ const CHATBOTS_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } 
   ],
 };
 
-const CHATBOTS_CTA: SolutionCtaDefaults = {
-  badge:         "CONTINUE RESPONDING BEFORE COMPETITORS",
-  heading:       "Stop Losing Leads to Inbox Lag",
-  highlightWord: "Inbox Lag",
-  description:   "Let AI handle the repetitive work so your team can focus on real jobs. Book a free 20-minute demo and see PrintOpsAI answer a real print enquiry from your type of shop — live, in front of you, no prep required.",
-  primaryText:   "Book Free Audit",
-  primaryHref:   "/#contact",
-  secondaryText: "See Pricing",
-  secondaryHref: "/#contact",
-  trustPoints:   ["No credit card", "20-minute session", "Print-specific AI, not a generic tool"],
-};
 import { getChatbotsPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -76,6 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
     fallbackTitle: TITLE,
     fallbackDesc:  DESCRIPTION,
     path:          PATH,
+    canonicalUrl:  cms?.seo?.canonicalUrl,
   });
 }
 
@@ -173,7 +161,6 @@ export default async function ChatbotsProductPage() {
       <IncludedSection   data={cms?.included} />
       <ResultsSection    data={cms?.results} />
       <DemoSection       data={cms?.demo} />
-      <SolutionCtaSection defaults={CHATBOTS_CTA} data={cms?.sharedCta} modalType="product" entityName="AI Chatbot" />
       <SolutionFaqSection data={cms?.faq} defaults={CHATBOTS_FAQ} />
     </>
   );

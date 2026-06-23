@@ -38,7 +38,7 @@ export default function IntegrationsSection({ data }: Props) {
 
   return (
     <section className="relative overflow-hidden pa-band-surface section-pad px-4 border-t border-[var(--pa-line)]">
-      <div className="pointer-events-none absolute left-1/2 -top-24 -translate-x-1/2 w-[800px] h-[300px] rounded-full bg-blue-500/5 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 -top-24 -translate-x-1/2 w-[800px] h-[300px] rounded-full blur-[120px]" style={{ background: "rgba(103,61,230,0.05)" }} />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <MotionInView className="text-center mb-14">
@@ -51,8 +51,8 @@ export default function IntegrationsSection({ data }: Props) {
             const theme = TILE_THEMES[i % TILE_THEMES.length];
             return (
               <MotionInView key={i} delay={i * 0.06} from={i % 2 === 0 ? "up" : "down"} distance={30}>
-                <div className="group h-full rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] p-6 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-[#3B82F6]/40 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(59,130,246,0.25)] pa-card-hover">
-                  <div className={`w-14 h-14 rounded-xl ${theme.iconBg} border border-[var(--pa-line)] flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:border-[#3B82F6]/40`}>
+                <div className="group h-full rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] p-6 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-[color:var(--pa-teal)] hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(103,61,230,0.15)] pa-card-hover">
+                  <div className={`w-14 h-14 rounded-xl ${theme.iconBg} border border-[color:var(--pa-line)] flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110 group-hover:border-[color:var(--pa-teal)]`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>
                   <span className="pa-ink-text font-semibold text-[14px]">{it.label}</span>

@@ -61,30 +61,30 @@ export default function HeroAutomation({ data }: Props) {
 
   return (
     <section className="relative overflow-hidden pa-band-page section-hero px-4">
-      <div className="pointer-events-none absolute left-[-8%] top-[10%] w-[520px] h-[520px] rounded-full bg-blue-600/15 blur-[140px]" />
-      <div className="pointer-events-none absolute right-[-6%] bottom-[-10%] w-[460px] h-[460px] rounded-full bg-cyan-500/15 blur-[140px]" />
+      <div className="pointer-events-none absolute left-[-8%] top-[10%] w-[520px] h-[520px] rounded-full blur-[140px]" style={{ background: "rgba(103,61,230,0.10)" }} />
+      <div className="pointer-events-none absolute right-[-6%] bottom-[-10%] w-[460px] h-[460px] rounded-full blur-[140px]" style={{ background: "rgba(103,61,230,0.08)" }} />
 
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div>
           <MotionInView>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-[#93c5fd] text-[12px] font-semibold tracking-widest uppercase mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[12px] font-semibold tracking-widest uppercase mb-6" style={{ borderColor: "rgba(103,61,230,0.3)", background: "rgba(103,61,230,0.1)", color: "var(--pa-teal)" }}>
               {badge}
             </span>
           </MotionInView>
           <MotionInView>
             <h1 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight pa-ink-text leading-[1.1]">
               {hb}
-              {hh && <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">{hh}</span>}
+              {hh && <span style={{ color: "var(--pa-teal)" }}>{hh}</span>}
               {ha}
             </h1>
 
             <p className="mt-7 pa-soft text-[16px] sm:text-[17px] leading-[1.75] max-w-xl">{description}</p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Link href={ctaPrimaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] text-white bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-400 hover:to-cyan-300 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_30px_rgba(34,211,238,0.4)]">
+              <Link href={ctaPrimaryHref} className="pa-btn-pri inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 {ctaPrimaryText} <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] pa-ink-text border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#3B82F6]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
+              <Link href={ctaSecondaryHref} className="inline-flex items-center gap-2.5 px-7 py-[14px] rounded-xl font-semibold text-[14.5px] pa-ink-text border border-[color:var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
                 {ctaSecondaryText}
               </Link>
             </div>
@@ -92,7 +92,7 @@ export default function HeroAutomation({ data }: Props) {
         </div>
 
         <div className="relative">
-          <MotionInView from="none" delay={0.2} duration={0.9} className="pointer-events-none absolute left-[31px] top-8 bottom-8 w-px bg-gradient-to-b from-blue-400/0 via-cyan-400/40 to-blue-400/0">
+          <MotionInView from="none" delay={0.2} duration={0.9} className="pointer-events-none absolute left-[31px] top-8 bottom-8 w-px" style={{ background: "linear-gradient(to bottom, transparent, rgba(103,61,230,0.4), transparent)" }}>
             <span />
           </MotionInView>
 
@@ -102,12 +102,12 @@ export default function HeroAutomation({ data }: Props) {
               const theme = STEP_THEMES[i % STEP_THEMES.length];
               return (
                 <MotionInView key={i} from="left" distance={70} delay={0.25 + i * 0.12} className="relative flex items-center gap-4">
-                  <div className={`relative z-10 w-16 h-16 shrink-0 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center shadow-[0_0_25px_rgba(34,211,238,0.15)]`}>
+                  <div className={`relative z-10 w-16 h-16 shrink-0 rounded-2xl ${theme.iconBg} border ${theme.ring} flex items-center justify-center shadow-[0_0_25px_rgba(103,61,230,0.15)]`}>
                     <Icon className={`w-6 h-6 ${theme.color}`} strokeWidth={1.75} />
                   </div>
-                  <div className="group flex-1 flex items-center justify-between gap-4 px-5 py-[18px] rounded-2xl border border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06B6D4]/40 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-all duration-300 pa-card-hover">
+                  <div className="group flex-1 flex items-center justify-between gap-4 px-5 py-[18px] rounded-2xl border border-[color:var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:shadow-[0_0_20px_rgba(103,61,230,0.15)] transition-all duration-300 pa-card-hover">
                     <span className="pa-ink-text font-semibold text-[15.5px]">{s.label}</span>
-                    <ArrowRight className="w-5 h-5 text-cyan-400/70 group-hover:text-cyan-300 group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-all duration-300" style={{ color: "rgba(103,61,230,0.7)" }} />
                   </div>
                 </MotionInView>
               );

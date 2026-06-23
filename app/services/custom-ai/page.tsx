@@ -8,8 +8,6 @@ import CustomAIStatsSection      from "@/components/sections/custom-ai/CustomAIS
 import CustomAIIncludedSection   from "@/components/sections/custom-ai/CustomAIIncludedSection";
 import CustomAIComparisonSection from "@/components/sections/custom-ai/CustomAIComparisonSection";
 import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
-import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
-import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
 import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
 
 const CUSTOM_AI_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
@@ -43,17 +41,6 @@ const CUSTOM_AI_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] }
   ],
 };
 
-const CUSTOM_AI_CTA: SolutionCtaDefaults = {
-  badge:         "GET STARTED",
-  heading:       "Tell Us the Workflow That's Breaking",
-  highlightWord: "That's Breaking",
-  description:   "We'll scope your custom AI solution in 48 hours — with clear problem, solution, timeline, and cost. Tell us the specific workflow, pricing calculation, or quality control problem that is costing your print shop the most time or money. We will respond within 48 hours with a written scoping proposal — including our recommended approach, estimated timeline, and fixed price.",
-  primaryText:   "Book a Scoping Call",
-  primaryHref:   "/#contact",
-  secondaryText: "Talk to Sales",
-  secondaryHref: "/#contact",
-  trustPoints:   ["Free scoping call", "Written proposal within 48 hours", "Fixed price, no hourly billing"],
-};
 import { getCustomAiPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -75,6 +62,7 @@ export async function generateMetadata(): Promise<Metadata> {
     fallbackTitle: TITLE,
     fallbackDesc:  DESCRIPTION,
     path:          PATH,
+    canonicalUrl:  cms?.seo?.canonicalUrl,
   });
 }
 
@@ -152,7 +140,6 @@ export default async function CustomAIPage() {
         <CustomAIStatsSection      data={cms?.stats} />
         <CustomAIIncludedSection   data={cms?.included} />
         <CustomAIComparisonSection data={cms?.comparison} />
-        <SolutionCtaSection defaults={CUSTOM_AI_CTA} data={cms?.sharedCta} modalType="service" entityName="Custom AI Development" />
         <SolutionFaqSection data={cms?.faq} defaults={CUSTOM_AI_FAQ} />
       </>
     </>

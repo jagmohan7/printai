@@ -46,10 +46,10 @@ export default function W2PStoreAuditSection({ data }: Props) {
     <section className="pa-band-surface relative overflow-hidden section-pad px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
         .audit-box { transition: border-color 0.3s, box-shadow 0.3s; }
-        .audit-box:hover { border-color: var(--pa-teal); box-shadow: 0 0 60px rgba(6,182,212,0.12); }
+        .audit-box:hover { border-color: var(--pa-teal); box-shadow: 0 0 60px rgba(103,61,230,0.12); }
         .audit-perk { transition: transform 0.2s, color 0.2s; }
         .audit-perk:hover { transform: translateY(-3px); color: var(--pa-ink); }
-        .audit-perk:hover .perk-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 20%, transparent); box-shadow: 0 0 16px rgba(6,182,212,0.3); }
+        .audit-perk:hover .perk-icon-wrap { background: color-mix(in srgb, var(--pa-teal) 20%, transparent); box-shadow: 0 0 16px rgba(103,61,230,0.3); }
         .perk-icon-wrap { transition: background 0.2s, box-shadow 0.2s; }
       `}</style>
 

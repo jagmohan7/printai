@@ -9,8 +9,8 @@ import SiteShell from "@/components/SiteShell";
 import { getSiteSettings } from "@/lib/sanity.queries";
 import { SanityLive } from "@/lib/sanity.live";
 
-// Re-fetch site settings (navbar/footer) every 5 seconds
-export const revalidate = 5;
+// Re-fetch site settings (navbar/footer) every 60 seconds
+export const revalidate = 60;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -174,7 +174,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  let settings = null;
+  try { settings = await getSiteSettings(); } catch { /* Sanity unreachable — fall back to hardcoded defaults */ }
   const { isEnabled: isDraftMode } = await draftMode();
   const brandStyle = buildBrandStyle(settings?.brand);
   return (

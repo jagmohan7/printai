@@ -22,8 +22,10 @@ interface BuildArgs {
   fallbackTitle: string;
   /** Fallback description baked into the page code */
   fallbackDesc: string;
-  /** Canonical path (e.g. "/products/chatbots") */
+  /** Canonical path (e.g. "/products/chatbots") — default when no CMS override */
   path: string;
+  /** CMS canonical URL override (absolute URL or path). Takes precedence over `path`. */
+  canonicalUrl?: string | null;
   /** OG image path relative to printai.cloud. Default = /logo.png */
   ogImagePath?: string;
 }
@@ -36,17 +38,22 @@ export function buildProductMetadata({
   fallbackTitle,
   fallbackDesc,
   path,
+  canonicalUrl,
   ogImagePath = "/logo.png",
 }: BuildArgs): Metadata {
   const title       = cmsTitle?.trim() || fallbackTitle;
   const description = cmsDesc?.trim()  || fallbackDesc;
-  const url         = `${SITE_URL}${path}`;
+  // canonicalUrl from CMS may be absolute (https://...) or a path (/blog)
+  const resolvedCanonical = canonicalUrl?.trim()
+    ? canonicalUrl.trim().startsWith("http") ? canonicalUrl.trim() : canonicalUrl.trim()
+    : path;
+  const url         = resolvedCanonical.startsWith("http") ? resolvedCanonical : `${SITE_URL}${resolvedCanonical}`;
   const ogImage     = `${SITE_URL}${ogImagePath}`;
 
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: resolvedCanonical },
     openGraph: {
       type:        "website",
       url,

@@ -14,7 +14,7 @@ const PATH        = "/case-studies";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await getCaseStudiesPage();
-  return buildProductMetadata({ cmsTitle: cms?.seo?.title, cmsDesc: cms?.seo?.description, fallbackTitle: TITLE, fallbackDesc: DESCRIPTION, path: PATH });
+  return buildProductMetadata({ cmsTitle: cms?.seo?.title, cmsDesc: cms?.seo?.description, fallbackTitle: TITLE, fallbackDesc: DESCRIPTION, path: PATH, canonicalUrl: cms?.seo?.canonicalUrl });
 }
 
 export const revalidate = 5;

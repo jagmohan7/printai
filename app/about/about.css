@@ -729,232 +729,178 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   S9 · REVIEWS header
-   ═══════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════════
-   S9 · TRUST SECTION
+   S9 · REVIEWS / GOOGLE RATING
    ═══════════════════════════════════════════════════════════ */
 .about-page .trust-sec {
   background: var(--grey);
-  padding: 64px 0;
-  position: relative;
-  overflow: hidden;
+  padding: 80px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
-.about-page .trust-glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 0%,  rgba(103,61,230,.06) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 50% 100%, rgba(19,192,122,.05) 0%, transparent 65%);
-  pointer-events: none;
+.about-page .trust-inner {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  align-items: center;
 }
-.about-page .trust-container {
+
+/* Left: heading */
+.about-page .trust-left {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 36px;
-  position: relative;
-  z-index: 1;
-}
-/* header */
-.about-page .trust-header {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  max-width: 600px;
+  gap: 16px;
 }
 .about-page .trust-title {
-  font-size: clamp(24px, 3.5vw, 38px);
+  font-size: clamp(26px, 3.5vw, 44px);
   font-weight: 800;
   letter-spacing: -.03em;
   line-height: 1.1;
   color: var(--ink);
 }
 .about-page .trust-sub {
-  font-size: 15.5px;
+  font-size: 16px;
   color: var(--ink-2);
-  line-height: 1.65;
+  line-height: 1.7;
+  max-width: 460px;
 }
-/* 5-col grid */
-.about-page .trust-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  width: 100%;
-  align-items: stretch;
-}
-/* shared card base */
-.about-page .google-hero-card,
-.about-page .trust-pillar {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 28px 20px;
+
+/* Right: Google rating card — fully clickable */
+.about-page .google-rating-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.05);
-  transition: transform .26s cubic-bezier(.22,.68,0,1.2), box-shadow .26s ease, border-color .26s ease;
-  position: relative;
-  overflow: hidden;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 24px;
   text-decoration: none;
-}
-.about-page .google-hero-card:hover,
-.about-page .trust-pillar:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 12px 36px rgba(0,0,0,.1), 0 2px 8px rgba(103,61,230,.08);
-  border-color: rgba(103,61,230,.22);
   cursor: pointer;
+  transition: transform .26s cubic-bezier(.22,.68,0,1.2),
+              box-shadow .26s ease,
+              border-color .26s ease;
+  box-shadow: var(--sh-sm);
 }
-/* google card specifics */
-.about-page .google-hero-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(251,188,5,.07) 0%, transparent 70%);
-  pointer-events: none;
+.about-page .google-rating-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--sh);
+  border-color: rgba(103,61,230,.3);
 }
-.about-page .google-hero-g {
-  font-size: 44px;
+
+.about-page .grc-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.about-page .grc-g {
+  font-size: 28px;
   font-weight: 900;
   line-height: 1;
   background: conic-gradient(#EA4335 0deg 90deg, #FBBC05 90deg 180deg, #34A853 180deg 270deg, #4285F4 270deg 360deg);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  flex: 0 0 auto;
 }
-.about-page .google-hero-label {
-  font-size: 11px;
+.about-page .grc-label {
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: .1em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--ink-2);
 }
-.about-page .google-hero-score {
-  font-size: 52px;
-  font-weight: 900;
-  color: var(--ink);
-  letter-spacing: -.04em;
-  line-height: 1;
+
+.about-page .grc-score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
 }
-.about-page .google-hero-stars {
-  font-size: 18px;
+.about-page .grc-score {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: 1;
+  color: var(--ink);
+}
+.about-page .grc-stars {
+  font-size: 20px;
   color: #FBBC05;
   letter-spacing: 2px;
   line-height: 1;
 }
-.about-page .google-hero-count {
-  font-size: 11px;
+.about-page .grc-count {
+  font-size: 12.5px;
   color: var(--ink-2);
   font-family: 'IBM Plex Mono', monospace;
   letter-spacing: .04em;
 }
-/* pillar card specifics */
-.about-page .trust-pillar-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(19,192,122,.13), rgba(103,61,230,.1));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--teal);
-  font-size: 19px;
-  flex: 0 0 auto;
-}
-.about-page .trust-pillar-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.3;
-}
-.about-page .trust-pillar-desc {
-  font-size: 12.5px;
-  color: var(--ink-2);
-  line-height: 1.55;
-}
-/* trust badges */
-.about-page .trust-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 4px;
-}
-.about-page .trust-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--white);
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--ink-2);
-  transition: border-color .2s, color .2s, background .2s;
-}
-.about-page .trust-badge i { color: var(--teal); font-size: 10px; }
-.about-page .trust-badge:hover {
-  border-color: rgba(19,192,122,.4);
-  color: var(--ink);
-  background: rgba(19,192,122,.05);
+
+@media (max-width: 860px) {
+  .about-page .trust-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .about-page .google-rating-card {
+    max-width: 300px;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
    S10 · CTA
    ═══════════════════════════════════════════════════════════ */
 .about-page .cta-sec {
-  padding: 100px 64px;
+  background: var(--grey);
+  padding: 80px 64px;
   text-align: center;
-  background:
-    radial-gradient(ellipse at 35% 80%, rgba(15,110,86,.8) 0%, rgba(26,60,94,.65) 38%, #0B1628 68%),
-    linear-gradient(195deg, #0B1628 0%, #1A3C5E 55%, #0B1628 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 0;
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid var(--line);
 }
+/* Subtle dot-grid accent — respects light/dark via opacity */
 .about-page .cta-sec::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--teal) 1px, transparent 1px);
   background-size: 36px 36px;
+  opacity: .04;
+  pointer-events: none;
+}
+/* Soft purple glow centre */
+.about-page .cta-sec::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(103,61,230,.07) 0%, transparent 70%);
   pointer-events: none;
 }
 .about-page .cta-body {
   position: relative;
   z-index: 1;
-  max-width: 740px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
 }
 .about-page .cta-h {
-  color: #fff;
-  font-size: clamp(32px, 4vw, 50px);
+  color: var(--ink);
+  font-size: clamp(30px, 4vw, 48px);
   font-weight: 800;
   letter-spacing: -.025em;
   line-height: 1.05;
   text-wrap: balance;
 }
-.about-page .cta-sub   { color: rgba(255,255,255,.68); font-size: 17px; line-height: 1.65; max-width: 580px; }
-.about-page .cta-btns  { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-.about-page .cta-trust {
-  color: rgba(255,255,255,.44);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
+.about-page .cta-sub {
+  color: var(--ink-2);
+  font-size: 16.5px;
+  line-height: 1.65;
+  max-width: 560px;
 }
-.about-page .cta-stars { color: #F59E0B; }
+.about-page .cta-btns  { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 
 /* ── Light theme hero overrides ── */
 :root[data-theme="light"] .about-page .hero {
@@ -993,21 +939,6 @@
 
 /* ── Dark mode — tokens auto-flip via globals.css --pa-* vars.
       Only overrides that can't be handled by token swap go here. ── */
-/* ── Dark mode trust section ────────────────────────────────────────────── */
-:root[data-theme="dark"] .about-page .google-hero-card,
-:root[data-theme="dark"] .about-page .trust-pillar {
-  background: rgba(255,255,255,.04);
-  border-color: rgba(255,255,255,.09);
-  box-shadow: 0 2px 12px rgba(0,0,0,.25);
-}
-:root[data-theme="dark"] .about-page .google-hero-card:hover,
-:root[data-theme="dark"] .about-page .trust-pillar:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(103,61,230,.3);
-}
-:root[data-theme="dark"] .about-page .trust-badge {
-  background: rgba(255,255,255,.04);
-  border-color: rgba(255,255,255,.1);
-}
 
 /* ── Dark mode brands section ────────────────────────────────────────────── */
 :root[data-theme="dark"] .about-page .brands-sec {

@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },
+      { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
 
@@ -30,6 +31,9 @@ const nextConfig: NextConfig = {
       { source: "/products/automation",  destination: "/services/automation", permanent: true },
       { source: "/products/devops",       destination: "/services/devops",     permanent: true },
       { source: "/products/custom-ai",    destination: "/services/custom-ai",  permanent: true },
+
+      // ── Resources → Blog URL rename ──
+      { source: "/resources",            destination: "/blog",              permanent: true },
 
       // ── Legacy /services/* links for pages that STAYED under /products/* ──
       // (chatbots stayed; do NOT redirect /services/automation here — it is now a real page.)

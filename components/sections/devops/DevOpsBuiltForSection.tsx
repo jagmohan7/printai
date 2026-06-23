@@ -40,7 +40,7 @@ export default function DevOpsBuiltForSection({ data }: Props) {
       <div className="relative z-10 max-w-6xl mx-auto">
         <MotionInView className="text-center mb-14">
           <h2 className="text-[2rem] sm:text-[2.6rem] lg:text-[3rem] font-extrabold tracking-tight pa-ink-text leading-[1.15]">
-            {hb}{hh && <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">{hh}</span>}{ha}
+            {hb}{hh && <span style={{ color: "var(--pa-teal)" }}>{hh}</span>}{ha}
           </h2>
         </MotionInView>
 
@@ -49,9 +49,9 @@ export default function DevOpsBuiltForSection({ data }: Props) {
             const Icon = getIcon(it.icon);
             return (
               <MotionInView key={i} delay={0.08 * i}>
-                <div className="group flex items-center gap-4 px-6 py-5 rounded-2xl border transition-all duration-300 cursor-default border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[#06b6d4]/40 hover:shadow-[0_0_22px_rgba(6,182,212,0.2)]">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300 bg-[var(--pa-card)] border border-[var(--pa-line)] group-hover:bg-cyan-500/10 group-hover:border-cyan-500/20">
-                    <Icon size={18} className="text-[#06b6d4] group-hover:text-[#22d3ee]" strokeWidth={1.5} />
+                <div className="group flex items-center gap-4 px-6 py-5 rounded-2xl border transition-all duration-300 cursor-default border-[var(--pa-line)] bg-[var(--pa-card)] hover:border-[color:var(--pa-teal)] hover:shadow-[0_0_22px_rgba(103,61,230,0.15)]">
+                  <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[var(--pa-card)] border border-[var(--pa-line)]" style={{ transition: "background 0.3s, border-color 0.3s" }}>
+                    <Icon size={18} strokeWidth={1.5} style={{ color: "var(--pa-teal)" }} />
                   </div>
                   <span className="pa-ink-text font-medium text-[15px]">{it.label}</span>
                 </div>

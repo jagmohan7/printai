@@ -40,15 +40,15 @@ export default function W2PFinalCtaSection({ data }: Props) {
   const Icon = getIcon(iconName);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad-sm px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad-sm px-4" style={{ borderTop: "1px solid var(--pa-line)" }}>
       <style>{`
-        @keyframes icon-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(6,182,212,0); } 50% { box-shadow: 0 0 0 16px rgba(6,182,212,0.1); } }
+        @keyframes icon-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(103,61,230,0); } 50% { box-shadow: 0 0 0 16px rgba(103,61,230,0.1); } }
         .cta-icon { animation: icon-pulse 3s ease-in-out infinite; }
       `}</style>
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-10%] top-0 w-[600px] h-[600px] rounded-full bg-[#7c3aed]/12 blur-[160px]" />
-        <div className="absolute right-[-10%] bottom-0 w-[500px] h-[500px] rounded-full bg-[#06b6d4]/10 blur-[140px]" />
+        <div className="absolute left-[-10%] top-0 w-[600px] h-[600px] rounded-full blur-[160px]" style={{ background: "rgba(103,61,230,0.12)" }} />
+        <div className="absolute right-[-10%] bottom-0 w-[500px] h-[500px] rounded-full blur-[140px]" style={{ background: "rgba(103,61,230,0.08)" }} />
       </div>
 
       <div
@@ -61,31 +61,31 @@ export default function W2PFinalCtaSection({ data }: Props) {
 
       <div className="relative z-10 max-w-[720px] mx-auto text-center">
         <MotionInView>
-          <div className="cta-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-[#7c3aed]/20 to-[#06b6d4]/20 border border-[#06b6d4]/25 flex items-center justify-center mx-auto mb-8">
-            <Icon className="w-7 h-7 text-[#22d3ee]" />
+          <div className="cta-icon w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-8" style={{ background: "rgba(103,61,230,0.15)", border: "1px solid rgba(103,61,230,0.25)" }}>
+            <Icon className="w-7 h-7" style={{ color: "var(--pa-teal)" }} />
           </div>
         </MotionInView>
 
         <MotionInView delay={0.1}>
-          <h2 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight text-white leading-[1.1] mb-3">{heading1}</h2>
+          <h2 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight leading-[1.1] mb-3" style={{ color: "var(--pa-ink)" }}>{heading1}</h2>
         </MotionInView>
 
         <MotionInView delay={0.2}>
-          <h2 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight leading-[1.1] bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent mb-7">{heading2}</h2>
+          <h2 className="text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem] font-extrabold tracking-tight leading-[1.1] mb-7" style={{ color: "var(--pa-teal)" }}>{heading2}</h2>
         </MotionInView>
 
         <MotionInView delay={0.3}>
-          <p className="text-[#94A3B8] text-[16px] sm:text-[17px] leading-[1.8] max-w-[540px] mx-auto mb-10">{description}</p>
+          <p className="text-[16px] sm:text-[17px] leading-[1.8] max-w-[540px] mx-auto mb-10" style={{ color: "var(--pa-ink-2)" }}>{description}</p>
         </MotionInView>
 
         <MotionInView delay={0.4}>
-          <Link href={ctaHref} className="inline-flex items-center gap-2.5 px-9 py-[16px] rounded-xl font-semibold text-[15px] text-white bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] hover:from-[#2563EB] hover:to-[#0891b2] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-[0_0_40px_rgba(6,182,212,0.45)] mb-6">
+          <Link href={ctaHref} className="pa-btn-pri inline-flex items-center gap-2.5 px-9 py-[16px] rounded-xl font-semibold text-[15px] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 mb-6">
             {ctaText} <ArrowRight className="w-4 h-4" />
           </Link>
         </MotionInView>
 
         <MotionInView delay={0.5}>
-          <p className="text-[#4b5563] text-[13.5px]">{footerText}</p>
+          <p className="text-[13.5px]" style={{ color: "var(--pa-ink-2)" }}>{footerText}</p>
         </MotionInView>
       </div>
     </section>

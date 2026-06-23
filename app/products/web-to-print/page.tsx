@@ -9,8 +9,6 @@ import W2PResultsSection      from "@/components/sections/web-to-print/W2PResult
 import W2PIntegrationsSection from "@/components/sections/web-to-print/W2PIntegrationsSection";
 import W2PStoreAuditSection   from "@/components/sections/web-to-print/W2PStoreAuditSection";
 import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
-import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
-import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
 import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
 
 const W2P_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
@@ -44,17 +42,6 @@ const W2P_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
   ],
 };
 
-const W2P_CTA: SolutionCtaDefaults = {
-  badge:         "GET STARTED",
-  heading:       "Your Store Should Work As Hard As Your Press",
-  highlightWord: "As Hard As Your Press",
-  description:   "Book your free store audit. We will review your current setup, identify exactly where you are losing orders, and show you what a PrintOpsAI web-to-print store looks like for your specific products. Most clients see measurable improvement within the first 30 days.",
-  primaryText:   "Get Your Free Audit",
-  primaryHref:   "/#contact",
-  secondaryText: "Talk to Sales",
-  secondaryHref: "/#contact",
-  trustPoints:   ["No credit card required", "30-minute session", "Built on Shopify or WooCommerce"],
-};
 import { getWebToPrintPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -76,6 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
     fallbackTitle: TITLE,
     fallbackDesc:  DESCRIPTION,
     path:          PATH,
+    canonicalUrl:  cms?.seo?.canonicalUrl,
   });
 }
 
@@ -150,7 +138,6 @@ export default async function WebToPrintPage() {
       <W2PResultsSection      data={cms?.results} />
       <W2PIntegrationsSection data={cms?.integrations} />
       <W2PStoreAuditSection   data={cms?.storeAudit} />
-      <SolutionCtaSection defaults={W2P_CTA} data={cms?.sharedCta} modalType="product" entityName="Web-to-Print Platform" />
       <SolutionFaqSection     data={cms?.faq} defaults={W2P_FAQ} />
     </>
   );

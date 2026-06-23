@@ -34,7 +34,7 @@ const DEFAULT_BADGE = "bg-white/10 text-white/70 border-white/20";
 const INITIAL_COUNT = 6;
 const LOAD_MORE_STEP = 3;
 
-export default function ResourcesContent({
+export default function BlogContent({
   heroHeading,
   heroDescription,
   guidesLabel,
@@ -90,7 +90,7 @@ export default function ResourcesContent({
             <div className="flex items-center justify-center gap-2 text-[13px] text-[#9ca3af] mb-6">
               <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <span>›</span>
-              <span className="text-white">Resources</span>
+              <span className="text-white">Blog</span>
             </div>
             <h1 className="text-[3rem] sm:text-[4rem] font-extrabold tracking-tight leading-[1.05] text-white mb-4">
               {heroHeading}
@@ -104,7 +104,7 @@ export default function ResourcesContent({
               <Search size={17} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9ca3af]" />
               <input
                 type="text"
-                placeholder="Search resources..."
+                placeholder="Search posts..."
                 value={search}
                 onChange={e => { setSearch(e.target.value); setVisible(INITIAL_COUNT); }}
                 className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder-[#6b7280] text-[14px] focus:outline-none focus:border-[#7c3aed]/60 focus:ring-2 focus:ring-[#7c3aed]/20 transition-all"
@@ -118,7 +118,7 @@ export default function ResourcesContent({
       <section className="px-4 pb-8">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-white font-extrabold text-[1.6rem] mb-5">
-            Latest <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">Resources</span>
+            Latest <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">Posts</span>
           </h2>
           <div className="flex flex-wrap gap-2.5">
             {categories.map(cat => (
@@ -189,7 +189,7 @@ export default function ResourcesContent({
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-[#9ca3af] text-[15px] py-20">No resources match your search.</p>
+          <p className="text-center text-[#9ca3af] text-[15px] py-20">No posts match your search.</p>
         )}
 
         {/* Load More */}
@@ -214,7 +214,7 @@ export default function ResourcesContent({
               <div className="flex items-center gap-2.5 mb-8">
                 <TrendingUp size={20} className="text-[#a78bfa]" strokeWidth={1.8} />
                 <h2 className="text-white font-extrabold text-[1.5rem]">
-                  Top Trending Resources :{" "}
+                  Top Trending Posts :{" "}
                   <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">
                     Editor&apos;s Picks
                   </span>

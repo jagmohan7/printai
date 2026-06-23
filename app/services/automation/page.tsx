@@ -8,8 +8,6 @@ import AutomationResultsSection from "@/components/sections/automation/Automatio
 import IntegrationsSection from "@/components/sections/automation/IntegrationsSection";
 import HowWeImplementSection from "@/components/sections/automation/HowWeImplementSection";
 import SolutionFaqSection from "@/components/shared/SolutionFaqSection";
-import SolutionCtaSection  from "@/components/shared/SolutionCtaSection";
-import type { SolutionCtaDefaults } from "@/components/shared/SolutionCtaSection";
 import type { FaqItem }             from "@/components/shared/SolutionFaqSection";
 
 const AUTOMATION_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] } = {
@@ -43,17 +41,6 @@ const AUTOMATION_FAQ: { heading: string; highlightWord: string; faqs: FaqItem[] 
   ],
 };
 
-const AUTOMATION_CTA: SolutionCtaDefaults = {
-  badge:         "GET STARTED",
-  heading:       "Stop Managing Workflows. Start Scaling Them.",
-  highlightWord: "Start Scaling Them.",
-  description:   "Let automation handle the repetitive work so your team can focus on production and growth. Book a free 30-minute workflow audit. We will map your current print operation, identify your biggest automation opportunities, and show you exactly what a PrintOpsAI-automated workflow looks like for your specific shop.",
-  primaryText:   "Book Free Workflow Audit",
-  primaryHref:   "/#contact",
-  secondaryText: "Talk to Sales",
-  secondaryHref: "/#contact",
-  trustPoints:   ["Free 30-min session", "Written audit report", "No commitment required"],
-};
 import { getAutomationPage } from "@/lib/sanity.queries";
 import CustomSchema, { hasCustomSchema } from "@/components/CustomSchema";
 
@@ -76,6 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
     fallbackTitle: TITLE,
     fallbackDesc:  DESCRIPTION,
     path:          PATH,
+    canonicalUrl:  cms?.seo?.canonicalUrl,
   });
 }
 
@@ -153,7 +141,6 @@ export default async function AutomationProductPage() {
       <AutomationResultsSection data={cms?.results} />
       <IntegrationsSection      data={cms?.integrations} />
       <HowWeImplementSection    data={cms?.implementation} />
-      <SolutionCtaSection defaults={AUTOMATION_CTA} data={cms?.sharedCta} modalType="service" entityName="Workflow Automation" />
       <SolutionFaqSection       data={cms?.faq} defaults={AUTOMATION_FAQ} />
     </>
   );

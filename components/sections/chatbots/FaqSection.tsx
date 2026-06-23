@@ -41,17 +41,17 @@ export default function FaqSection({ data }: Props) {
   const [headBefore, headHighlight, headAfter] = splitHeading(heading, highlightWord);
 
   return (
-    <section className="relative overflow-hidden bg-[#070B14] section-pad px-4 border-t border-[#1E293B]/50">
+    <section className="relative overflow-hidden pa-band-page section-pad px-4 border-t border-[color:var(--pa-line)]">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-blue-500/5 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px]" style={{ background: "rgba(103,61,230,0.05)" }} />
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         <MotionInView className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black pa-ink-text tracking-tight leading-tight">
             {headBefore}
             {headHighlight && (
-              <span className="bg-gradient-to-r from-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">
+              <span style={{ color: "var(--pa-teal)" }}>
                 {headHighlight}
               </span>
             )}
@@ -64,17 +64,17 @@ export default function FaqSection({ data }: Props) {
             const isOpen = open === i;
             return (
               <MotionInView key={i} delay={i * 0.08}>
-                <div className={`rounded-2xl border overflow-hidden transition-all duration-300 ${isOpen ? "border-[#3B82F6]/40 bg-[#0F172A] shadow-[0_0_20px_rgba(59,130,246,0.1)]" : "border-[#1E293B] bg-[#0F172A]"}`}>
+                <div className={`rounded-2xl border overflow-hidden transition-all duration-300 bg-[var(--pa-card)] ${isOpen ? "shadow-[0_0_20px_rgba(103,61,230,0.1)]" : ""}`} style={{ borderColor: isOpen ? "rgba(103,61,230,0.4)" : "var(--pa-line)" }}>
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     aria-expanded={isOpen}
                     className="w-full flex items-center justify-between px-6 py-5 text-left"
                   >
                     <span className="text-white font-semibold text-[15px] pr-4">{f.question}</span>
-                    <ChevronDown className={`w-5 h-5 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-[#3B82F6]" : "text-[#64748B]"}`} strokeWidth={2} />
+                    <ChevronDown className={`w-5 h-5 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : "pa-soft"}`} style={isOpen ? { color: "var(--pa-teal)" } : {}} strokeWidth={2} />
                   </button>
                   <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                    <p className="px-6 pb-5 text-[#94A3B8] text-[14px] leading-[1.8] whitespace-pre-line">{f.answer}</p>
+                    <p className="px-6 pb-5 pa-soft text-[14px] leading-[1.8] whitespace-pre-line">{f.answer}</p>
                   </div>
                 </div>
               </MotionInView>

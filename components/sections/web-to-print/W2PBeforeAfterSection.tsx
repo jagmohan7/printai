@@ -39,7 +39,7 @@ export default function W2PBeforeAfterSection({ data }: Props) {
         .ba-card { transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
         .ba-card:hover { transform: translateY(-3px); }
         .ba-card.before-card:hover { border-color: rgba(239,68,68,0.25); box-shadow: 0 0 32px rgba(239,68,68,0.08); }
-        .ba-card.after-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 32px rgba(6,182,212,0.15); }
+        .ba-card.after-card:hover { border-color: var(--pa-teal); box-shadow: 0 0 32px rgba(103,61,230,0.15); }
         .ba-row { transition: color 0.2s, transform 0.2s; }
         .ba-row:hover { transform: translateX(4px); color: var(--pa-ink); }
         @keyframes shimmer { 0% { background-position: -300px 0; } 100% { background-position: 300px 0; } }
